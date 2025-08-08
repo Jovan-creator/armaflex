@@ -105,41 +105,55 @@ const App = () => (
               </ProtectedRoute>
             } />
 
-            {/* Public Pages */}
+            {/* Public Pages - No Authentication Required */}
             <Route path="/public" element={
-              <PublicLayout>
-                <PublicHome />
-              </PublicLayout>
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <PublicHome />
+                </PublicLayout>
+              </ProtectedRoute>
             } />
             <Route path="/public/about" element={
-              <PublicLayout>
-                <AboutPage />
-              </PublicLayout>
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <AboutPage />
+                </PublicLayout>
+              </ProtectedRoute>
             } />
             <Route path="/public/rooms" element={
-              <PublicLayout>
-                <PublicRoomsPage />
-              </PublicLayout>
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <PublicRoomsPage />
+                </PublicLayout>
+              </ProtectedRoute>
             } />
             <Route path="/public/reviews" element={
-              <PublicLayout>
-                <PublicReviewsPage />
-              </PublicLayout>
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <PublicReviewsPage />
+                </PublicLayout>
+              </ProtectedRoute>
             } />
             <Route path="/public/contact" element={
-              <PublicLayout>
-                <ContactPage />
-              </PublicLayout>
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <ContactPage />
+                </PublicLayout>
+              </ProtectedRoute>
             } />
             <Route path="/public/faqs" element={
-              <PublicLayout>
-                <FAQPage />
-              </PublicLayout>
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <FAQPage />
+                </PublicLayout>
+              </ProtectedRoute>
             } />
             <Route path="/public/gallery" element={
-              <PublicLayout>
-                <GalleryPage />
-              </PublicLayout>
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <GalleryPage />
+                </PublicLayout>
+              </ProtectedRoute>
             } />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

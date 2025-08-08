@@ -1391,7 +1391,7 @@ export default function Reports() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
-                        <FilePdf className="h-5 w-5 text-red-500" />
+                        <FileText className="h-5 w-5 text-red-500" />
                         <div>
                           <p className="font-medium">PDF Report</p>
                           <p className="text-sm text-muted-foreground">Professional formatted reports</p>

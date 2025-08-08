@@ -1199,7 +1199,7 @@ export default function Settings() {
 
               <div className="border-t pt-6">
                 <h4 className="font-semibold mb-4">System Status</h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="text-center p-4 border rounded-lg">
                     <div className="text-2xl font-bold text-green-600">99.9%</div>
                     <div className="text-sm text-muted-foreground">Uptime</div>

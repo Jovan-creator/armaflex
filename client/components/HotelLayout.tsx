@@ -279,6 +279,12 @@ export function HotelLayout({ children }: HotelLayoutProps) {
           </div>
 
           <div className="flex items-center space-x-2">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/public">
+                <Hotel className="h-4 w-4 mr-2" />
+                Public Site
+              </Link>
+            </Button>
             <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
               {darkMode ? (
                 <Sun className="h-5 w-5" />

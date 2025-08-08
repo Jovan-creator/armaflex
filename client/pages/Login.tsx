@@ -36,6 +36,8 @@ import {
   Play,
   Award,
   TrendingUp,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 // Mock user credentials for demo

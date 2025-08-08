@@ -87,22 +87,38 @@ export function AdminDashboard() {
             <CardDescription>Quick access to admin functions</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button className="w-full justify-start" variant="outline">
+            <Button
+              className="w-full justify-start"
+              variant="outline"
+              onClick={() => navigate('/staff')}
+            >
               <Users className="h-4 w-4 mr-2" />
               Manage Users & Roles
               <ArrowRight className="h-4 w-4 ml-auto" />
             </Button>
-            <Button className="w-full justify-start" variant="outline">
+            <Button
+              className="w-full justify-start"
+              variant="outline"
+              onClick={() => navigate('/settings')}
+            >
               <Settings className="h-4 w-4 mr-2" />
               System Settings
               <ArrowRight className="h-4 w-4 ml-auto" />
             </Button>
-            <Button className="w-full justify-start" variant="outline">
+            <Button
+              className="w-full justify-start"
+              variant="outline"
+              onClick={() => navigate('/reports')}
+            >
               <BarChart3 className="h-4 w-4 mr-2" />
               View All Reports
               <ArrowRight className="h-4 w-4 ml-auto" />
             </Button>
-            <Button className="w-full justify-start" variant="outline">
+            <Button
+              className="w-full justify-start"
+              variant="outline"
+              onClick={() => navigate('/settings')}
+            >
               <Activity className="h-4 w-4 mr-2" />
               System Logs
               <ArrowRight className="h-4 w-4 ml-auto" />

@@ -12,7 +12,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DatePickerWithRange } from "@/components/ui/date-picker";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   BarChart3,

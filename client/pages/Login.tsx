@@ -46,7 +46,7 @@ const mockUsers = [
     email: "admin@armaflex.com",
     password: "admin123",
     role: "admin" as UserRole,
-    name: "John Doe",
+    name: "Jovan K",
     department: "Management",
   },
   {

@@ -109,8 +109,8 @@ export default function Staff() {
   const staff = [
     {
       id: 1,
-      name: "John Doe",
-      email: "john.doe@armaflex.com",
+      name: "Jovan K",
+      email: "jovan.k@armaflex.com",
       phone: "+1 (555) 123-4567",
       role: "admin",
       department: "Management",

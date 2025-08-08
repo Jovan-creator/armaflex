@@ -40,7 +40,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const switchRole = (role: UserRole) => {
     if (user) {
       const roleData = {
-        admin: { name: 'John Doe', department: 'Management', email: 'john.doe@armaflex.com' },
+        admin: { name: 'Jovan K', department: 'Management', email: 'jovan.k@armaflex.com' },
         receptionist: { name: 'Sarah Johnson', department: 'Front Desk', email: 'sarah.j@armaflex.com' },
         housekeeping: { name: 'Maria Garcia', department: 'Housekeeping', email: 'maria.g@armaflex.com' },
         maintenance: { name: 'Robert Wilson', department: 'Maintenance', email: 'robert.w@armaflex.com' },

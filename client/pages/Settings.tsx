@@ -550,7 +550,7 @@ export default function Settings() {
               <CardDescription>Configure financial settings including taxes, fees, and currency preferences</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="default-currency">Default Currency</Label>

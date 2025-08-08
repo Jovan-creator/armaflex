@@ -301,16 +301,92 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-luxury-900 via-luxury-800 to-luxury-900 relative overflow-hidden">
-      {/* Animated background elements */}
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Image Slider */}
       <div className="absolute inset-0">
+        {hotelImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentImage ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
+              style={{
+                backgroundImage: `url(${image.url})`,
+                animation: index === currentImage ? 'ken-burns 6s ease-in-out infinite alternate' : 'none'
+              }}
+            />
+            {/* Overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-luxury-900/80 via-luxury-800/70 to-luxury-900/90" />
+          </div>
+        ))}
+
+        {/* Loading state */}
+        {!isImageLoaded && (
+          <div className="absolute inset-0 bg-gradient-to-br from-luxury-900 via-luxury-800 to-luxury-900" />
+        )}
+      </div>
+
+      {/* Image Navigation Controls */}
+      <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-20 lg:block hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={prevImage}
+          className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </Button>
+      </div>
+      <div className="absolute top-1/2 right-4 transform -translate-y-1/2 z-20 lg:block hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={nextImage}
+          className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </Button>
+      </div>
+
+      {/* Image Indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 lg:block hidden">
+        <div className="flex space-x-2">
+          {hotelImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToImage(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentImage
+                  ? 'bg-hotel-400 scale-125'
+                  : 'bg-white/40 hover:bg-white/60'
+              }`}
+              aria-label={`Go to image ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Image Title Overlay */}
+      <div className="absolute bottom-20 left-12 z-20 lg:block hidden">
+        <div className="bg-black/30 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20">
+          <p className="text-white/90 text-sm font-medium">
+            {hotelImages[currentImage]?.title}
+          </p>
+        </div>
+      </div>
+
+      {/* Animated background elements */}
+      <div className="absolute inset-0 z-10">
         <div className="absolute top-20 left-20 w-64 h-64 bg-hotel-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-hotel-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-bounce" style={{ animationDelay: '1s' }}></div>
       </div>
 
       {/* Floating particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
         {[...Array(20)].map((_, i) => (
           <div
             key={i}

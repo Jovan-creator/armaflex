@@ -1401,7 +1401,7 @@ export default function Reports() {
                     </div>
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
-                        <FileSpreadsheet className="h-5 w-5 text-green-500" />
+                        <File className="h-5 w-5 text-green-500" />
                         <div>
                           <p className="font-medium">Excel Spreadsheet</p>
                           <p className="text-sm text-muted-foreground">Data analysis and manipulation</p>

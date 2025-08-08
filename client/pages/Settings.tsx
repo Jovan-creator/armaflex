@@ -632,7 +632,7 @@ export default function Settings() {
               <CardDescription>Configure email servers, SMS providers, and notification settings</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="email-enabled">Email Notifications</Label>
                   <Switch 

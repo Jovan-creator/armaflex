@@ -98,10 +98,36 @@ export function HotelLayout({ children }: HotelLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
+  const { user, switchRole } = useUser();
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle("dark");
+  };
+
+  const roleIcons = {
+    admin: Shield,
+    receptionist: UserCheck,
+    housekeeping: Coffee,
+    maintenance: Wrench,
+    accountant: Calculator,
+    restaurant: ChefHat,
+    support: HeadphonesIcon,
+    guest: User,
+  };
+
+  const getRoleColor = (role: UserRole) => {
+    const colors = {
+      admin: "bg-purple-100 text-purple-800",
+      receptionist: "bg-blue-100 text-blue-800",
+      housekeeping: "bg-green-100 text-green-800",
+      maintenance: "bg-orange-100 text-orange-800",
+      accountant: "bg-indigo-100 text-indigo-800",
+      restaurant: "bg-yellow-100 text-yellow-800",
+      support: "bg-pink-100 text-pink-800",
+      guest: "bg-gray-100 text-gray-800",
+    };
+    return colors[role] || colors.guest;
   };
 
   return (

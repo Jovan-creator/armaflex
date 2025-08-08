@@ -288,6 +288,18 @@ export default function Login() {
     setShowDemoAccounts(false);
   };
 
+  const nextImage = () => {
+    setCurrentImage((prev) => (prev + 1) % hotelImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImage((prev) => (prev - 1 + hotelImages.length) % hotelImages.length);
+  };
+
+  const goToImage = (index: number) => {
+    setCurrentImage(index);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-luxury-900 via-luxury-800 to-luxury-900 relative overflow-hidden">
       {/* Animated background elements */}

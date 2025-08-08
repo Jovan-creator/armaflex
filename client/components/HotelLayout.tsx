@@ -19,6 +19,7 @@ import {
   UserCheck,
   BarChart3,
   Settings,
+  BellRing,
   Menu,
   X,
   Bell,
@@ -86,6 +87,12 @@ const navigationItems = [
     href: "/reports",
     icon: BarChart3,
     badge: null,
+  },
+  {
+    title: "Notifications",
+    href: "/notifications",
+    icon: BellRing,
+    badge: "2 New",
   },
   {
     title: "Settings",

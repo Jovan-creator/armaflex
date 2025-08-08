@@ -147,58 +147,58 @@ export default function Settings() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">System Settings</h1>
-          <p className="text-muted-foreground">Configure system preferences, user permissions, and integrations</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">System Settings</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">Configure system preferences, user permissions, and integrations</p>
         </div>
-        <Button onClick={handleSave} disabled={loading}>
+        <Button onClick={handleSave} disabled={loading} className="w-full sm:w-auto">
           <Save className="mr-2 h-4 w-4" />
           {loading ? 'Saving...' : 'Save All Changes'}
         </Button>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10">
-          <TabsTrigger value="users" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            <span className="hidden sm:inline">Users</span>
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 h-auto">
+          <TabsTrigger value="users" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm">Users</span>
           </TabsTrigger>
-          <TabsTrigger value="system" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">System</span>
+          <TabsTrigger value="system" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm">System</span>
           </TabsTrigger>
-          <TabsTrigger value="property" className="flex items-center gap-2">
-            <Building className="h-4 w-4" />
-            <span className="hidden sm:inline">Property</span>
+          <TabsTrigger value="property" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Building className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden xs:inline">Property</span>
           </TabsTrigger>
-          <TabsTrigger value="finance" className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4" />
-            <span className="hidden sm:inline">Finance</span>
+          <TabsTrigger value="finance" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden xs:inline">Finance</span>
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2">
-            <Mail className="h-4 w-4" />
-            <span className="hidden sm:inline">Notifications</span>
+          <TabsTrigger value="notifications" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden md:inline">Notifications</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center gap-2">
-            <Puzzle className="h-4 w-4" />
-            <span className="hidden sm:inline">Integrations</span>
+          <TabsTrigger value="integrations" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Puzzle className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden md:inline">Integrations</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2">
-            <Shield className="h-4 w-4" />
-            <span className="hidden sm:inline">Security</span>
+          <TabsTrigger value="security" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden md:inline">Security</span>
           </TabsTrigger>
-          <TabsTrigger value="theme" className="flex items-center gap-2">
-            <Palette className="h-4 w-4" />
-            <span className="hidden sm:inline">Theme</span>
+          <TabsTrigger value="theme" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Palette className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden md:inline">Theme</span>
           </TabsTrigger>
-          <TabsTrigger value="localization" className="flex items-center gap-2">
-            <Globe className="h-4 w-4" />
-            <span className="hidden sm:inline">Language</span>
+          <TabsTrigger value="localization" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden lg:inline">Language</span>
           </TabsTrigger>
-          <TabsTrigger value="maintenance" className="flex items-center gap-2">
-            <Wrench className="h-4 w-4" />
-            <span className="hidden sm:inline">Maintenance</span>
+          <TabsTrigger value="maintenance" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+            <Wrench className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm hidden lg:inline">Maintenance</span>
           </TabsTrigger>
         </TabsList>
 

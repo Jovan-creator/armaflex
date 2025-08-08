@@ -660,6 +660,11 @@ export default function Login() {
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
+        @keyframes ken-burns {
+          0% { transform: scale(1.05) translateX(0px) translateY(0px); }
+          50% { transform: scale(1.1) translateX(-20px) translateY(-10px); }
+          100% { transform: scale(1.05) translateX(0px) translateY(0px); }
+        }
       `}</style>
     </div>
   );

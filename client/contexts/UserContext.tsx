@@ -17,19 +17,25 @@ interface UserContextType {
   switchRole: (role: UserRole) => void;
   isLoggedIn: boolean;
   logout: () => void;
+  hasPermission: (permission: string) => boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+// Define role permissions
+const rolePermissions = {
+  admin: ['*'], // Full access
+  receptionist: ['bookings', 'guests', 'rooms', 'payments', 'checkin', 'checkout'],
+  housekeeping: ['housekeeping', 'rooms_status', 'maintenance_requests'],
+  maintenance: ['maintenance', 'repairs', 'inventory', 'room_maintenance'],
+  accountant: ['billing', 'payments', 'reports', 'refunds', 'financial_data'],
+  restaurant: ['restaurant', 'orders', 'menu', 'table_reservations', 'food_billing'],
+  support: ['support', 'tickets', 'system_logs', 'user_assistance'],
+  guest: ['public_pages', 'booking_requests', 'reviews'],
+};
+
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>({
-    id: '1',
-    name: 'John Doe',
-    email: 'john.doe@armaflex.com',
-    role: 'admin',
-    avatar: '/placeholder.svg',
-    department: 'Management',
-  });
+  const [user, setUser] = useState<User | null>(null);
 
   const switchRole = (role: UserRole) => {
     if (user) {

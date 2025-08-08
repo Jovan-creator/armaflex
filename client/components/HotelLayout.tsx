@@ -204,15 +204,49 @@ export function HotelLayout({ children }: HotelLayoutProps) {
           </ScrollArea>
 
           {/* Footer */}
-          <div className="border-t border-sidebar-border p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="h-8 w-8 rounded-full bg-hotel-500 flex items-center justify-center">
-                  <span className="text-xs font-semibold text-white">JD</span>
-                </div>
-                <div className="text-sm">
-                  <p className="font-medium text-sidebar-foreground">John Doe</p>
-                  <p className="text-xs text-sidebar-foreground/70">Manager</p>
+          <div className="border-t border-sidebar-border p-4 space-y-4">
+            {/* Role Switcher */}
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-sidebar-foreground/70 uppercase tracking-wide">
+                Switch Role (Demo)
+              </label>
+              <Select value={user?.role || 'guest'} onValueChange={(value: UserRole) => switchRole(value)}>
+                <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(roleIcons).map(([role, Icon]) => (
+                    <SelectItem key={role} value={role}>
+                      <div className="flex items-center space-x-2">
+                        <Icon className="h-4 w-4" />
+                        <span className="capitalize">{role}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <Separator className="bg-sidebar-border" />
+
+            {/* User Info */}
+            <div className="flex items-center space-x-3">
+              <div className="h-8 w-8 rounded-full bg-hotel-500 flex items-center justify-center">
+                <span className="text-xs font-semibold text-white">
+                  {user?.name.split(" ").map(n => n[0]).join("") || "GU"}
+                </span>
+              </div>
+              <div className="text-sm flex-1">
+                <p className="font-medium text-sidebar-foreground">{user?.name || "Guest User"}</p>
+                <div className="flex items-center space-x-1">
+                  {user?.role && (
+                    <Badge
+                      className={`text-xs ${getRoleColor(user.role)}`}
+                      variant="outline"
+                    >
+                      {user.role}
+                    </Badge>
+                  )}
                 </div>
               </div>
             </div>

@@ -133,107 +133,16 @@ export function PublicRoomsPage() {
         </div>
       </section>
 
-      {/* Room Types */}
+      {/* Room Booking System */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
-          <div className="space-y-12">
-            {roomTypes.map((room, index) => (
-              <Card key={room.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className={`grid gap-8 ${index % 2 === 0 ? 'md:grid-cols-2' : 'md:grid-cols-2'}`}>
-                  {/* Room Image */}
-                  <div className={`relative ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                    <div className="aspect-[4/3] bg-muted relative">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      {room.popular && (
-                        <Badge className="absolute top-4 left-4 bg-hotel-500">
-                          Most Popular
-                        </Badge>
-                      )}
-                      <div className="absolute bottom-4 right-4">
-                        <div className="flex items-center space-x-1 text-white">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star key={star} className="h-4 w-4 fill-hotel-500 text-hotel-500" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Room Details */}
-                  <div className={`p-8 ${index % 2 === 1 ? 'md:order-1' : ''}`}>
-                    <div className="space-y-6">
-                      {/* Header */}
-                      <div>
-                        <h3 className="text-2xl font-bold mb-2">{room.name}</h3>
-                        <p className="text-muted-foreground mb-4">{room.description}</p>
-                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                          <div className="flex items-center space-x-1">
-                            <BedDouble className="h-4 w-4" />
-                            <span>{room.size}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Users className="h-4 w-4" />
-                            <span>{room.occupancy}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Features */}
-                      <div>
-                        <h4 className="font-semibold mb-3">Key Features</h4>
-                        <div className="grid grid-cols-2 gap-3">
-                          {room.features.map((feature, fIndex) => (
-                            <div key={fIndex} className="flex items-center space-x-2">
-                              <feature.icon className="h-4 w-4 text-hotel-600" />
-                              <span className="text-sm">{feature.name}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Amenities */}
-                      <div>
-                        <h4 className="font-semibold mb-3">Included Amenities</h4>
-                        <div className="grid grid-cols-1 gap-2">
-                          {room.amenities.slice(0, 4).map((amenity, aIndex) => (
-                            <div key={aIndex} className="flex items-center space-x-2">
-                              <CheckCircle className="h-4 w-4 text-green-500" />
-                              <span className="text-sm">{amenity}</span>
-                            </div>
-                          ))}
-                        </div>
-                        {room.amenities.length > 4 && (
-                          <p className="text-xs text-muted-foreground mt-2">
-                            +{room.amenities.length - 4} more amenities
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Pricing & Booking */}
-                      <div className="border-t pt-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <div>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-2xl font-bold text-hotel-600">{room.price}</span>
-                              <span className="text-lg text-muted-foreground line-through">{room.originalPrice}</span>
-                            </div>
-                            <p className="text-sm text-muted-foreground">per night</p>
-                          </div>
-                          <Badge className="bg-green-100 text-green-800">
-                            Save {Math.round((1 - parseInt(room.price.slice(1)) / parseInt(room.originalPrice.slice(1))) * 100)}%
-                          </Badge>
-                        </div>
-                        <Button className="w-full bg-hotel-500 hover:bg-hotel-600">
-                          <Calendar className="h-4 w-4 mr-2" />
-                          Book This Room
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            ))}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Book Your Perfect Room</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Choose from our luxury accommodations with instant booking confirmation and secure payment processing.
+            </p>
           </div>
+          <GuestBooking />
         </div>
       </section>
 

@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "@/contexts/UserContext";
 import { HotelLayout } from "@/components/HotelLayout";
+import { PublicLayout } from "@/components/PublicLayout";
 import Dashboard from "./pages/Dashboard";
 import Rooms from "./pages/Rooms";
 import Reservations from "./pages/Reservations";
@@ -17,6 +18,8 @@ import Housekeeping from "./pages/Housekeeping";
 import Staff from "./pages/Staff";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
+import PublicHome from "./pages/PublicHome";
+import { AboutPage, ContactPage, FAQPage, GalleryPage } from "./pages/PublicPages";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

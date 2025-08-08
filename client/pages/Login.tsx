@@ -187,7 +187,9 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [showDemoAccounts, setShowDemoAccounts] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   const { setUser } = useUser();
   const navigate = useNavigate();
 
@@ -212,12 +214,45 @@ export default function Login() {
     },
   ];
 
+  // Auto-rotate testimonials
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
   }, [testimonials.length]);
+
+  // Auto-rotate background images
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % hotelImages.length);
+    }, 6000); // Changed to 6 seconds to be different from testimonials
+    return () => clearInterval(timer);
+  }, []);
+
+  // Preload images
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = hotelImages.map((img) => {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = resolve;
+          image.onerror = reject;
+          image.src = img.url;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setIsImageLoaded(true);
+      } catch (error) {
+        console.warn('Some images failed to preload:', error);
+        setIsImageLoaded(true); // Still show the component
+      }
+    };
+
+    preloadImages();
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

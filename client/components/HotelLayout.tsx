@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useUser, UserRole } from "@/contexts/UserContext";
 import {
   Hotel,
   LayoutDashboard,
@@ -22,6 +24,13 @@ import {
   Search,
   Moon,
   Sun,
+  Shield,
+  Coffee,
+  Wrench,
+  Calculator,
+  ChefHat,
+  HeadphonesIcon,
+  User,
 } from "lucide-react";
 
 interface HotelLayoutProps {

@@ -36,50 +36,73 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Authentication Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+
+            {/* Protected Management Routes */}
             <Route path="/" element={
-              <HotelLayout>
-                <Dashboard />
-              </HotelLayout>
+              <ProtectedRoute>
+                <HotelLayout>
+                  <Dashboard />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/rooms" element={
-              <HotelLayout>
-                <Rooms />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="rooms">
+                <HotelLayout>
+                  <Rooms />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/reservations" element={
-              <HotelLayout>
-                <Reservations />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="bookings">
+                <HotelLayout>
+                  <Reservations />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/guests" element={
-              <HotelLayout>
-                <Guests />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="guests">
+                <HotelLayout>
+                  <Guests />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/billing" element={
-              <HotelLayout>
-                <Billing />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="billing">
+                <HotelLayout>
+                  <Billing />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/housekeeping" element={
-              <HotelLayout>
-                <Housekeeping />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="housekeeping">
+                <HotelLayout>
+                  <Housekeeping />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/staff" element={
-              <HotelLayout>
-                <Staff />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="*">
+                <HotelLayout>
+                  <Staff />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/reports" element={
-              <HotelLayout>
-                <Reports />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="reports">
+                <HotelLayout>
+                  <Reports />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
             <Route path="/settings" element={
-              <HotelLayout>
-                <Settings />
-              </HotelLayout>
+              <ProtectedRoute requiredPermission="*">
+                <HotelLayout>
+                  <Settings />
+                </HotelLayout>
+              </ProtectedRoute>
             } />
 
             {/* Public Pages */}

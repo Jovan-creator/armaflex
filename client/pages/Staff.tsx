@@ -439,6 +439,8 @@ export default function Staff() {
           <TabsTrigger value="staff-list">Staff Directory</TabsTrigger>
           <TabsTrigger value="roles">User Roles</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
+          <TabsTrigger value="scheduling">Scheduling</TabsTrigger>
+          <TabsTrigger value="attendance">Attendance</TabsTrigger>
         </TabsList>
 
         <TabsContent value="staff-list" className="space-y-6">

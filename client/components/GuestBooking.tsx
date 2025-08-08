@@ -196,15 +196,41 @@ export function GuestBooking() {
 
   const processPayment = async () => {
     setIsProcessingPayment(true);
-    
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Generate confirmation number
-    const confirmation = `ARM${Date.now().toString().slice(-6)}`;
-    setConfirmationNumber(confirmation);
-    setBookingComplete(true);
-    setIsProcessingPayment(false);
+
+    try {
+      // Simulate payment processing with realistic steps
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Validate payment info (basic simulation)
+      if (!bookingData.paymentInfo.cardNumber || bookingData.paymentInfo.cardNumber.length < 16) {
+        throw new Error('Invalid card number');
+      }
+
+      // Process payment (simulation)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Generate confirmation number
+      const confirmation = `ARM${Date.now().toString().slice(-6)}`;
+      setConfirmationNumber(confirmation);
+
+      // Mark booking as complete
+      setBookingComplete(true);
+
+      // Send confirmation email (simulation)
+      console.log('Booking confirmed:', {
+        confirmationNumber: confirmation,
+        guest: bookingData.guestInfo,
+        room: selectedRoom,
+        dates: { checkIn: bookingData.checkIn, checkOut: bookingData.checkOut },
+        total: calculateTotal()
+      });
+
+    } catch (error) {
+      console.error('Payment failed:', error);
+      alert('Payment failed. Please check your card details and try again.');
+    } finally {
+      setIsProcessingPayment(false);
+    }
   };
 
   const renderRoomCard = (room: Room) => (
@@ -319,14 +345,39 @@ export function GuestBooking() {
                 <Mail className="h-4 w-4 mr-2" />
                 Email Confirmation
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="w-full"
                 onClick={() => {
                   setIsBookingOpen(false);
                   setBookingComplete(false);
                   setCurrentStep(1);
                   setSelectedRoom(null);
+                  // Reset booking data
+                  setBookingData({
+                    checkIn: "",
+                    checkOut: "",
+                    adults: 1,
+                    children: 0,
+                    roomId: "",
+                    guestInfo: {
+                      firstName: "",
+                      lastName: "",
+                      email: "",
+                      phone: "",
+                      address: "",
+                      city: "",
+                      country: "",
+                      specialRequests: "",
+                    },
+                    paymentInfo: {
+                      cardNumber: "",
+                      expiryDate: "",
+                      cvv: "",
+                      cardholderName: "",
+                      billingAddress: "",
+                    },
+                  });
                 }}
               >
                 Book Another Room
@@ -449,13 +500,22 @@ export function GuestBooking() {
                 </Card>
               )}
 
-              <Button 
+              <Button
                 className="w-full bg-hotel-500 hover:bg-hotel-600"
                 onClick={handleNextStep}
-                disabled={!bookingData.checkIn || !bookingData.checkOut || calculateNights() === 0}
+                disabled={!bookingData.checkIn || !bookingData.checkOut || calculateNights() <= 0 || bookingData.adults + bookingData.children > (selectedRoom?.maxGuests || 0)}
               >
                 Continue to Guest Information
               </Button>
+
+              {(bookingData.adults + bookingData.children > (selectedRoom?.maxGuests || 0)) && (
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    This room can accommodate up to {selectedRoom?.maxGuests} guests. Please select a different room or reduce the number of guests.
+                  </AlertDescription>
+                </Alert>
+              )}
             </div>
           )}
 
@@ -572,13 +632,13 @@ export function GuestBooking() {
                 <Button variant="outline" onClick={handlePrevStep}>
                   Back
                 </Button>
-                <Button 
-                  className="flex-1 bg-hotel-500 hover:bg-hotel-600"
-                  onClick={handleNextStep}
-                  disabled={!bookingData.guestInfo.firstName || !bookingData.guestInfo.lastName || !bookingData.guestInfo.email}
-                >
-                  Continue to Payment
-                </Button>
+                <Button
+                className="flex-1 bg-hotel-500 hover:bg-hotel-600"
+                onClick={handleNextStep}
+                disabled={!bookingData.guestInfo.firstName || !bookingData.guestInfo.lastName || !bookingData.guestInfo.email || !bookingData.guestInfo.phone}
+              >
+                Continue to Payment
+              </Button>
               </div>
             </div>
           )}
@@ -680,10 +740,10 @@ export function GuestBooking() {
                 <Button variant="outline" onClick={handlePrevStep}>
                   Back
                 </Button>
-                <Button 
+                <Button
                   className="flex-1 bg-hotel-500 hover:bg-hotel-600"
                   onClick={processPayment}
-                  disabled={isProcessingPayment || !bookingData.paymentInfo.cardNumber || !bookingData.paymentInfo.cardholderName}
+                  disabled={isProcessingPayment || !bookingData.paymentInfo.cardNumber || !bookingData.paymentInfo.cardholderName || !bookingData.paymentInfo.expiryDate || !bookingData.paymentInfo.cvv}
                 >
                   {isProcessingPayment ? (
                     <>

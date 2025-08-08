@@ -23,7 +23,7 @@ import {
   Database, 
   Palette, 
   Globe, 
-  Tool,
+  Wrench,
   Plus,
   Edit,
   Trash2,

@@ -229,7 +229,7 @@ export default function Settings() {
                         <DialogDescription>Create a new user account with specific role and permissions</DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <Label htmlFor="name">Full Name</Label>
                             <Input id="name" placeholder="Enter full name" />
@@ -239,7 +239,7 @@ export default function Settings() {
                             <Input id="email" type="email" placeholder="user@armaflex.com" />
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <Label htmlFor="role">Role</Label>
                             <Select>

@@ -98,7 +98,7 @@ export function HotelLayout({ children }: HotelLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
-  const { user, switchRole } = useUser();
+  const { user, switchRole, logout } = useUser();
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);

@@ -180,23 +180,23 @@ export default function Settings() {
             <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm hidden lg:inline">Notifications</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+          <TabsTrigger value="integrations" className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 text-xs sm:text-sm">
             <Puzzle className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm hidden lg:inline">Integrations</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+          <TabsTrigger value="security" className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 text-xs sm:text-sm">
             <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm hidden lg:inline">Security</span>
           </TabsTrigger>
-          <TabsTrigger value="theme" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+          <TabsTrigger value="theme" className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 text-xs sm:text-sm">
             <Palette className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm hidden lg:inline">Theme</span>
           </TabsTrigger>
-          <TabsTrigger value="localization" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+          <TabsTrigger value="localization" className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 text-xs sm:text-sm">
             <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm hidden lg:inline">Language</span>
           </TabsTrigger>
-          <TabsTrigger value="maintenance" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
+          <TabsTrigger value="maintenance" className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 text-xs sm:text-sm">
             <Wrench className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm hidden lg:inline">Maintenance</span>
           </TabsTrigger>

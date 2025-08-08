@@ -277,8 +277,10 @@ export default function Settings() {
                   </Dialog>
                 </div>
 
-                <Table>
-                  <TableHeader>
+                <div className="overflow-x-auto -mx-4 sm:mx-0">
+                  <div className="min-w-full inline-block align-middle">
+                    <Table>
+                      <TableHeader>
                     <TableRow>
                       <TableHead>Name</TableHead>
                       <TableHead className="hidden sm:table-cell">Email</TableHead>
@@ -316,8 +318,10 @@ export default function Settings() {
                         </TableCell>
                       </TableRow>
                     ))}
-                  </TableBody>
-                </Table>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>

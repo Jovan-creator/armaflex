@@ -77,6 +77,34 @@ const App = () => (
                 <Settings />
               </HotelLayout>
             } />
+
+            {/* Public Pages */}
+            <Route path="/public" element={
+              <PublicLayout>
+                <PublicHome />
+              </PublicLayout>
+            } />
+            <Route path="/public/about" element={
+              <PublicLayout>
+                <AboutPage />
+              </PublicLayout>
+            } />
+            <Route path="/public/contact" element={
+              <PublicLayout>
+                <ContactPage />
+              </PublicLayout>
+            } />
+            <Route path="/public/faqs" element={
+              <PublicLayout>
+                <FAQPage />
+              </PublicLayout>
+            } />
+            <Route path="/public/gallery" element={
+              <PublicLayout>
+                <GalleryPage />
+              </PublicLayout>
+            } />
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

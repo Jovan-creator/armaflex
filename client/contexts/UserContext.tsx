@@ -63,6 +63,21 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null);
+    // Clear any stored authentication data
+    localStorage.removeItem('hotel_auth_token');
+    sessionStorage.removeItem('hotel_user_session');
+  };
+
+  const hasPermission = (permission: string) => {
+    if (!user) return false;
+
+    const userPermissions = rolePermissions[user.role] || [];
+
+    // Admin has full access
+    if (userPermissions.includes('*')) return true;
+
+    // Check specific permission
+    return userPermissions.includes(permission);
   };
 
   const isLoggedIn = user !== null;
@@ -74,6 +89,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       switchRole,
       isLoggedIn,
       logout,
+      hasPermission,
     }}>
       {children}
     </UserContext.Provider>

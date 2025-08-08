@@ -197,7 +197,7 @@ export default function Settings() {
             <span className="hidden sm:inline">Language</span>
           </TabsTrigger>
           <TabsTrigger value="maintenance" className="flex items-center gap-2">
-            <Tool className="h-4 w-4" />
+            <Wrench className="h-4 w-4" />
             <span className="hidden sm:inline">Maintenance</span>
           </TabsTrigger>
         </TabsList>

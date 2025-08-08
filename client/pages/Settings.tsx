@@ -330,9 +330,9 @@ export default function Settings() {
             <CardContent>
               <div className="grid gap-4">
                 {['admin', 'manager', 'receptionist', 'housekeeping'].map((role) => (
-                  <div key={role} className="border rounded-lg p-4">
+                  <div key={role} className="border rounded-lg p-3 sm:p-4">
                     <h4 className="font-semibold mb-3 capitalize">{role}</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                       {['Dashboard', 'Guests', 'Rooms', 'Billing', 'Reports', 'Staff', 'Settings', 'Notifications'].map((permission) => (
                         <div key={permission} className="flex items-center space-x-2">
                           <Switch id={`${role}-${permission}`} defaultChecked={role === 'admin' || (role === 'manager' && permission !== 'Settings')} />

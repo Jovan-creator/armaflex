@@ -90,6 +90,16 @@ const App = () => (
                 <AboutPage />
               </PublicLayout>
             } />
+            <Route path="/public/rooms" element={
+              <PublicLayout>
+                <PublicRoomsPage />
+              </PublicLayout>
+            } />
+            <Route path="/public/reviews" element={
+              <PublicLayout>
+                <PublicReviewsPage />
+              </PublicLayout>
+            } />
             <Route path="/public/contact" element={
               <PublicLayout>
                 <ContactPage />

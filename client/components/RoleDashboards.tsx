@@ -36,6 +36,8 @@ import {
 } from "lucide-react";
 
 export function AdminDashboard() {
+  const navigate = useNavigate();
+
   const systemStats = [
     { title: "Total Revenue", value: "$47,289", change: "+12.5%", icon: DollarSign },
     { title: "Active Staff", value: "24", change: "+2", icon: Users },

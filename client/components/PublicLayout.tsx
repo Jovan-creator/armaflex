@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -16,6 +16,8 @@ import {
   Info,
   MessageCircle,
   HelpCircle,
+  ArrowLeft,
+  LogIn,
 } from "lucide-react";
 
 interface PublicLayoutProps {
@@ -35,6 +37,7 @@ const publicNavigation = [
 export function PublicLayout({ children }: PublicLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
@@ -74,6 +77,14 @@ export function PublicLayout({ children }: PublicLayoutProps) {
 
             {/* CTA and Mobile Menu */}
             <div className="flex items-center space-x-4">
+              <Button
+                variant="outline"
+                className="hidden sm:flex border-hotel-500 text-hotel-600 hover:bg-hotel-50"
+                onClick={() => navigate("/login")}
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Staff Login
+              </Button>
               <Button className="hidden md:flex bg-hotel-500 hover:bg-hotel-600">
                 <Calendar className="h-4 w-4 mr-2" />
                 Book Now
@@ -119,6 +130,18 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                         );
                       })}
                     </nav>
+
+                    <Button
+                      variant="outline"
+                      className="w-full border-hotel-500 text-hotel-600 hover:bg-hotel-50"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        navigate("/login");
+                      }}
+                    >
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Staff Login
+                    </Button>
 
                     <Button className="w-full bg-hotel-500 hover:bg-hotel-600">
                       <Calendar className="h-4 w-4 mr-2" />

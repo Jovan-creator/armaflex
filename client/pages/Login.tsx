@@ -189,6 +189,8 @@ export default function Login() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [currentImage, setCurrentImage] = useState(0);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const { setUser } = useUser();
   const navigate = useNavigate();

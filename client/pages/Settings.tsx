@@ -292,18 +292,18 @@ export default function Settings() {
                     {users.map((user) => (
                       <TableRow key={user.id}>
                         <TableCell className="font-medium">{user.name}</TableCell>
-                        <TableCell>{user.email}</TableCell>
+                        <TableCell className="hidden sm:table-cell">{user.email}</TableCell>
                         <TableCell>
                           <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
                             {user.role}
                           </Badge>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="hidden md:table-cell">
                           <Badge variant={user.status === 'active' ? 'default' : 'destructive'}>
                             {user.status}
                           </Badge>
                         </TableCell>
-                        <TableCell>{user.lastLogin}</TableCell>
+                        <TableCell className="hidden lg:table-cell">{user.lastLogin}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button variant="ghost" size="sm">

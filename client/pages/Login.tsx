@@ -401,7 +401,7 @@ export default function Login() {
         ))}
       </div>
 
-      <div className="relative z-10 min-h-screen flex">
+      <div className="relative z-20 min-h-screen flex">
         {/* Left Side - Branding & Information */}
         <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 flex-col justify-between p-12 text-white">
           {/* Header */}

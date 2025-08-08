@@ -713,7 +713,7 @@ export default function Settings() {
               {notificationConfig.smsEnabled && (
                 <div className="border rounded-lg p-4">
                   <h4 className="font-semibold mb-4">SMS Configuration</h4>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="sms-provider">SMS Provider</Label>
                       <Select value={notificationConfig.smsProvider} onValueChange={(value) => setNotificationConfig({...notificationConfig, smsProvider: value})}>

@@ -159,7 +159,7 @@ export default function Settings() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 h-auto">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 h-auto gap-1">
           <TabsTrigger value="users" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <Users className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm">Users</span>
@@ -170,27 +170,27 @@ export default function Settings() {
           </TabsTrigger>
           <TabsTrigger value="property" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <Building className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm hidden xs:inline">Property</span>
+            <span className="text-xs sm:text-sm hidden sm:inline">Property</span>
           </TabsTrigger>
           <TabsTrigger value="finance" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm hidden xs:inline">Finance</span>
+            <span className="text-xs sm:text-sm hidden sm:inline">Finance</span>
           </TabsTrigger>
           <TabsTrigger value="notifications" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm hidden md:inline">Notifications</span>
+            <span className="text-xs sm:text-sm hidden lg:inline">Notifications</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <Puzzle className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm hidden md:inline">Integrations</span>
+            <span className="text-xs sm:text-sm hidden lg:inline">Integrations</span>
           </TabsTrigger>
           <TabsTrigger value="security" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm hidden md:inline">Security</span>
+            <span className="text-xs sm:text-sm hidden lg:inline">Security</span>
           </TabsTrigger>
           <TabsTrigger value="theme" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <Palette className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm hidden md:inline">Theme</span>
+            <span className="text-xs sm:text-sm hidden lg:inline">Theme</span>
           </TabsTrigger>
           <TabsTrigger value="localization" className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3">
             <Globe className="h-3 w-3 sm:h-4 sm:w-4" />

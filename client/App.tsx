@@ -20,6 +20,7 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import PublicHome from "./pages/PublicHome";
 import { AboutPage, ContactPage, FAQPage, GalleryPage } from "./pages/PublicPages";
+import { PublicRoomsPage, PublicReviewsPage } from "./pages/PublicRoomsReviews";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

@@ -271,7 +271,7 @@ export default function Settings() {
                             </Select>
                           </div>
                         </div>
-                        <Button className="w-full">Create User</Button>
+                        <Button className="w-full mt-2">Create User</Button>
                       </div>
                     </DialogContent>
                   </Dialog>

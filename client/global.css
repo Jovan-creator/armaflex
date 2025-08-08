@@ -18,8 +18,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 39 77% 58%;
+    --primary-foreground: 220 9% 6%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -35,25 +35,44 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 39 77% 58%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 220 9% 6%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 39 77% 58%;
+    --sidebar-primary-foreground: 220 9% 6%;
+    --sidebar-accent: 220 9% 12%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 220 9% 12%;
+    --sidebar-ring: 39 77% 58%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Hotel Brand Colors - Elegant Gold & Navy */
+    --hotel-50: 39 100% 97%;
+    --hotel-100: 39 100% 94%;
+    --hotel-200: 39 100% 87%;
+    --hotel-300: 39 100% 80%;
+    --hotel-400: 39 100% 71%;
+    --hotel-500: 39 77% 58%;
+    --hotel-600: 39 77% 50%;
+    --hotel-700: 39 77% 42%;
+    --hotel-800: 39 77% 34%;
+    --hotel-900: 39 77% 26%;
+    --hotel-950: 39 77% 15%;
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Luxury Navy Colors */
+    --luxury-50: 220 20% 97%;
+    --luxury-100: 220 20% 94%;
+    --luxury-200: 220 20% 87%;
+    --luxury-300: 220 20% 78%;
+    --luxury-400: 220 20% 65%;
+    --luxury-500: 220 15% 50%;
+    --luxury-600: 220 15% 40%;
+    --luxury-700: 220 15% 30%;
+    --luxury-800: 220 15% 20%;
+    --luxury-900: 220 15% 12%;
+    --luxury-950: 220 9% 6%;
   }
 
   .dark {

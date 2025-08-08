@@ -145,6 +145,40 @@ const stats = [
   { label: "Customer Satisfaction", value: "99.5%" },
 ];
 
+// Hotel background images for slider
+const hotelImages = [
+  {
+    url: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=2832&auto=format&fit=crop",
+    alt: "Luxury Hotel Lobby with modern design",
+    title: "Grand Lobby Experience"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2940&auto=format&fit=crop",
+    alt: "Elegant hotel room with city view",
+    title: "Premium Accommodation"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2940&auto=format&fit=crop",
+    alt: "Hotel exterior with beautiful architecture",
+    title: "Stunning Architecture"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2940&auto=format&fit=crop",
+    alt: "Hotel restaurant dining area",
+    title: "Fine Dining Experience"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2940&auto=format&fit=crop",
+    alt: "Modern hotel swimming pool area",
+    title: "Relaxation & Recreation"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1549294413-26f195200c16?q=80&w=2940&auto=format&fit=crop",
+    alt: "Luxurious hotel spa and wellness center",
+    title: "Wellness & Spa Services"
+  }
+];
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

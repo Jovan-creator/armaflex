@@ -1157,7 +1157,7 @@ export default function Settings() {
                       className="w-full justify-start"
                       variant="outline"
                     >
-                      <Tool className="mr-2 h-4 w-4" />
+                      <Wrench className="mr-2 h-4 w-4" />
                       Rebuild Indexes
                     </Button>
                   </div>

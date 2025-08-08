@@ -231,7 +231,6 @@ export function HotelLayout({ children }: HotelLayoutProps) {
               variant="ghost"
               className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent"
               onClick={() => {
-                const { logout } = useUser();
                 logout();
                 window.location.href = '/login';
               }}

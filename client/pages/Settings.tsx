@@ -769,7 +769,7 @@ export default function Settings() {
 
                 <div className="grid gap-4">
                   {integrations.map((integration) => (
-                    <div key={integration.id} className="border rounded-lg p-4 flex items-center justify-between">
+                    <div key={integration.id} className="border rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                           {integration.type === 'payment' && <DollarSign className="h-5 w-5" />}

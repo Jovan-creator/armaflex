@@ -691,6 +691,258 @@ export default function Staff() {
             </Card>
           </div>
         </TabsContent>
+
+        <TabsContent value="scheduling" className="space-y-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-semibold">Weekly Schedule</h3>
+              <p className="text-sm text-muted-foreground">Manage staff shifts and work schedules</p>
+            </div>
+            <Button className="bg-hotel-500 hover:bg-hotel-600">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Shift
+            </Button>
+          </div>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2 font-medium">Staff Member</th>
+                      <th className="text-center p-2 font-medium">Monday</th>
+                      <th className="text-center p-2 font-medium">Tuesday</th>
+                      <th className="text-center p-2 font-medium">Wednesday</th>
+                      <th className="text-center p-2 font-medium">Thursday</th>
+                      <th className="text-center p-2 font-medium">Friday</th>
+                      <th className="text-center p-2 font-medium">Saturday</th>
+                      <th className="text-center p-2 font-medium">Sunday</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {staff.filter(s => s.status === "active").slice(0, 5).map((member) => (
+                      <tr key={member.id} className="border-b">
+                        <td className="p-2">
+                          <div className="flex items-center space-x-2">
+                            <Avatar className="h-8 w-8">
+                              <AvatarFallback className="text-xs">
+                                {member.name.split(" ").map(n => n[0]).join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <p className="text-sm font-medium">{member.name}</p>
+                              <p className="text-xs text-muted-foreground">{member.department}</p>
+                            </div>
+                          </div>
+                        </td>
+                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+                          <td key={day} className="p-2 text-center">
+                            <div className="space-y-1">
+                              <div className="text-xs bg-hotel-100 text-hotel-800 rounded px-2 py-1">
+                                8:00 - 16:00
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {member.schedule === "full-time" ? "8h" : "4h"}
+                              </div>
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Shift Templates</CardTitle>
+                <CardDescription>Pre-defined shift patterns</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">Morning Shift</p>
+                    <p className="text-sm text-muted-foreground">6:00 AM - 2:00 PM</p>
+                  </div>
+                  <Button variant="outline" size="sm">Apply</Button>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">Day Shift</p>
+                    <p className="text-sm text-muted-foreground">8:00 AM - 4:00 PM</p>
+                  </div>
+                  <Button variant="outline" size="sm">Apply</Button>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">Evening Shift</p>
+                    <p className="text-sm text-muted-foreground">4:00 PM - 12:00 AM</p>
+                  </div>
+                  <Button variant="outline" size="sm">Apply</Button>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">Night Shift</p>
+                    <p className="text-sm text-muted-foreground">10:00 PM - 6:00 AM</p>
+                  </div>
+                  <Button variant="outline" size="sm">Apply</Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Leave Requests</CardTitle>
+                <CardDescription>Pending time-off requests</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">Sarah Johnson</p>
+                    <p className="text-sm text-muted-foreground">Jan 20-22 • Personal Leave</p>
+                  </div>
+                  <div className="flex space-x-1">
+                    <Button variant="outline" size="sm" className="text-green-600">Approve</Button>
+                    <Button variant="outline" size="sm" className="text-red-600">Deny</Button>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">Maria Garcia</p>
+                    <p className="text-sm text-muted-foreground">Jan 25 • Sick Leave</p>
+                  </div>
+                  <div className="flex space-x-1">
+                    <Button variant="outline" size="sm" className="text-green-600">Approve</Button>
+                    <Button variant="outline" size="sm" className="text-red-600">Deny</Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="attendance" className="space-y-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-semibold">Attendance Tracking</h3>
+              <p className="text-sm text-muted-foreground">Monitor staff check-ins and work hours</p>
+            </div>
+            <Button className="bg-hotel-500 hover:bg-hotel-600">
+              <Download className="h-4 w-4 mr-2" />
+              Export Report
+            </Button>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-4">
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Present Today</p>
+                    <p className="text-2xl font-bold text-green-600">18</p>
+                  </div>
+                  <CheckCircle className="h-8 w-8 text-green-500" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Absent Today</p>
+                    <p className="text-2xl font-bold text-red-600">2</p>
+                  </div>
+                  <XCircle className="h-8 w-8 text-red-500" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Late Arrivals</p>
+                    <p className="text-2xl font-bold text-yellow-600">3</p>
+                  </div>
+                  <Clock className="h-8 w-8 text-yellow-500" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">On Leave</p>
+                    <p className="text-2xl font-bold text-blue-600">1</p>
+                  </div>
+                  <Calendar className="h-8 w-8 text-blue-500" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Today's Attendance</CardTitle>
+              <CardDescription>Real-time check-in status</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {staff.filter(s => s.status === "active").map((member) => {
+                  const checkInTime = new Date();
+                  checkInTime.setHours(Math.floor(Math.random() * 3) + 7, Math.floor(Math.random() * 60));
+                  const isLate = checkInTime.getHours() > 8 || (checkInTime.getHours() === 8 && checkInTime.getMinutes() > 15);
+                  const isPresent = Math.random() > 0.1;
+
+                  return (
+                    <div key={member.id} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarFallback>
+                            {member.name.split(" ").map(n => n[0]).join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">{member.name}</p>
+                          <p className="text-sm text-muted-foreground">{member.department}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <div className="text-right">
+                          {isPresent ? (
+                            <>
+                              <p className="text-sm font-medium">
+                                {checkInTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </p>
+                              <p className="text-xs text-muted-foreground">Check-in time</p>
+                            </>
+                          ) : (
+                            <p className="text-sm text-red-600">Not checked in</p>
+                          )}
+                        </div>
+                        <Badge
+                          variant="outline"
+                          className={
+                            !isPresent
+                              ? "bg-red-100 text-red-800 border-red-200"
+                              : isLate
+                              ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+                              : "bg-green-100 text-green-800 border-green-200"
+                          }
+                        >
+                          {!isPresent ? "Absent" : isLate ? "Late" : "On Time"}
+                        </Badge>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   );

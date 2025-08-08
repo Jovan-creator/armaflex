@@ -19,6 +19,7 @@ import Housekeeping from "./pages/Housekeeping";
 import Staff from "./pages/Staff";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
+import Notifications from "./pages/Notifications";
 import Login from "./pages/Login";
 import Unauthorized from "./pages/Unauthorized";
 import PublicHome from "./pages/PublicHome";
@@ -101,6 +102,13 @@ const App = () => (
               <ProtectedRoute requiredPermission="*">
                 <HotelLayout>
                   <Settings />
+                </HotelLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/notifications" element={
+              <ProtectedRoute requiredPermission="*">
+                <HotelLayout>
+                  <Notifications />
                 </HotelLayout>
               </ProtectedRoute>
             } />

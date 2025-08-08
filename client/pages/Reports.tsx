@@ -1007,7 +1007,7 @@ export default function Reports() {
             <CardContent>
               <div className="h-[300px] flex items-center justify-center text-muted-foreground">
                 <div className="text-center">
-                  <ChartBar className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
                   <p>Revenue trends chart would be displayed here</p>
                   <p className="text-sm">Monthly breakdown with year-over-year comparison</p>
                 </div>

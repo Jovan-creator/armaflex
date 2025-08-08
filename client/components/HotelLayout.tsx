@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useUser, UserRole } from "@/contexts/UserContext";
+import { NotificationSystem } from "@/components/NotificationSystem";
 import {
   Hotel,
   LayoutDashboard,

@@ -328,7 +328,12 @@ export default function Login() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background Image Slider */}
-      <div className="absolute inset-0">
+      <div
+        className="absolute inset-0"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {hotelImages.map((image, index) => (
           <div
             key={index}

@@ -178,7 +178,17 @@ export function PublicRoomsPage() {
           <p className="text-xl mb-8 opacity-90">
             Book your perfect room today and enjoy exclusive benefits for direct bookings.
           </p>
-          <Button size="lg" variant="secondary" className="bg-white text-hotel-600 hover:bg-gray-100">
+          <Button
+            size="lg"
+            variant="secondary"
+            className="bg-white text-hotel-600 hover:bg-gray-100"
+            onClick={() => {
+              const bookingSection = document.querySelector('[data-booking-section]');
+              if (bookingSection) {
+                bookingSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          >
             <Calendar className="h-5 w-5 mr-2" />
             Check Availability
           </Button>

@@ -281,10 +281,7 @@ export function HotelLayout({ children }: HotelLayoutProps) {
                 <Moon className="h-5 w-5" />
               )}
             </Button>
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-hotel-500 text-xs"></span>
-            </Button>
+            <NotificationSystem />
           </div>
         </header>
 

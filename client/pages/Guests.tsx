@@ -96,6 +96,8 @@ import {
   RefreshCw,
   SortAsc,
   SortDesc,
+  Grid3X3,
+  List,
   CalendarDays,
   MapPinned,
   Navigation,

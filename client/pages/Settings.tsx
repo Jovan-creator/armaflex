@@ -1225,7 +1225,7 @@ export default function Settings() {
 
               <div className="border-t pt-6">
                 <h4 className="font-semibold mb-4">System Logs</h4>
-                <div className="bg-gray-50 rounded-lg p-4 h-48 overflow-y-auto text-sm font-mono">
+                <div className="bg-gray-50 rounded-lg p-2 sm:p-4 h-48 overflow-y-auto text-xs sm:text-sm font-mono">
                   <div className="space-y-1">
                     <div>[2024-01-15 10:35:22] INFO: System health check completed successfully</div>
                     <div>[2024-01-15 10:30:15] INFO: Database backup completed (245MB)</div>

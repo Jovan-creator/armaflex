@@ -1105,7 +1105,7 @@ export default function Settings() {
 
               <div>
                 <Label>Available Languages</Label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2">
                   {['English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese', 'Chinese', 'Japanese'].map((language) => (
                     <div key={language} className="flex items-center space-x-2">
                       <Switch id={language} defaultChecked={language === 'English'} />

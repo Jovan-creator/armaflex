@@ -6,6 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserProvider } from "@/contexts/UserContext";
 import { HotelLayout } from "@/components/HotelLayout";
 import Dashboard from "./pages/Dashboard";
 import Rooms from "./pages/Rooms";
@@ -22,61 +23,63 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={
-            <HotelLayout>
-              <Dashboard />
-            </HotelLayout>
-          } />
-          <Route path="/rooms" element={
-            <HotelLayout>
-              <Rooms />
-            </HotelLayout>
-          } />
-          <Route path="/reservations" element={
-            <HotelLayout>
-              <Reservations />
-            </HotelLayout>
-          } />
-          <Route path="/guests" element={
-            <HotelLayout>
-              <Guests />
-            </HotelLayout>
-          } />
-          <Route path="/billing" element={
-            <HotelLayout>
-              <Billing />
-            </HotelLayout>
-          } />
-          <Route path="/housekeeping" element={
-            <HotelLayout>
-              <Housekeeping />
-            </HotelLayout>
-          } />
-          <Route path="/staff" element={
-            <HotelLayout>
-              <Staff />
-            </HotelLayout>
-          } />
-          <Route path="/reports" element={
-            <HotelLayout>
-              <Reports />
-            </HotelLayout>
-          } />
-          <Route path="/settings" element={
-            <HotelLayout>
-              <Settings />
-            </HotelLayout>
-          } />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <UserProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={
+              <HotelLayout>
+                <Dashboard />
+              </HotelLayout>
+            } />
+            <Route path="/rooms" element={
+              <HotelLayout>
+                <Rooms />
+              </HotelLayout>
+            } />
+            <Route path="/reservations" element={
+              <HotelLayout>
+                <Reservations />
+              </HotelLayout>
+            } />
+            <Route path="/guests" element={
+              <HotelLayout>
+                <Guests />
+              </HotelLayout>
+            } />
+            <Route path="/billing" element={
+              <HotelLayout>
+                <Billing />
+              </HotelLayout>
+            } />
+            <Route path="/housekeeping" element={
+              <HotelLayout>
+                <Housekeeping />
+              </HotelLayout>
+            } />
+            <Route path="/staff" element={
+              <HotelLayout>
+                <Staff />
+              </HotelLayout>
+            } />
+            <Route path="/reports" element={
+              <HotelLayout>
+                <Reports />
+              </HotelLayout>
+            } />
+            <Route path="/settings" element={
+              <HotelLayout>
+                <Settings />
+              </HotelLayout>
+            } />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </UserProvider>
   </QueryClientProvider>
 );
 

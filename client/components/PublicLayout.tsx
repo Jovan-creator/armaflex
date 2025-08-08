@@ -85,7 +85,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 <LogIn className="h-4 w-4 mr-2" />
                 Staff Login
               </Button>
-              <Button className="hidden md:flex bg-hotel-500 hover:bg-hotel-600">
+              <Button
+                className="hidden md:flex bg-hotel-500 hover:bg-hotel-600"
+                onClick={() => navigate("/public/rooms")}
+              >
                 <Calendar className="h-4 w-4 mr-2" />
                 Book Now
               </Button>
@@ -143,7 +146,13 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                       Staff Login
                     </Button>
 
-                    <Button className="w-full bg-hotel-500 hover:bg-hotel-600">
+                    <Button
+                      className="w-full bg-hotel-500 hover:bg-hotel-600"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        navigate("/public/rooms");
+                      }}
+                    >
                       <Calendar className="h-4 w-4 mr-2" />
                       Book Now
                     </Button>

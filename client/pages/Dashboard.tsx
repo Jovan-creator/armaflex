@@ -1,3 +1,13 @@
+import { useUser } from "@/contexts/UserContext";
+import {
+  AdminDashboard,
+  ReceptionistDashboard,
+  HousekeepingDashboard,
+  MaintenanceDashboard,
+  AccountantDashboard,
+  RestaurantDashboard,
+  SupportDashboard,
+} from "@/components/RoleDashboards";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,7 +32,8 @@ import {
   Star,
 } from "lucide-react";
 
-export default function Dashboard() {
+// Default dashboard for guest users or fallback
+function DefaultDashboard() {
   const stats = [
     {
       title: "Total Revenue",
@@ -343,4 +354,33 @@ export default function Dashboard() {
       </Card>
     </div>
   );
+}
+
+export default function Dashboard() {
+  const { user } = useUser();
+
+  if (!user) {
+    return <DefaultDashboard />;
+  }
+
+  // Route to appropriate dashboard based on user role
+  switch (user.role) {
+    case 'admin':
+      return <AdminDashboard />;
+    case 'receptionist':
+      return <ReceptionistDashboard />;
+    case 'housekeeping':
+      return <HousekeepingDashboard />;
+    case 'maintenance':
+      return <MaintenanceDashboard />;
+    case 'accountant':
+      return <AccountantDashboard />;
+    case 'restaurant':
+      return <RestaurantDashboard />;
+    case 'support':
+      return <SupportDashboard />;
+    case 'guest':
+    default:
+      return <DefaultDashboard />;
+  }
 }

@@ -31,7 +31,6 @@ import {
   Sun,
   Shield,
   Coffee,
-  Wrench,
   Calculator,
   ChefHat,
   HeadphonesIcon,

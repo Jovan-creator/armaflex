@@ -108,7 +108,7 @@ export function AdminDashboard() {
             <Button
               className="w-full justify-start"
               variant="outline"
-              onClick={() => navigate('/settings')}
+              onClick={() => alert('System logs feature coming soon!')}
             >
               <Activity className="h-4 w-4 mr-2" />
               System Logs

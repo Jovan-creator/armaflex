@@ -18,7 +18,6 @@ import {
   ClipboardList,
   UserCheck,
   BarChart3,
-  Settings,
   BellRing,
   Menu,
   X,

@@ -115,6 +115,27 @@ const App = () => (
                 </HotelLayout>
               </ProtectedRoute>
             } />
+            <Route path="/channel-manager" element={
+              <ProtectedRoute requiredPermission="*">
+                <HotelLayout>
+                  <ChannelManager />
+                </HotelLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/inventory" element={
+              <ProtectedRoute requiredPermission="*">
+                <HotelLayout>
+                  <Inventory />
+                </HotelLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/maintenance" element={
+              <ProtectedRoute requiredPermission="*">
+                <HotelLayout>
+                  <Maintenance />
+                </HotelLayout>
+              </ProtectedRoute>
+            } />
 
             {/* Public Pages - No Authentication Required */}
             <Route path="/public" element={

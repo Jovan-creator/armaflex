@@ -99,15 +99,6 @@ export function AdminDashboard() {
             <Button
               className="w-full justify-start"
               variant="outline"
-              onClick={() => navigate('/settings')}
-            >
-              <Settings className="h-4 w-4 mr-2" />
-              System Settings
-              <ArrowRight className="h-4 w-4 ml-auto" />
-            </Button>
-            <Button
-              className="w-full justify-start"
-              variant="outline"
               onClick={() => navigate('/reports')}
             >
               <BarChart3 className="h-4 w-4 mr-2" />

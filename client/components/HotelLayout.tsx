@@ -94,12 +94,6 @@ const navigationItems = [
     icon: BellRing,
     badge: "2 New",
   },
-  {
-    title: "Settings",
-    href: "/settings",
-    icon: Settings,
-    badge: null,
-  },
 ];
 
 export function HotelLayout({ children }: HotelLayoutProps) {

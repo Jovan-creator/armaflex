@@ -108,10 +108,10 @@ export function AdminDashboard() {
             <Button
               className="w-full justify-start"
               variant="outline"
-              onClick={() => alert('System logs feature coming soon!')}
+              onClick={() => navigate('/settings')}
             >
-              <Activity className="h-4 w-4 mr-2" />
-              System Logs
+              <Settings className="h-4 w-4 mr-2" />
+              System Settings
               <ArrowRight className="h-4 w-4 ml-auto" />
             </Button>
           </CardContent>

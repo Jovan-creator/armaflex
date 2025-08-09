@@ -97,13 +97,6 @@ const App = () => (
                 </HotelLayout>
               </ProtectedRoute>
             } />
-            <Route path="/settings" element={
-              <ProtectedRoute requiredPermission="*">
-                <HotelLayout>
-                  <Settings />
-                </HotelLayout>
-              </ProtectedRoute>
-            } />
             <Route path="/notifications" element={
               <ProtectedRoute requiredPermission="*">
                 <HotelLayout>

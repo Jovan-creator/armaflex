@@ -98,6 +98,24 @@ const navigationItems = [
     badge: "2 New",
   },
   {
+    title: "Channel Manager",
+    href: "/channel-manager",
+    icon: Globe,
+    badge: null,
+  },
+  {
+    title: "Inventory",
+    href: "/inventory",
+    icon: Package,
+    badge: "3 Low",
+  },
+  {
+    title: "Maintenance",
+    href: "/maintenance",
+    icon: Wrench,
+    badge: "2 Urgent",
+  },
+  {
     title: "Settings",
     href: "/settings",
     icon: Settings,

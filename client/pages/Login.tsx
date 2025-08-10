@@ -145,43 +145,37 @@ const stats = [
   { label: "Customer Satisfaction", value: "99.5%" },
 ];
 
-// Hotel background images for slider - Using placeholder.svg with gradient overlays
+// Hotel background images for slider - Using reliable CDN
 const hotelImages = [
   {
-    url: "/placeholder.svg",
+    url: "https://cdn.pixabay.com/photo/2016/11/18/17/20/living-room-1835923_1280.jpg",
     alt: "Luxury Hotel Lobby with modern design",
-    title: "Grand Lobby Experience",
-    gradient: "from-blue-900 via-indigo-800 to-purple-900"
+    title: "Grand Lobby Experience"
   },
   {
-    url: "/placeholder.svg",
+    url: "https://cdn.pixabay.com/photo/2016/11/19/13/06/bed-1839183_1280.jpg",
     alt: "Elegant hotel room with city view",
-    title: "Premium Accommodation",
-    gradient: "from-emerald-900 via-teal-800 to-cyan-900"
+    title: "Premium Accommodation"
   },
   {
-    url: "/placeholder.svg",
+    url: "https://cdn.pixabay.com/photo/2017/03/22/17/39/kitchen-2165756_1280.jpg",
     alt: "Hotel exterior with beautiful architecture",
-    title: "Stunning Architecture",
-    gradient: "from-amber-900 via-orange-800 to-red-900"
+    title: "Stunning Architecture"
   },
   {
-    url: "/placeholder.svg",
+    url: "https://cdn.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg",
     alt: "Hotel restaurant dining area",
-    title: "Fine Dining Experience",
-    gradient: "from-violet-900 via-purple-800 to-pink-900"
+    title: "Fine Dining Experience"
   },
   {
-    url: "/placeholder.svg",
+    url: "https://cdn.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg",
     alt: "Modern hotel swimming pool area",
-    title: "Relaxation & Recreation",
-    gradient: "from-slate-900 via-gray-800 to-zinc-900"
+    title: "Relaxation & Recreation"
   },
   {
-    url: "/placeholder.svg",
+    url: "https://cdn.pixabay.com/photo/2016/11/30/08/46/bedroom-1872196_1280.jpg",
     alt: "Luxurious hotel spa and wellness center",
-    title: "Wellness & Spa Services",
-    gradient: "from-green-900 via-emerald-800 to-teal-900"
+    title: "Wellness & Spa Services"
   }
 ];
 

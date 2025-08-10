@@ -619,8 +619,66 @@ export default function GuestBookingReal() {
         </Card>
       )}
 
-      {/* Step 4: Confirmation */}
-      {step === 4 && (
+      {/* Step 4: Payment */}
+      {step === 4 && selectedRoom && reservationId && (
+        <div className="space-y-6">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">Complete Your Payment</h2>
+            <p className="text-gray-600">Secure payment to confirm your reservation</p>
+          </div>
+
+          {/* Booking Summary */}
+          <Card className="max-w-md mx-auto">
+            <CardHeader>
+              <CardTitle>Booking Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span>Room:</span>
+                  <span>{selectedRoom.room_type_name} (#{selectedRoom.room_number})</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Check-in:</span>
+                  <span>{checkInDate && format(checkInDate, 'PPP')}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Check-out:</span>
+                  <span>{checkOutDate && format(checkOutDate, 'PPP')}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Guests:</span>
+                  <span>{adults} adult{adults > 1 ? 's' : ''}{children > 0 ? `, ${children} child${children > 1 ? 'ren' : ''}` : ''}</span>
+                </div>
+                <Separator />
+                <div className="flex justify-between font-semibold">
+                  <span>Total:</span>
+                  <span>${calculateTotal()}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <StripePayment
+            amount={calculateTotal()}
+            currency="USD"
+            reservationId={reservationId}
+            guestName={`${guest.first_name} ${guest.last_name}`}
+            description={`Hotel reservation - Room ${selectedRoom.room_number}`}
+            onSuccess={handlePaymentSuccess}
+            onError={handlePaymentError}
+          />
+
+          <div className="flex justify-center">
+            <Button variant="outline" onClick={() => setStep(3)}>
+              Back to Guest Info
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Step 5: Final Confirmation */}
+      {step === 5 && (
         <Card>
           <CardHeader className="text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">

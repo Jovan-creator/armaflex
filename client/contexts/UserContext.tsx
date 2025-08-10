@@ -199,11 +199,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const isLoggedIn = user !== null;
 
-  // Show loading state while initializing
-  if (!isInitialized) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <UserContext.Provider
       value={{

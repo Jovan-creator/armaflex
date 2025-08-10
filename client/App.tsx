@@ -103,6 +103,16 @@ const App = () => (
               }
             />
             <Route
+              path="/payments"
+              element={
+                <ProtectedRoute requiredPermission="billing">
+                  <HotelLayout>
+                    <PaymentAdmin />
+                  </HotelLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/housekeeping"
               element={
                 <ProtectedRoute requiredPermission="housekeeping">

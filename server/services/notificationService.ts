@@ -324,7 +324,7 @@ class NotificationService {
 
   private initializeSMSService(): void {
     if (this.config.sms.accountSid && this.config.sms.authToken) {
-      this.twilioClient = new Twilio(this.config.sms.accountSid, this.config.sms.authToken);
+      this.twilioClient = twilio(this.config.sms.accountSid, this.config.sms.authToken);
     }
   }
 

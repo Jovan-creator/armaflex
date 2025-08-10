@@ -511,7 +511,7 @@ export default function ReservationsAdmin() {
                           setShowCheckIn(true);
                         }}
                       >
-                        <CheckIn className="h-4 w-4 mr-2" />
+                        <LogIn className="h-4 w-4 mr-2" />
                         Check In
                       </Button>
                     </div>

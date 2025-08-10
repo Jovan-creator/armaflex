@@ -11,7 +11,7 @@ import {
   WifiOff,
   Cloud,
   CloudOff,
-  Sync,
+  RefreshCw,
   AlertTriangle,
   CheckCircle,
   Clock,

@@ -62,7 +62,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   // Initialize user from stored data
   useEffect(() => {
-    console.log('UserProvider initializing...');
     const token = localStorage.getItem('auth_token');
     const userData = localStorage.getItem('user_data');
 
@@ -76,7 +75,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
           role: parsedUser.role,
           department: parsedUser.department
         });
-        console.log('User restored from storage:', parsedUser.email);
       } catch (error) {
         console.error('Error parsing stored user data:', error);
         localStorage.removeItem('auth_token');
@@ -84,7 +82,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
       }
     }
     setIsInitialized(true);
-    console.log('UserProvider initialized');
   }, []);
 
   const switchRole = (role: UserRole) => {

@@ -431,14 +431,14 @@ export class DatabaseService {
         paymentData.reservation_id,
         paymentData.stripe_payment_intent_id,
         paymentData.amount,
-        paymentData.currency || 'USD',
+        paymentData.currency || "USD",
         paymentData.status,
         paymentData.payment_method,
         paymentData.card_last4,
         paymentData.card_brand,
         paymentData.description,
         paymentData.metadata ? JSON.stringify(paymentData.metadata) : null,
-      ]
+      ],
     );
   }
 
@@ -446,7 +446,7 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.run(
       `UPDATE payments SET status = ?, metadata = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
-      [status, metadata ? JSON.stringify(metadata) : null, paymentId]
+      [status, metadata ? JSON.stringify(metadata) : null, paymentId],
     );
   }
 
@@ -454,7 +454,7 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.all(
       `SELECT * FROM payments WHERE reservation_id = ? ORDER BY created_at DESC`,
-      [reservationId]
+      [reservationId],
     );
   }
 
@@ -489,7 +489,7 @@ export class DatabaseService {
         refundData.reason,
         refundData.status,
         refundData.created_by,
-      ]
+      ],
     );
   }
 
@@ -497,7 +497,7 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.all(
       `SELECT * FROM payment_refunds WHERE payment_id = ? ORDER BY created_at DESC`,
-      [paymentId]
+      [paymentId],
     );
   }
 }

@@ -1,11 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,7 +48,7 @@ import {
   Plus,
   Receipt,
   Banknote,
-  Calendar
+  Calendar,
 } from "lucide-react";
 
 interface Payment {
@@ -63,8 +82,8 @@ export default function PaymentAdmin() {
   const { user } = useUser();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
@@ -73,33 +92,33 @@ export default function PaymentAdmin() {
 
   // Refund form state
   const [refundForm, setRefundForm] = useState({
-    amount: '',
-    reason: ''
+    amount: "",
+    reason: "",
   });
 
   // Get auth token
   const getAuthToken = () => {
-    return localStorage.getItem('auth_token') || '';
+    return localStorage.getItem("auth_token") || "";
   };
 
   // Fetch payments from API
   const fetchPayments = async () => {
     try {
-      const response = await fetch('/api/hotel/payments', {
+      const response = await fetch("/api/hotel/payments", {
         headers: {
-          'Authorization': `Bearer ${getAuthToken()}`
-        }
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to fetch payments');
+        throw new Error("Failed to fetch payments");
       }
 
       const data = await response.json();
       setPayments(data);
     } catch (err) {
-      setError('Failed to load payments');
-      console.error('Fetch payments error:', err);
+      setError("Failed to load payments");
+      console.error("Fetch payments error:", err);
     }
   };
 
@@ -119,48 +138,58 @@ export default function PaymentAdmin() {
     if (!selectedPayment) return;
 
     try {
-      const response = await fetch(`/api/hotel/payments/${selectedPayment.id}/refund`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getAuthToken()}`
+      const response = await fetch(
+        `/api/hotel/payments/${selectedPayment.id}/refund`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAuthToken()}`,
+          },
+          body: JSON.stringify({
+            amount: refundForm.amount
+              ? parseFloat(refundForm.amount)
+              : undefined,
+            reason: refundForm.reason,
+          }),
         },
-        body: JSON.stringify({
-          amount: refundForm.amount ? parseFloat(refundForm.amount) : undefined,
-          reason: refundForm.reason
-        })
-      });
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to process refund');
+        throw new Error("Failed to process refund");
       }
 
-      setSuccess('Refund processed successfully');
+      setSuccess("Refund processed successfully");
       setShowRefundDialog(false);
-      setRefundForm({ amount: '', reason: '' });
+      setRefundForm({ amount: "", reason: "" });
       fetchPayments();
     } catch (err) {
-      setError('Failed to process refund');
-      console.error('Refund error:', err);
+      setError("Failed to process refund");
+      console.error("Refund error:", err);
     }
   };
 
   // Calculate payment statistics
   const calculateStats = (): PaymentStats => {
     const today = new Date().toDateString();
-    
+
     return {
       totalRevenue: payments
-        .filter(p => p.status === 'succeeded')
+        .filter((p) => p.status === "succeeded")
         .reduce((sum, p) => sum + p.amount, 0),
       todayRevenue: payments
-        .filter(p => p.status === 'succeeded' && new Date(p.created_at).toDateString() === today)
+        .filter(
+          (p) =>
+            p.status === "succeeded" &&
+            new Date(p.created_at).toDateString() === today,
+        )
         .reduce((sum, p) => sum + p.amount, 0),
-      pendingPayments: payments.filter(p => p.status === 'pending').length,
-      successfulPayments: payments.filter(p => p.status === 'succeeded').length,
-      failedPayments: payments.filter(p => p.status === 'failed').length,
+      pendingPayments: payments.filter((p) => p.status === "pending").length,
+      successfulPayments: payments.filter((p) => p.status === "succeeded")
+        .length,
+      failedPayments: payments.filter((p) => p.status === "failed").length,
       refundedAmount: payments
-        .filter(p => p.status === 'refunded')
+        .filter((p) => p.status === "refunded")
         .reduce((sum, p) => sum + p.amount, 0),
     };
   };
@@ -168,46 +197,64 @@ export default function PaymentAdmin() {
   const stats = calculateStats();
 
   // Filter payments
-  const filteredPayments = payments.filter(payment => {
-    const matchesSearch = payment.guest_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         payment.guest_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         payment.room_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         payment.stripe_payment_intent_id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === 'all' || payment.status === filterStatus;
-    
+  const filteredPayments = payments.filter((payment) => {
+    const matchesSearch =
+      payment.guest_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payment.guest_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payment.room_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payment.stripe_payment_intent_id
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === "all" || payment.status === filterStatus;
+
     return matchesSearch && matchesStatus;
   });
 
   // Get status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'succeeded': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'processing': return 'bg-blue-100 text-blue-800';
-      case 'failed': return 'bg-red-100 text-red-800';
-      case 'cancelled': return 'bg-gray-100 text-gray-800';
-      case 'refunded': return 'bg-purple-100 text-purple-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "succeeded":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "processing":
+        return "bg-blue-100 text-blue-800";
+      case "failed":
+        return "bg-red-100 text-red-800";
+      case "cancelled":
+        return "bg-gray-100 text-gray-800";
+      case "refunded":
+        return "bg-purple-100 text-purple-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   // Get status icon
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'succeeded': return <CheckCircle className="w-3 h-3" />;
-      case 'pending': return <Clock className="w-3 h-3" />;
-      case 'processing': return <RefreshCw className="w-3 h-3" />;
-      case 'failed': return <X className="w-3 h-3" />;
-      case 'cancelled': return <X className="w-3 h-3" />;
-      case 'refunded': return <RotateCcw className="w-3 h-3" />;
-      default: return <AlertCircle className="w-3 h-3" />;
+      case "succeeded":
+        return <CheckCircle className="w-3 h-3" />;
+      case "pending":
+        return <Clock className="w-3 h-3" />;
+      case "processing":
+        return <RefreshCw className="w-3 h-3" />;
+      case "failed":
+        return <X className="w-3 h-3" />;
+      case "cancelled":
+        return <X className="w-3 h-3" />;
+      case "refunded":
+        return <RotateCcw className="w-3 h-3" />;
+      default:
+        return <AlertCircle className="w-3 h-3" />;
     }
   };
 
   // Format currency
-  const formatCurrency = (amount: number, currency: string = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
+  const formatCurrency = (amount: number, currency: string = "USD") => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
       currency: currency.toUpperCase(),
     }).format(amount);
   };
@@ -215,18 +262,23 @@ export default function PaymentAdmin() {
   // Get card brand icon/text
   const getCardBrand = (brand: string) => {
     switch (brand?.toLowerCase()) {
-      case 'visa': return '💳 Visa';
-      case 'mastercard': return '💳 Mastercard';
-      case 'amex': return '💳 American Express';
-      case 'discover': return '💳 Discover';
-      default: return '💳 Card';
+      case "visa":
+        return "💳 Visa";
+      case "mastercard":
+        return "💳 Mastercard";
+      case "amex":
+        return "💳 American Express";
+      case "discover":
+        return "💳 Discover";
+      default:
+        return "💳 Card";
     }
   };
 
   // Open refund dialog
   const openRefundDialog = (payment: Payment) => {
     setSelectedPayment(payment);
-    setRefundForm({ amount: payment.amount.toString(), reason: '' });
+    setRefundForm({ amount: payment.amount.toString(), reason: "" });
     setShowRefundDialog(true);
   };
 
@@ -234,8 +286,8 @@ export default function PaymentAdmin() {
   useEffect(() => {
     if (error || success) {
       const timer = setTimeout(() => {
-        setError('');
-        setSuccess('');
+        setError("");
+        setSuccess("");
       }, 5000);
       return () => clearTimeout(timer);
     }
@@ -253,8 +305,12 @@ export default function PaymentAdmin() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Payment Management</h1>
-          <p className="text-muted-foreground">Track and manage hotel payments and refunds</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Payment Management
+          </h1>
+          <p className="text-muted-foreground">
+            Track and manage hotel payments and refunds
+          </p>
         </div>
         <div className="flex items-center space-x-2">
           <Button variant="outline" onClick={fetchPayments}>
@@ -279,7 +335,9 @@ export default function PaymentAdmin() {
       {success && (
         <Alert className="border-green-200 bg-green-50">
           <CheckCircle className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-green-700">{success}</AlertDescription>
+          <AlertDescription className="text-green-700">
+            {success}
+          </AlertDescription>
         </Alert>
       )}
 
@@ -290,7 +348,9 @@ export default function PaymentAdmin() {
             <div className="flex items-center space-x-2">
               <DollarSign className="h-8 w-8 text-green-600" />
               <div>
-                <p className="text-2xl font-bold">{formatCurrency(stats.totalRevenue)}</p>
+                <p className="text-2xl font-bold">
+                  {formatCurrency(stats.totalRevenue)}
+                </p>
                 <p className="text-sm text-muted-foreground">Total Revenue</p>
               </div>
             </div>
@@ -301,7 +361,9 @@ export default function PaymentAdmin() {
             <div className="flex items-center space-x-2">
               <TrendingUp className="h-8 w-8 text-blue-600" />
               <div>
-                <p className="text-2xl font-bold">{formatCurrency(stats.todayRevenue)}</p>
+                <p className="text-2xl font-bold">
+                  {formatCurrency(stats.todayRevenue)}
+                </p>
                 <p className="text-sm text-muted-foreground">Today's Revenue</p>
               </div>
             </div>
@@ -313,7 +375,9 @@ export default function PaymentAdmin() {
               <CheckCircle className="h-8 w-8 text-green-600" />
               <div>
                 <p className="text-2xl font-bold">{stats.successfulPayments}</p>
-                <p className="text-sm text-muted-foreground">Successful Payments</p>
+                <p className="text-sm text-muted-foreground">
+                  Successful Payments
+                </p>
               </div>
             </div>
           </CardContent>
@@ -323,7 +387,9 @@ export default function PaymentAdmin() {
             <div className="flex items-center space-x-2">
               <RotateCcw className="h-8 w-8 text-purple-600" />
               <div>
-                <p className="text-2xl font-bold">{formatCurrency(stats.refundedAmount)}</p>
+                <p className="text-2xl font-bold">
+                  {formatCurrency(stats.refundedAmount)}
+                </p>
                 <p className="text-sm text-muted-foreground">Refunded</p>
               </div>
             </div>
@@ -333,10 +399,18 @@ export default function PaymentAdmin() {
 
       <Tabs defaultValue="all" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="all">All Payments ({filteredPayments.length})</TabsTrigger>
-          <TabsTrigger value="pending">Pending ({payments.filter(p => p.status === 'pending').length})</TabsTrigger>
-          <TabsTrigger value="successful">Successful ({stats.successfulPayments})</TabsTrigger>
-          <TabsTrigger value="failed">Failed ({stats.failedPayments})</TabsTrigger>
+          <TabsTrigger value="all">
+            All Payments ({filteredPayments.length})
+          </TabsTrigger>
+          <TabsTrigger value="pending">
+            Pending ({payments.filter((p) => p.status === "pending").length})
+          </TabsTrigger>
+          <TabsTrigger value="successful">
+            Successful ({stats.successfulPayments})
+          </TabsTrigger>
+          <TabsTrigger value="failed">
+            Failed ({stats.failedPayments})
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="all" className="space-y-4">
@@ -377,43 +451,61 @@ export default function PaymentAdmin() {
           <Card>
             <CardHeader>
               <CardTitle>Payment Transactions</CardTitle>
-              <CardDescription>Recent payment activity and transaction history</CardDescription>
+              <CardDescription>
+                Recent payment activity and transaction history
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {filteredPayments.map((payment) => (
-                  <div key={payment.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
+                  <div
+                    key={payment.id}
+                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                  >
                     <div className="flex items-center space-x-4">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <CreditCard className="h-5 w-5 text-blue-600" />
                       </div>
                       <div>
                         <h4 className="font-semibold">{payment.guest_name}</h4>
-                        <p className="text-sm text-muted-foreground">{payment.guest_email}</p>
-                        <p className="text-sm text-muted-foreground">Room {payment.room_number}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {payment.guest_email}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Room {payment.room_number}
+                        </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-4">
                       <div className="text-right">
-                        <p className="font-semibold">{formatCurrency(payment.amount, payment.currency)}</p>
+                        <p className="font-semibold">
+                          {formatCurrency(payment.amount, payment.currency)}
+                        </p>
                         {payment.card_last4 && (
                           <p className="text-sm text-muted-foreground">
-                            {getCardBrand(payment.card_brand || '')} •••• {payment.card_last4}
+                            {getCardBrand(payment.card_brand || "")} ••••{" "}
+                            {payment.card_last4}
                           </p>
                         )}
                       </div>
-                      
+
                       <div className="text-right">
-                        <p className="text-sm font-medium">{format(new Date(payment.created_at), 'MMM d, yyyy')}</p>
-                        <p className="text-sm text-muted-foreground">{format(new Date(payment.created_at), 'h:mm a')}</p>
+                        <p className="text-sm font-medium">
+                          {format(new Date(payment.created_at), "MMM d, yyyy")}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {format(new Date(payment.created_at), "h:mm a")}
+                        </p>
                       </div>
-                      
+
                       <Badge className={getStatusColor(payment.status)}>
                         {getStatusIcon(payment.status)}
-                        <span className="ml-1 capitalize">{payment.status}</span>
+                        <span className="ml-1 capitalize">
+                          {payment.status}
+                        </span>
                       </Badge>
-                      
+
                       <div className="flex items-center space-x-2">
                         <Button
                           variant="ghost"
@@ -425,16 +517,18 @@ export default function PaymentAdmin() {
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
-                        
-                        {payment.status === 'succeeded' && (user?.role === 'admin' || user?.role === 'accountant') && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => openRefundDialog(payment)}
-                          >
-                            <RotateCcw className="h-4 w-4" />
-                          </Button>
-                        )}
+
+                        {payment.status === "succeeded" &&
+                          (user?.role === "admin" ||
+                            user?.role === "accountant") && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => openRefundDialog(payment)}
+                            >
+                              <RotateCcw className="h-4 w-4" />
+                            </Button>
+                          )}
                       </div>
                     </div>
                   </div>
@@ -443,7 +537,9 @@ export default function PaymentAdmin() {
 
               {filteredPayments.length === 0 && (
                 <div className="text-center py-8">
-                  <p className="text-muted-foreground">No payments found matching your criteria.</p>
+                  <p className="text-muted-foreground">
+                    No payments found matching your criteria.
+                  </p>
                 </div>
               )}
             </CardContent>
@@ -454,7 +550,9 @@ export default function PaymentAdmin() {
         <TabsContent value="pending">
           <Card>
             <CardContent className="pt-6">
-              <p className="text-muted-foreground">Pending payments will be displayed here.</p>
+              <p className="text-muted-foreground">
+                Pending payments will be displayed here.
+              </p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -462,7 +560,9 @@ export default function PaymentAdmin() {
         <TabsContent value="successful">
           <Card>
             <CardContent className="pt-6">
-              <p className="text-muted-foreground">Successful payments will be displayed here.</p>
+              <p className="text-muted-foreground">
+                Successful payments will be displayed here.
+              </p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -470,7 +570,9 @@ export default function PaymentAdmin() {
         <TabsContent value="failed">
           <Card>
             <CardContent className="pt-6">
-              <p className="text-muted-foreground">Failed payments will be displayed here.</p>
+              <p className="text-muted-foreground">
+                Failed payments will be displayed here.
+              </p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -482,7 +584,9 @@ export default function PaymentAdmin() {
           <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>Payment Details</DialogTitle>
-              <DialogDescription>Payment #{selectedPayment.id}</DialogDescription>
+              <DialogDescription>
+                Payment #{selectedPayment.id}
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-6">
               {/* Payment Information */}
@@ -491,7 +595,12 @@ export default function PaymentAdmin() {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <Label>Amount</Label>
-                    <p className="font-semibold">{formatCurrency(selectedPayment.amount, selectedPayment.currency)}</p>
+                    <p className="font-semibold">
+                      {formatCurrency(
+                        selectedPayment.amount,
+                        selectedPayment.currency,
+                      )}
+                    </p>
                   </div>
                   <div>
                     <Label>Status</Label>
@@ -501,23 +610,28 @@ export default function PaymentAdmin() {
                   </div>
                   <div>
                     <Label>Payment Method</Label>
-                    <p>{selectedPayment.payment_method || 'Card'}</p>
+                    <p>{selectedPayment.payment_method || "Card"}</p>
                   </div>
                   <div>
                     <Label>Transaction ID</Label>
-                    <p className="font-mono text-xs">{selectedPayment.stripe_payment_intent_id}</p>
+                    <p className="font-mono text-xs">
+                      {selectedPayment.stripe_payment_intent_id}
+                    </p>
                   </div>
                   {selectedPayment.card_last4 && (
                     <>
                       <div>
                         <Label>Card</Label>
-                        <p>{getCardBrand(selectedPayment.card_brand || '')} •••• {selectedPayment.card_last4}</p>
+                        <p>
+                          {getCardBrand(selectedPayment.card_brand || "")} ••••{" "}
+                          {selectedPayment.card_last4}
+                        </p>
                       </div>
                     </>
                   )}
                   <div>
                     <Label>Date</Label>
-                    <p>{format(new Date(selectedPayment.created_at), 'PPP')}</p>
+                    <p>{format(new Date(selectedPayment.created_at), "PPP")}</p>
                   </div>
                 </div>
               </div>
@@ -548,7 +662,9 @@ export default function PaymentAdmin() {
               {selectedPayment.description && (
                 <div>
                   <h4 className="font-semibold mb-3">Description</h4>
-                  <p className="text-sm bg-gray-50 p-3 rounded">{selectedPayment.description}</p>
+                  <p className="text-sm bg-gray-50 p-3 rounded">
+                    {selectedPayment.description}
+                  </p>
                 </div>
               )}
             </div>
@@ -563,7 +679,11 @@ export default function PaymentAdmin() {
             <DialogHeader>
               <DialogTitle>Process Refund</DialogTitle>
               <DialogDescription>
-                Refund for {selectedPayment.guest_name} - {formatCurrency(selectedPayment.amount, selectedPayment.currency)}
+                Refund for {selectedPayment.guest_name} -{" "}
+                {formatCurrency(
+                  selectedPayment.amount,
+                  selectedPayment.currency,
+                )}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
@@ -575,28 +695,44 @@ export default function PaymentAdmin() {
                   step="0.01"
                   max={selectedPayment.amount}
                   value={refundForm.amount}
-                  onChange={(e) => setRefundForm({...refundForm, amount: e.target.value})}
+                  onChange={(e) =>
+                    setRefundForm({ ...refundForm, amount: e.target.value })
+                  }
                   placeholder="Enter refund amount"
                 />
                 <p className="text-sm text-muted-foreground">
-                  Maximum: {formatCurrency(selectedPayment.amount, selectedPayment.currency)}
+                  Maximum:{" "}
+                  {formatCurrency(
+                    selectedPayment.amount,
+                    selectedPayment.currency,
+                  )}
                 </p>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="refundReason">Reason for Refund</Label>
                 <Textarea
                   id="refundReason"
                   value={refundForm.reason}
-                  onChange={(e) => setRefundForm({...refundForm, reason: e.target.value})}
+                  onChange={(e) =>
+                    setRefundForm({ ...refundForm, reason: e.target.value })
+                  }
                   placeholder="Explain the reason for this refund..."
                   rows={3}
                 />
               </div>
             </div>
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setShowRefundDialog(false)}>Cancel</Button>
-              <Button onClick={processRefund} disabled={!refundForm.reason.trim()}>
+              <Button
+                variant="outline"
+                onClick={() => setShowRefundDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={processRefund}
+                disabled={!refundForm.reason.trim()}
+              >
                 Process Refund
               </Button>
             </div>

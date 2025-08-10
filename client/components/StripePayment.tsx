@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import React, { useState, useEffect } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle, AlertCircle, CreditCard, Lock } from "lucide-react";
 
 // Initialize Stripe (replace with your publishable key)
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51234567890_test_key');
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_51234567890_test_key",
+);
 
 interface PaymentFormProps {
   amount: number;
@@ -21,12 +34,20 @@ interface PaymentFormProps {
   onError: (error: string) => void;
 }
 
-function PaymentForm({ amount, currency, reservationId, guestName, description, onSuccess, onError }: PaymentFormProps) {
+function PaymentForm({
+  amount,
+  currency,
+  reservationId,
+  guestName,
+  description,
+  onSuccess,
+  onError,
+}: PaymentFormProps) {
   const stripe = useStripe();
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
-  const [clientSecret, setClientSecret] = useState('');
-  const [error, setError] = useState('');
+  const [clientSecret, setClientSecret] = useState("");
+  const [error, setError] = useState("");
 
   // Create payment intent when component mounts
   useEffect(() => {
@@ -35,22 +56,22 @@ function PaymentForm({ amount, currency, reservationId, guestName, description, 
 
   const createPaymentIntent = async () => {
     try {
-      const response = await fetch('/api/hotel/payments/create-intent', {
-        method: 'POST',
+      const response = await fetch("/api/hotel/payments/create-intent", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
         },
         body: JSON.stringify({
           amount,
           currency: currency.toLowerCase(),
           reservation_id: reservationId,
-          description
-        })
+          description,
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create payment intent');
+        throw new Error("Failed to create payment intent");
       }
 
       const data = await response.json();
@@ -69,30 +90,33 @@ function PaymentForm({ amount, currency, reservationId, guestName, description, 
     }
 
     setProcessing(true);
-    setError('');
+    setError("");
 
     const cardElement = elements.getElement(CardElement);
 
     if (!cardElement) {
-      setError('Card element not found');
+      setError("Card element not found");
       setProcessing(false);
       return;
     }
 
     try {
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            name: guestName,
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: guestName,
+            },
           },
         },
-      });
+      );
 
       if (error) {
-        setError(error.message || 'Payment failed');
-        onError(error.message || 'Payment failed');
-      } else if (paymentIntent.status === 'succeeded') {
+        setError(error.message || "Payment failed");
+        onError(error.message || "Payment failed");
+      } else if (paymentIntent.status === "succeeded") {
         onSuccess(paymentIntent.id);
       }
     } catch (err: any) {
@@ -104,8 +128,8 @@ function PaymentForm({ amount, currency, reservationId, guestName, description, 
   };
 
   const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
       currency: currency.toUpperCase(),
     }).format(amount);
   };
@@ -136,7 +160,9 @@ function PaymentForm({ amount, currency, reservationId, guestName, description, 
             <Separator />
             <div className="flex justify-between">
               <span className="font-medium">Total Amount:</span>
-              <span className="font-bold text-lg">{formatCurrency(amount, currency)}</span>
+              <span className="font-bold text-lg">
+                {formatCurrency(amount, currency)}
+              </span>
             </div>
           </div>
 
@@ -148,14 +174,14 @@ function PaymentForm({ amount, currency, reservationId, guestName, description, 
                 options={{
                   style: {
                     base: {
-                      fontSize: '16px',
-                      color: '#424770',
-                      '::placeholder': {
-                        color: '#aab7c4',
+                      fontSize: "16px",
+                      color: "#424770",
+                      "::placeholder": {
+                        color: "#aab7c4",
                       },
                     },
                     invalid: {
-                      color: '#9e2146',
+                      color: "#9e2146",
                     },
                   },
                 }}
@@ -166,7 +192,9 @@ function PaymentForm({ amount, currency, reservationId, guestName, description, 
           {error && (
             <Alert className="border-red-200 bg-red-50">
               <AlertCircle className="h-4 w-4 text-red-600" />
-              <AlertDescription className="text-red-700">{error}</AlertDescription>
+              <AlertDescription className="text-red-700">
+                {error}
+              </AlertDescription>
             </Alert>
           )}
 
@@ -209,12 +237,12 @@ interface StripePaymentProps {
 
 export default function StripePayment({
   amount,
-  currency = 'USD',
+  currency = "USD",
   reservationId,
   guestName,
   description,
   onSuccess,
-  onError
+  onError,
 }: StripePaymentProps) {
   return (
     <Elements stripe={stripePromise}>
@@ -232,14 +260,18 @@ export default function StripePayment({
 }
 
 // Payment Success Component
-export function PaymentSuccess({ paymentIntentId, amount, currency = 'USD' }: {
+export function PaymentSuccess({
+  paymentIntentId,
+  amount,
+  currency = "USD",
+}: {
   paymentIntentId: string;
   amount: number;
   currency?: string;
 }) {
   const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
       currency: currency.toUpperCase(),
     }).format(amount);
   };
@@ -252,7 +284,8 @@ export function PaymentSuccess({ paymentIntentId, amount, currency = 'USD' }: {
         </div>
         <h3 className="text-lg font-semibold mb-2">Payment Successful!</h3>
         <p className="text-muted-foreground mb-4">
-          Your payment of {formatCurrency(amount, currency)} has been processed successfully.
+          Your payment of {formatCurrency(amount, currency)} has been processed
+          successfully.
         </p>
         <div className="bg-gray-50 p-3 rounded text-sm">
           <p className="text-muted-foreground">Transaction ID:</p>

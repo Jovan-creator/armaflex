@@ -6,12 +6,14 @@
 
 In your Netlify dashboard, go to **Site Settings** → **Environment Variables** and add:
 
-**Client-side variables (VITE_ prefix):**
+**Client-side variables (VITE\_ prefix):**
+
 ```
 VITE_STRIPE_PUBLISHABLE_KEY = pk_test_your_stripe_publishable_key
 ```
 
 **Server-side variables (for backend):**
+
 ```
 STRIPE_SECRET_KEY = sk_test_your_stripe_secret_key
 STRIPE_WEBHOOK_SECRET = whsec_your_webhook_secret
@@ -67,7 +69,7 @@ When ready for production:
 
 ## Security Notes
 
-- ✅ **Publishable keys** (VITE_) are safe to expose in client-side code
+- ✅ **Publishable keys** (VITE\_) are safe to expose in client-side code
 - ❌ **Secret keys** should never be exposed in client-side code
 - ❌ **Never commit real keys** to version control
 - ✅ **Use environment variables** for all sensitive data

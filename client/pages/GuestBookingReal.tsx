@@ -91,7 +91,7 @@ export default function GuestBookingReal() {
 
   const [specialRequests, setSpecialRequests] = useState("");
   const [reservationId, setReservationId] = useState<number | null>(null);
-  const [paymentIntentId, setPaymentIntentId] = useState('');
+  const [paymentIntentId, setPaymentIntentId] = useState("");
 
   // Search for available rooms
   const searchRooms = async () => {
@@ -624,7 +624,9 @@ export default function GuestBookingReal() {
         <div className="space-y-6">
           <div className="text-center">
             <h2 className="text-2xl font-bold">Complete Your Payment</h2>
-            <p className="text-gray-600">Secure payment to confirm your reservation</p>
+            <p className="text-gray-600">
+              Secure payment to confirm your reservation
+            </p>
           </div>
 
           {/* Booking Summary */}
@@ -636,19 +638,26 @@ export default function GuestBookingReal() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Room:</span>
-                  <span>{selectedRoom.room_type_name} (#{selectedRoom.room_number})</span>
+                  <span>
+                    {selectedRoom.room_type_name} (#{selectedRoom.room_number})
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Check-in:</span>
-                  <span>{checkInDate && format(checkInDate, 'PPP')}</span>
+                  <span>{checkInDate && format(checkInDate, "PPP")}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Check-out:</span>
-                  <span>{checkOutDate && format(checkOutDate, 'PPP')}</span>
+                  <span>{checkOutDate && format(checkOutDate, "PPP")}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Guests:</span>
-                  <span>{adults} adult{adults > 1 ? 's' : ''}{children > 0 ? `, ${children} child${children > 1 ? 'ren' : ''}` : ''}</span>
+                  <span>
+                    {adults} adult{adults > 1 ? "s" : ""}
+                    {children > 0
+                      ? `, ${children} child${children > 1 ? "ren" : ""}`
+                      : ""}
+                  </span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-semibold">
@@ -708,9 +717,13 @@ export default function GuestBookingReal() {
                 </div>
               )}
               <p className="text-gray-600">
-                A confirmation email with your booking details and receipt has been sent to {guest.email}
+                A confirmation email with your booking details and receipt has
+                been sent to {guest.email}
               </p>
-              <Button onClick={() => window.location.reload()} className="w-full">
+              <Button
+                onClick={() => window.location.reload()}
+                className="w-full"
+              >
                 Make Another Booking
               </Button>
             </CardContent>

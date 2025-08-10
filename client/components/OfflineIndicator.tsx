@@ -215,7 +215,7 @@ function OfflineDataDetails({
           {pendingOperations.total} pending changes
         </Badge>
         <Button variant="outline" size="sm" onClick={onRetry}>
-          <Sync className="h-3 w-3 mr-1" />
+          <RefreshCw className="h-3 w-3 mr-1" />
           Retry Sync
         </Button>
       </div>

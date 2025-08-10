@@ -327,6 +327,14 @@ const App = () => (
                 </GuestPortalLayout>
               }
             />
+            <Route
+              path="/guest/profile"
+              element={
+                <GuestPortalLayout>
+                  <GuestProfile />
+                </GuestPortalLayout>
+              }
+            />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

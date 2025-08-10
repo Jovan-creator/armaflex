@@ -37,6 +37,12 @@ import NotFound from "./pages/NotFound";
 import GuestBookingReal from "./pages/GuestBookingReal";
 import PaymentAdmin from "./pages/PaymentAdmin";
 import NotificationSettings from "./pages/NotificationSettings";
+import { GuestPortalLayout } from "./components/GuestPortalLayout";
+import GuestLogin from "./pages/GuestLogin";
+import GuestDashboard from "./pages/GuestDashboard";
+import GuestReservations from "./pages/GuestReservations";
+import GuestServices from "./pages/GuestServices";
+import GuestBilling from "./pages/GuestBilling";
 
 const queryClient = new QueryClient();
 

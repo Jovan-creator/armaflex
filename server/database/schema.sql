@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS reservations (
     children INTEGER DEFAULT 0,
     total_amount DECIMAL(10,2) NOT NULL,
     status VARCHAR(50) DEFAULT 'confirmed', -- pending, confirmed, checked_in, checked_out, cancelled
+    confirmation_code VARCHAR(50),
     special_requests TEXT,
     created_by INTEGER, -- user who created the reservation
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

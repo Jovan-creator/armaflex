@@ -275,7 +275,7 @@ export default function ReservationsAdmin() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center space-x-2">
-              <CheckIn className="h-8 w-8 text-blue-600" />
+              <LogIn className="h-8 w-8 text-blue-600" />
               <div>
                 <p className="text-2xl font-bold">{todaysCheckIns.length}</p>
                 <p className="text-sm text-muted-foreground">Check-ins Today</p>
@@ -286,7 +286,7 @@ export default function ReservationsAdmin() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center space-x-2">
-              <CheckOut className="h-8 w-8 text-green-600" />
+              <LogOut className="h-8 w-8 text-green-600" />
               <div>
                 <p className="text-2xl font-bold">{todaysCheckOuts.length}</p>
                 <p className="text-sm text-muted-foreground">Check-outs Today</p>

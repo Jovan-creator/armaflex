@@ -78,6 +78,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
 
             {/* CTA and Mobile Menu */}
             <div className="flex items-center space-x-4">
+              {/* Language Switcher */}
+              <div className="hidden sm:block">
+                <LanguageSwitcher variant="minimal" showLabel={false} />
+              </div>
               <Button
                 variant="outline"
                 className="hidden sm:flex border-hotel-500 text-hotel-600 hover:bg-hotel-50"

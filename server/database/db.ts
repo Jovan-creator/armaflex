@@ -418,4 +418,86 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.get("SELECT * FROM guests WHERE email = ?", [email]);
   }
+
+  // Payment operations
+  async createPayment(paymentData: any) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `
+      INSERT INTO payments (reservation_id, stripe_payment_intent_id, amount, currency, status, payment_method, card_last4, card_brand, description, metadata)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+      [
+        paymentData.reservation_id,
+        paymentData.stripe_payment_intent_id,
+        paymentData.amount,
+        paymentData.currency || 'USD',
+        paymentData.status,
+        paymentData.payment_method,
+        paymentData.card_last4,
+        paymentData.card_brand,
+        paymentData.description,
+        paymentData.metadata ? JSON.stringify(paymentData.metadata) : null,
+      ]
+    );
+  }
+
+  async updatePaymentStatus(paymentId: number, status: string, metadata?: any) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `UPDATE payments SET status = ?, metadata = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+      [status, metadata ? JSON.stringify(metadata) : null, paymentId]
+    );
+  }
+
+  async getPaymentsByReservation(reservationId: number) {
+    if (!this.db) await this.init();
+    return await this.db!.all(
+      `SELECT * FROM payments WHERE reservation_id = ? ORDER BY created_at DESC`,
+      [reservationId]
+    );
+  }
+
+  async getAllPayments() {
+    if (!this.db) await this.init();
+    return await this.db!.all(`
+      SELECT
+        p.*,
+        r.id as reservation_id,
+        g.first_name || ' ' || g.last_name as guest_name,
+        g.email as guest_email,
+        rm.room_number
+      FROM payments p
+      JOIN reservations r ON p.reservation_id = r.id
+      JOIN guests g ON r.guest_id = g.id
+      JOIN rooms rm ON r.room_id = rm.id
+      ORDER BY p.created_at DESC
+    `);
+  }
+
+  async createRefund(refundData: any) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `
+      INSERT INTO payment_refunds (payment_id, stripe_refund_id, amount, reason, status, created_by)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `,
+      [
+        refundData.payment_id,
+        refundData.stripe_refund_id,
+        refundData.amount,
+        refundData.reason,
+        refundData.status,
+        refundData.created_by,
+      ]
+    );
+  }
+
+  async getRefundsByPayment(paymentId: number) {
+    if (!this.db) await this.init();
+    return await this.db!.all(
+      `SELECT * FROM payment_refunds WHERE payment_id = ? ORDER BY created_at DESC`,
+      [paymentId]
+    );
+  }
 }

@@ -30,22 +30,22 @@ export default function PublicHome() {
   // Hero background images
   const heroImages = [
     {
-      url: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80",
+      gradient: "from-blue-900 via-indigo-800 to-purple-900",
       title: "Luxury Rooms & Suites",
       subtitle: "Experience comfort like never before"
     },
     {
-      url: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      gradient: "from-emerald-900 via-teal-800 to-cyan-900",
       title: "Fine Dining Experience",
       subtitle: "Culinary excellence at its finest"
     },
     {
-      url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+      gradient: "from-amber-900 via-orange-800 to-red-900",
       title: "Stunning City Views",
       subtitle: "Breathtaking panoramas from every window"
     },
     {
-      url: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      gradient: "from-violet-900 via-purple-800 to-pink-900",
       title: "Wellness & Spa",
       subtitle: "Rejuvenate your mind, body and soul"
     }
@@ -105,21 +105,21 @@ export default function PublicHome() {
     {
       name: "Standard Room",
       price: "$150",
-      image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "/placeholder.svg",
       features: ["King Size Bed", "City View", "Free WiFi", "Mini Bar"],
       description: "Comfortable and elegant accommodation with modern amenities",
     },
     {
       name: "Deluxe Suite",
       price: "$250",
-      image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "/placeholder.svg",
       features: ["Separate Living Area", "Ocean View", "Balcony", "Premium Bath"],
       description: "Spacious suite with stunning views and luxury amenities",
     },
     {
       name: "Presidential Suite",
       price: "$800",
-      image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "/placeholder.svg",
       features: ["2 Bedrooms", "Private Terrace", "Butler Service", "Jacuzzi"],
       description: "Ultimate luxury experience with exclusive services",
     },
@@ -132,7 +132,7 @@ export default function PublicHome() {
       rating: 5,
       comment: "Absolutely incredible experience! The staff was amazing and the room was perfect. Will definitely be back!",
       date: "2 days ago",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b1aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+      avatar: "/placeholder.svg"
     },
     {
       name: "Michael Chen",
@@ -140,7 +140,7 @@ export default function PublicHome() {
       rating: 5,
       comment: "The attention to detail and service quality exceeded all expectations. A truly luxury experience.",
       date: "1 week ago",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+      avatar: "/placeholder.svg"
     },
     {
       name: "Emily Davis",
@@ -148,7 +148,7 @@ export default function PublicHome() {
       rating: 5,
       comment: "Perfect for our anniversary celebration. The presidential suite was breathtaking!",
       date: "2 weeks ago",
-      avatar: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+      avatar: "/placeholder.svg"
     },
   ];
 

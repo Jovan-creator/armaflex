@@ -129,6 +129,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       isLoggedIn,
       logout,
       hasPermission,
+      login,
     }}>
       {children}
     </UserContext.Provider>

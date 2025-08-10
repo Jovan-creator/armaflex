@@ -11,7 +11,7 @@ import { HotelLayout } from "@/components/HotelLayout";
 import { PublicLayout } from "@/components/PublicLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
-import Rooms from "./pages/Rooms";
+import RoomsAdmin from "./pages/RoomsAdmin";
 import Reservations from "./pages/Reservations";
 import Guests from "./pages/Guests";
 import Billing from "./pages/Billing";

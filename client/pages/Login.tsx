@@ -372,7 +372,7 @@ export default function Login() {
 
         {/* Loading state */}
         {!isImageLoaded && (
-          <div className="absolute inset-0 bg-gradient-to-br from-luxury-900 via-luxury-800 to-luxury-900" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-800 to-purple-900 animate-pulse" />
         )}
       </div>
 

@@ -662,7 +662,7 @@ export default function ReservationsAdmin() {
                     setShowDetails(false);
                     setShowCheckIn(true);
                   }}>
-                    <CheckIn className="h-4 w-4 mr-2" />
+                    <LogIn className="h-4 w-4 mr-2" />
                     Check In
                   </Button>
                 )}

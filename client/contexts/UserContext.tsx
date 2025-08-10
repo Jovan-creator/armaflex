@@ -161,8 +161,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
       const data = await response.json();
 
       // Store token
-      localStorage.setItem("auth_token", data.token);
-      localStorage.setItem("user_data", JSON.stringify(data.user));
+      try {
+        localStorage.setItem("auth_token", data.token);
+        localStorage.setItem("user_data", JSON.stringify(data.user));
+      } catch (error) {
+        console.warn('Could not store auth data to localStorage:', error);
+      }
 
       // Set user in context
       setUser({

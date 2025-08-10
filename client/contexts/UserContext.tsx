@@ -61,11 +61,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   // Initialize user from stored data
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
-    const userData = localStorage.getItem('user_data');
+    try {
+      const token = localStorage.getItem('auth_token');
+      const userData = localStorage.getItem('user_data');
 
-    if (token && userData) {
-      try {
+      if (token && userData) {
         const parsedUser = JSON.parse(userData);
         setUser({
           id: parsedUser.id.toString(),
@@ -74,10 +74,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
           role: parsedUser.role,
           department: parsedUser.department
         });
-      } catch (error) {
-        console.error('Error parsing stored user data:', error);
+      }
+    } catch (error) {
+      console.error('Error initializing user from storage:', error);
+      // Clear potentially corrupted data
+      try {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user_data');
+      } catch (e) {
+        // localStorage might not be available
+        console.warn('localStorage not available');
       }
     }
   }, []);

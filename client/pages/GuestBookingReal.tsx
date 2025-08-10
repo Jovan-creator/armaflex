@@ -679,27 +679,43 @@ export default function GuestBookingReal() {
 
       {/* Step 5: Final Confirmation */}
       {step === 5 && (
-        <Card>
-          <CardHeader className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Check className="w-8 h-8 text-green-600" />
-            </div>
-            <CardTitle className="text-2xl text-green-700">
-              Booking Confirmed!
-            </CardTitle>
-            <CardDescription>
-              Thank you for choosing Armaflex Hotel
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600">
-              A confirmation email has been sent to {guest.email}
-            </p>
-            <Button onClick={() => window.location.reload()} className="w-full">
-              Make Another Booking
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="space-y-6">
+          {paymentIntentId && (
+            <PaymentSuccess
+              paymentIntentId={paymentIntentId}
+              amount={calculateTotal()}
+              currency="USD"
+            />
+          )}
+
+          <Card>
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Check className="w-8 h-8 text-green-600" />
+              </div>
+              <CardTitle className="text-2xl text-green-700">
+                Booking Confirmed!
+              </CardTitle>
+              <CardDescription>
+                Thank you for choosing Armaflex Hotel
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              {reservationId && (
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600">Reservation Number</p>
+                  <p className="text-xl font-bold">#{reservationId}</p>
+                </div>
+              )}
+              <p className="text-gray-600">
+                A confirmation email with your booking details and receipt has been sent to {guest.email}
+              </p>
+              <Button onClick={() => window.location.reload()} className="w-full">
+                Make Another Booking
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

@@ -307,16 +307,19 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
             <p className="text-sm text-gray-500">Guest Portal</p>
           </div>
         </div>
-        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-80 p-0">
-            <SidebarContent />
-          </SheetContent>
-        </Sheet>
+        <div className="flex items-center space-x-2">
+          <LanguageSwitcher variant="minimal" />
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-80 p-0">
+              <SidebarContent />
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
 
       <div className="flex">

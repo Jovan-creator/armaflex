@@ -232,6 +232,61 @@ router.post("/users", authenticateToken, async (req, res) => {
   }
 });
 
+router.put("/users/:id", authenticateToken, async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const userId = parseInt(req.params.id);
+    await db.updateUser(userId, req.body);
+    res.json({ message: "User updated successfully" });
+  } catch (error) {
+    console.error("Update user error:", error);
+    res.status(500).json({ error: "Failed to update user" });
+  }
+});
+
+router.put("/users/:id/status", authenticateToken, async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const userId = parseInt(req.params.id);
+    const { is_active } = req.body;
+    await db.updateUserStatus(userId, is_active);
+    res.json({ message: "User status updated successfully" });
+  } catch (error) {
+    console.error("Update user status error:", error);
+    res.status(500).json({ error: "Failed to update user status" });
+  }
+});
+
+router.delete("/users/:id", authenticateToken, async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const userId = parseInt(req.params.id);
+
+    // Prevent deleting self
+    if (userId === user.id) {
+      return res.status(400).json({ error: "Cannot delete your own account" });
+    }
+
+    await db.deleteUser(userId);
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Delete user error:", error);
+    res.status(500).json({ error: "Failed to delete user" });
+  }
+});
+
 // Health check
 router.get("/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });

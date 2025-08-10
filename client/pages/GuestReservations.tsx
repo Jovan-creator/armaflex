@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import {
   Calendar,
@@ -35,7 +47,13 @@ const mockReservations = [
       type: "Deluxe Suite",
       floor: 2,
       view: "City View",
-      amenities: ["King Bed", "Balcony", "Mini Bar", "Free WiFi", "Room Service"],
+      amenities: [
+        "King Bed",
+        "Balcony",
+        "Mini Bar",
+        "Free WiFi",
+        "Room Service",
+      ],
     },
     dates: {
       checkIn: "2024-01-15T15:00:00",
@@ -48,15 +66,25 @@ const mockReservations = [
       names: ["Sarah Johnson", "Michael Johnson"],
     },
     payment: {
-      total: 847.50,
-      paid: 847.50,
+      total: 847.5,
+      paid: 847.5,
       pending: 0,
       method: "Credit Card",
       status: "paid",
     },
     services: [
-      { name: "Airport Pickup", date: "2024-01-15", status: "completed", amount: 50.00 },
-      { name: "Spa Treatment", date: "2024-01-16", status: "confirmed", amount: 150.00 },
+      {
+        name: "Airport Pickup",
+        date: "2024-01-15",
+        status: "completed",
+        amount: 50.0,
+      },
+      {
+        name: "Spa Treatment",
+        date: "2024-01-16",
+        status: "confirmed",
+        amount: 150.0,
+      },
     ],
     specialRequests: "Late check-out requested, celebrating anniversary",
   },
@@ -69,7 +97,13 @@ const mockReservations = [
       type: "Presidential Suite",
       floor: 3,
       view: "Ocean View",
-      amenities: ["King Bed", "Living Room", "Jacuzzi", "Butler Service", "Free WiFi"],
+      amenities: [
+        "King Bed",
+        "Living Room",
+        "Jacuzzi",
+        "Butler Service",
+        "Free WiFi",
+      ],
     },
     dates: {
       checkIn: "2024-03-15T15:00:00",
@@ -82,9 +116,9 @@ const mockReservations = [
       names: ["Sarah Johnson", "Michael Johnson", "Emma Johnson"],
     },
     payment: {
-      total: 2250.00,
-      paid: 450.00,
-      pending: 1800.00,
+      total: 2250.0,
+      paid: 450.0,
+      pending: 1800.0,
       method: "Credit Card",
       status: "partial",
     },
@@ -114,12 +148,13 @@ const mockPastReservations = [
       children: 0,
     },
     payment: {
-      total: 675.00,
-      paid: 675.00,
+      total: 675.0,
+      paid: 675.0,
       status: "paid",
     },
     rating: 5,
-    review: "Excellent stay! The staff was incredibly helpful and the room was spotless.",
+    review:
+      "Excellent stay! The staff was incredibly helpful and the room was spotless.",
   },
 ];
 
@@ -128,13 +163,15 @@ export default function GuestReservations() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'checked-in':
-        return <Badge className="bg-green-100 text-green-800">Checked In</Badge>;
-      case 'upcoming':
+      case "checked-in":
+        return (
+          <Badge className="bg-green-100 text-green-800">Checked In</Badge>
+        );
+      case "upcoming":
         return <Badge className="bg-blue-100 text-blue-800">Upcoming</Badge>;
-      case 'completed':
+      case "completed":
         return <Badge className="bg-gray-100 text-gray-800">Completed</Badge>;
-      case 'cancelled':
+      case "cancelled":
         return <Badge className="bg-red-100 text-red-800">Cancelled</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
@@ -143,11 +180,11 @@ export default function GuestReservations() {
 
   const getPaymentStatusBadge = (status: string) => {
     switch (status) {
-      case 'paid':
+      case "paid":
         return <Badge className="bg-green-100 text-green-800">Paid</Badge>;
-      case 'partial':
+      case "partial":
         return <Badge className="bg-yellow-100 text-yellow-800">Partial</Badge>;
-      case 'pending':
+      case "pending":
         return <Badge className="bg-red-100 text-red-800">Pending</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
@@ -158,10 +195,10 @@ export default function GuestReservations() {
     const now = new Date();
     const start = new Date(checkIn);
     const end = new Date(checkOut);
-    
+
     if (now < start) return 0;
     if (now > end) return 100;
-    
+
     const total = end.getTime() - start.getTime();
     const elapsed = now.getTime() - start.getTime();
     return Math.round((elapsed / total) * 100);
@@ -187,7 +224,9 @@ export default function GuestReservations() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center space-x-2">
-                      <span>{reservation.room.type} - Room {reservation.room.number}</span>
+                      <span>
+                        {reservation.room.type} - Room {reservation.room.number}
+                      </span>
                       {getStatusBadge(reservation.status)}
                     </CardTitle>
                     <CardDescription>
@@ -195,8 +234,12 @@ export default function GuestReservations() {
                     </CardDescription>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold">${reservation.payment.total}</div>
-                    <div className="text-sm text-gray-600">{reservation.dates.nights} nights</div>
+                    <div className="text-2xl font-bold">
+                      ${reservation.payment.total}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {reservation.dates.nights} nights
+                    </div>
                   </div>
                 </div>
               </CardHeader>
@@ -209,7 +252,9 @@ export default function GuestReservations() {
                     <div>
                       <p className="font-medium">Check-in</p>
                       <p className="text-sm text-gray-600">
-                        {new Date(reservation.dates.checkIn).toLocaleDateString()}
+                        {new Date(
+                          reservation.dates.checkIn,
+                        ).toLocaleDateString()}
                       </p>
                       <p className="text-xs text-gray-500">After 3:00 PM</p>
                     </div>
@@ -219,7 +264,9 @@ export default function GuestReservations() {
                     <div>
                       <p className="font-medium">Check-out</p>
                       <p className="text-sm text-gray-600">
-                        {new Date(reservation.dates.checkOut).toLocaleDateString()}
+                        {new Date(
+                          reservation.dates.checkOut,
+                        ).toLocaleDateString()}
                       </p>
                       <p className="text-xs text-gray-500">Before 11:00 AM</p>
                     </div>
@@ -227,16 +274,23 @@ export default function GuestReservations() {
                 </div>
 
                 {/* Stay Progress (only for checked-in) */}
-                {reservation.status === 'checked-in' && (
+                {reservation.status === "checked-in" && (
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm font-medium">Stay Progress</span>
                       <span className="text-sm text-gray-600">
-                        {calculateStayProgress(reservation.dates.checkIn, reservation.dates.checkOut)}%
+                        {calculateStayProgress(
+                          reservation.dates.checkIn,
+                          reservation.dates.checkOut,
+                        )}
+                        %
                       </span>
                     </div>
-                    <Progress 
-                      value={calculateStayProgress(reservation.dates.checkIn, reservation.dates.checkOut)} 
+                    <Progress
+                      value={calculateStayProgress(
+                        reservation.dates.checkIn,
+                        reservation.dates.checkOut,
+                      )}
                       className="h-2"
                     />
                   </div>
@@ -261,20 +315,29 @@ export default function GuestReservations() {
                     </div>
                     <div>
                       <p className="text-gray-600">Floor</p>
-                      <p className="font-medium">Floor {reservation.room.floor}</p>
+                      <p className="font-medium">
+                        Floor {reservation.room.floor}
+                      </p>
                     </div>
                     <div>
                       <p className="text-gray-600">Guests</p>
-                      <p className="font-medium">{reservation.guests.adults} Adults, {reservation.guests.children} Children</p>
+                      <p className="font-medium">
+                        {reservation.guests.adults} Adults,{" "}
+                        {reservation.guests.children} Children
+                      </p>
                     </div>
                   </div>
-                  
+
                   {reservation.room.amenities && (
                     <div className="mt-3">
                       <p className="text-gray-600 text-sm mb-2">Amenities</p>
                       <div className="flex flex-wrap gap-1">
                         {reservation.room.amenities.map((amenity, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="text-xs"
+                          >
                             {amenity}
                           </Badge>
                         ))}
@@ -295,21 +358,29 @@ export default function GuestReservations() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div>
                       <p className="text-gray-600">Total Amount</p>
-                      <p className="font-medium">${reservation.payment.total}</p>
+                      <p className="font-medium">
+                        ${reservation.payment.total}
+                      </p>
                     </div>
                     <div>
                       <p className="text-gray-600">Paid</p>
-                      <p className="font-medium text-green-600">${reservation.payment.paid}</p>
+                      <p className="font-medium text-green-600">
+                        ${reservation.payment.paid}
+                      </p>
                     </div>
                     {reservation.payment.pending > 0 && (
                       <div>
                         <p className="text-gray-600">Remaining</p>
-                        <p className="font-medium text-red-600">${reservation.payment.pending}</p>
+                        <p className="font-medium text-red-600">
+                          ${reservation.payment.pending}
+                        </p>
                       </div>
                     )}
                     <div>
                       <p className="text-gray-600">Method</p>
-                      <p className="font-medium">{reservation.payment.method}</p>
+                      <p className="font-medium">
+                        {reservation.payment.method}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -322,14 +393,26 @@ export default function GuestReservations() {
                       <h4 className="font-medium mb-3">Additional Services</h4>
                       <div className="space-y-2">
                         {reservation.services.map((service, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                          <div
+                            key={index}
+                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                          >
                             <div>
                               <p className="font-medium">{service.name}</p>
-                              <p className="text-sm text-gray-600">{new Date(service.date).toLocaleDateString()}</p>
+                              <p className="text-sm text-gray-600">
+                                {new Date(service.date).toLocaleDateString()}
+                              </p>
                             </div>
                             <div className="text-right">
                               <p className="font-medium">${service.amount}</p>
-                              <Badge variant={service.status === 'completed' ? 'default' : 'secondary'} className="text-xs">
+                              <Badge
+                                variant={
+                                  service.status === "completed"
+                                    ? "default"
+                                    : "secondary"
+                                }
+                                className="text-xs"
+                              >
                                 {service.status}
                               </Badge>
                             </div>
@@ -390,7 +473,7 @@ export default function GuestReservations() {
                     Share
                   </Button>
 
-                  {reservation.status === 'upcoming' && (
+                  {reservation.status === "upcoming" && (
                     <Button variant="outline" size="sm">
                       <Edit className="h-4 w-4 mr-2" />
                       Modify
@@ -416,22 +499,32 @@ export default function GuestReservations() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center space-x-2">
-                      <span>{reservation.room.type} - Room {reservation.room.number}</span>
+                      <span>
+                        {reservation.room.type} - Room {reservation.room.number}
+                      </span>
                       {getStatusBadge(reservation.status)}
                     </CardTitle>
                     <CardDescription>
-                      {new Date(reservation.dates.checkIn).toLocaleDateString()} - {new Date(reservation.dates.checkOut).toLocaleDateString()}
+                      {new Date(reservation.dates.checkIn).toLocaleDateString()}{" "}
+                      -{" "}
+                      {new Date(
+                        reservation.dates.checkOut,
+                      ).toLocaleDateString()}
                     </CardDescription>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold">${reservation.payment.total}</div>
+                    <div className="text-xl font-bold">
+                      ${reservation.payment.total}
+                    </div>
                     {reservation.rating && (
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
                             className={`h-4 w-4 ${
-                              i < reservation.rating ? 'text-yellow-500 fill-current' : 'text-gray-300'
+                              i < reservation.rating
+                                ? "text-yellow-500 fill-current"
+                                : "text-gray-300"
                             }`}
                           />
                         ))}
@@ -444,7 +537,9 @@ export default function GuestReservations() {
               <CardContent className="space-y-4">
                 {reservation.review && (
                   <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-700">"{reservation.review}"</p>
+                    <p className="text-sm text-gray-700">
+                      "{reservation.review}"
+                    </p>
                   </div>
                 )}
 

@@ -137,23 +137,23 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('guestToken');
-    navigate('/guest/login');
+    localStorage.removeItem("guestToken");
+    navigate("/guest/login");
   };
 
   const handleQuickAction = (action: string) => {
     switch (action) {
-      case 'request-room-service':
-        navigate('/guest/services?category=room-service');
+      case "request-room-service":
+        navigate("/guest/services?category=room-service");
         break;
-      case 'request-housekeeping':
-        navigate('/guest/services?category=housekeeping');
+      case "request-housekeeping":
+        navigate("/guest/services?category=housekeeping");
         break;
-      case 'call-concierge':
-        window.open('tel:+1-555-CONCIERGE', '_self');
+      case "call-concierge":
+        window.open("tel:+1-555-CONCIERGE", "_self");
         break;
-      case 'wifi-info':
-        alert('WiFi Network: ArmafleXGuest\nPassword: Welcome2024');
+      case "wifi-info":
+        alert("WiFi Network: ArmafleXGuest\nPassword: Welcome2024");
         break;
     }
   };
@@ -177,23 +177,35 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
           <CardContent className="p-4">
             <div className="flex items-center space-x-3 mb-3">
               <Avatar className="h-12 w-12">
-                <AvatarImage src={mockGuest.avatar || ''} />
+                <AvatarImage src={mockGuest.avatar || ""} />
                 <AvatarFallback className="bg-hotel-500 text-white">
-                  {mockGuest.name.split(' ').map(n => n[0]).join('')}
+                  {mockGuest.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900">{mockGuest.name}</h3>
+                <h3 className="font-semibold text-gray-900">
+                  {mockGuest.name}
+                </h3>
                 <p className="text-sm text-gray-600">{mockGuest.room}</p>
               </div>
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
-                {mockGuest.status === 'checked-in' ? 'Checked In' : 'Reserved'}
+              <Badge
+                variant="secondary"
+                className="bg-green-100 text-green-800"
+              >
+                {mockGuest.status === "checked-in" ? "Checked In" : "Reserved"}
               </Badge>
             </div>
             <div className="text-xs text-gray-600">
               <div className="flex justify-between">
-                <span>Check-in: {new Date(mockGuest.checkIn).toLocaleDateString()}</span>
-                <span>Check-out: {new Date(mockGuest.checkOut).toLocaleDateString()}</span>
+                <span>
+                  Check-in: {new Date(mockGuest.checkIn).toLocaleDateString()}
+                </span>
+                <span>
+                  Check-out: {new Date(mockGuest.checkOut).toLocaleDateString()}
+                </span>
               </div>
             </div>
           </CardContent>
@@ -208,7 +220,7 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
           {navigationItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.href;
-            
+
             return (
               <Link
                 key={item.href}
@@ -218,13 +230,15 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
                   "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100",
                   isActive
                     ? "bg-hotel-100 text-hotel-700 border-r-2 border-hotel-500"
-                    : "text-gray-600 hover:text-gray-900"
+                    : "text-gray-600 hover:text-gray-900",
                 )}
               >
                 <Icon className="h-5 w-5" />
                 <div className="flex-1">
                   <div>{item.title}</div>
-                  <div className="text-xs text-gray-500">{item.description}</div>
+                  <div className="text-xs text-gray-500">
+                    {item.description}
+                  </div>
                 </div>
               </Link>
             );
@@ -236,7 +250,9 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
 
       {/* Quick Actions */}
       <div className="p-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-3">Quick Actions</h4>
+        <h4 className="text-sm font-semibold text-gray-900 mb-3">
+          Quick Actions
+        </h4>
         <div className="grid grid-cols-2 gap-2">
           {quickActions.map((action) => {
             const Icon = action.icon;
@@ -248,7 +264,12 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
                 onClick={() => handleQuickAction(action.action)}
                 className="h-auto p-3 flex flex-col space-y-1"
               >
-                <div className={cn("h-8 w-8 rounded-full flex items-center justify-center", action.color)}>
+                <div
+                  className={cn(
+                    "h-8 w-8 rounded-full flex items-center justify-center",
+                    action.color,
+                  )}
+                >
                   <Icon className="h-4 w-4 text-white" />
                 </div>
                 <span className="text-xs">{action.title}</span>
@@ -305,9 +326,7 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
 
         {/* Main Content */}
         <div className="flex-1 lg:ml-80">
-          <div className="p-6">
-            {children}
-          </div>
+          <div className="p-6">{children}</div>
         </div>
       </div>
     </div>

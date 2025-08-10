@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   CreditCard,
   Download,
@@ -31,10 +43,10 @@ const mockBilling = {
     checkIn: "2024-01-15",
     checkOut: "2024-01-18",
     nights: 3,
-    baseAmount: 750.00,
-    taxes: 97.50,
-    total: 847.50,
-    paid: 847.50,
+    baseAmount: 750.0,
+    taxes: 97.5,
+    total: 847.5,
+    paid: 847.5,
     balance: 0,
     paymentMethod: "****1234",
   },
@@ -45,7 +57,7 @@ const mockBilling = {
       time: "15:30",
       description: "Room Charge - Deluxe Suite 201",
       category: "accommodation",
-      amount: 250.00,
+      amount: 250.0,
       status: "posted",
     },
     {
@@ -54,7 +66,7 @@ const mockBilling = {
       time: "20:45",
       description: "Room Service - Dinner",
       category: "dining",
-      amount: 65.50,
+      amount: 65.5,
       status: "posted",
     },
     {
@@ -63,7 +75,7 @@ const mockBilling = {
       time: "08:30",
       description: "Room Service - Breakfast",
       category: "dining",
-      amount: 25.00,
+      amount: 25.0,
       status: "posted",
     },
     {
@@ -72,7 +84,7 @@ const mockBilling = {
       time: "14:20",
       description: "Spa Treatment - Massage",
       category: "spa",
-      amount: 150.00,
+      amount: 150.0,
       status: "posted",
     },
     {
@@ -81,7 +93,7 @@ const mockBilling = {
       time: "15:00",
       description: "Room Charge - Deluxe Suite 201",
       category: "accommodation",
-      amount: 250.00,
+      amount: 250.0,
       status: "pending",
     },
     {
@@ -90,7 +102,7 @@ const mockBilling = {
       time: "19:30",
       description: "Minibar - Beverages",
       category: "minibar",
-      amount: 35.00,
+      amount: 35.0,
       status: "pending",
     },
   ],
@@ -99,18 +111,18 @@ const mockBilling = {
       id: "RCP-001",
       date: "2024-01-15",
       description: "Initial Payment",
-      amount: 847.50,
+      amount: 847.5,
       method: "Credit Card ****1234",
       status: "completed",
     },
   ],
   summary: {
-    accommodation: 500.00,
-    dining: 90.50,
-    spa: 150.00,
-    minibar: 35.00,
+    accommodation: 500.0,
+    dining: 90.5,
+    spa: 150.0,
+    minibar: 35.0,
     other: 0,
-  }
+  },
 };
 
 const categoryIcons = {
@@ -136,11 +148,11 @@ export default function GuestBilling() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'posted':
+      case "posted":
         return <Badge className="bg-green-100 text-green-800">Posted</Badge>;
-      case 'pending':
+      case "pending":
         return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
-      case 'disputed':
+      case "disputed":
         return <Badge className="bg-red-100 text-red-800">Disputed</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
@@ -153,7 +165,9 @@ export default function GuestBilling() {
   };
 
   const getCategoryBadge = (category: string) => {
-    const colorClass = categoryColors[category as keyof typeof categoryColors] || categoryColors.other;
+    const colorClass =
+      categoryColors[category as keyof typeof categoryColors] ||
+      categoryColors.other;
     return (
       <Badge className={colorClass}>
         {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -176,7 +190,8 @@ export default function GuestBilling() {
             <span>Current Stay Summary</span>
           </CardTitle>
           <CardDescription>
-            {mockBilling.currentStay.room} • {mockBilling.currentStay.checkIn} to {mockBilling.currentStay.checkOut}
+            {mockBilling.currentStay.room} • {mockBilling.currentStay.checkIn}{" "}
+            to {mockBilling.currentStay.checkOut}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -184,7 +199,9 @@ export default function GuestBilling() {
             <div className="md:col-span-2">
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Room Charges ({mockBilling.currentStay.nights} nights)</span>
+                  <span className="text-gray-600">
+                    Room Charges ({mockBilling.currentStay.nights} nights)
+                  </span>
                   <span>${mockBilling.currentStay.baseAmount}</span>
                 </div>
                 <div className="flex justify-between">
@@ -202,7 +219,13 @@ export default function GuestBilling() {
                 </div>
                 <div className="flex justify-between font-semibold">
                   <span>Balance Due</span>
-                  <span className={mockBilling.currentStay.balance > 0 ? "text-red-600" : "text-green-600"}>
+                  <span
+                    className={
+                      mockBilling.currentStay.balance > 0
+                        ? "text-red-600"
+                        : "text-green-600"
+                    }
+                  >
                     ${mockBilling.currentStay.balance}
                   </span>
                 </div>
@@ -213,17 +236,21 @@ export default function GuestBilling() {
               <div className="bg-gray-50 p-4 rounded-lg">
                 <h4 className="font-medium mb-3">Charges by Category</h4>
                 <div className="space-y-2 text-sm">
-                  {Object.entries(mockBilling.summary).map(([category, amount]) => (
-                    amount > 0 && (
-                      <div key={category} className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          {getCategoryIcon(category)}
-                          <span className="capitalize">{category}</span>
+                  {Object.entries(mockBilling.summary).map(
+                    ([category, amount]) =>
+                      amount > 0 && (
+                        <div
+                          key={category}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-2">
+                            {getCategoryIcon(category)}
+                            <span className="capitalize">{category}</span>
+                          </div>
+                          <span>${amount}</span>
                         </div>
-                        <span>${amount}</span>
-                      </div>
-                    )
-                  ))}
+                      ),
+                  )}
                 </div>
               </div>
 
@@ -273,7 +300,9 @@ export default function GuestBilling() {
                       <div>
                         <h4 className="font-medium">{charge.description}</h4>
                         <div className="flex items-center space-x-2 text-sm text-gray-600">
-                          <span>{new Date(charge.date).toLocaleDateString()}</span>
+                          <span>
+                            {new Date(charge.date).toLocaleDateString()}
+                          </span>
                           <span>•</span>
                           <span>{charge.time}</span>
                           <span>•</span>
@@ -323,7 +352,9 @@ export default function GuestBilling() {
                       <div>
                         <h4 className="font-medium">{receipt.description}</h4>
                         <div className="flex items-center space-x-2 text-sm text-gray-600">
-                          <span>{new Date(receipt.date).toLocaleDateString()}</span>
+                          <span>
+                            {new Date(receipt.date).toLocaleDateString()}
+                          </span>
                           <span>•</span>
                           <span>{receipt.method}</span>
                         </div>
@@ -331,8 +362,12 @@ export default function GuestBilling() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="text-right">
-                        <div className="font-semibold text-green-600">${receipt.amount}</div>
-                        <Badge className="bg-green-100 text-green-800">{receipt.status}</Badge>
+                        <div className="font-semibold text-green-600">
+                          ${receipt.amount}
+                        </div>
+                        <Badge className="bg-green-100 text-green-800">
+                          {receipt.status}
+                        </Badge>
                       </div>
                       <Button variant="ghost" size="sm">
                         <Download className="h-4 w-4" />
@@ -349,9 +384,7 @@ export default function GuestBilling() {
           <Card>
             <CardHeader>
               <CardTitle>Available Receipts</CardTitle>
-              <CardDescription>
-                Download or email your receipts
-              </CardDescription>
+              <CardDescription>Download or email your receipts</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -360,7 +393,9 @@ export default function GuestBilling() {
                     <Receipt className="h-10 w-10 text-gray-600" />
                     <div>
                       <h4 className="font-medium">Hotel Invoice</h4>
-                      <p className="text-sm text-gray-600">Complete itemized bill</p>
+                      <p className="text-sm text-gray-600">
+                        Complete itemized bill
+                      </p>
                     </div>
                   </div>
                   <div className="flex space-x-2">
@@ -405,20 +440,27 @@ export default function GuestBilling() {
       </Tabs>
 
       {/* Charge Detail Dialog */}
-      <Dialog open={selectedCharge !== null} onOpenChange={() => setSelectedCharge(null)}>
+      <Dialog
+        open={selectedCharge !== null}
+        onOpenChange={() => setSelectedCharge(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Charge Details</DialogTitle>
           </DialogHeader>
-          
+
           {selectedCharge && (
             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2">{selectedCharge.description}</h4>
+                <h4 className="font-semibold mb-2">
+                  {selectedCharge.description}
+                </h4>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
                     <span className="text-gray-600">Date:</span>
-                    <span className="ml-2">{new Date(selectedCharge.date).toLocaleDateString()}</span>
+                    <span className="ml-2">
+                      {new Date(selectedCharge.date).toLocaleDateString()}
+                    </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Time:</span>
@@ -426,18 +468,24 @@ export default function GuestBilling() {
                   </div>
                   <div>
                     <span className="text-gray-600">Category:</span>
-                    <span className="ml-2 capitalize">{selectedCharge.category}</span>
+                    <span className="ml-2 capitalize">
+                      {selectedCharge.category}
+                    </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Status:</span>
-                    <span className="ml-2 capitalize">{selectedCharge.status}</span>
+                    <span className="ml-2 capitalize">
+                      {selectedCharge.status}
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold">Amount:</span>
-                <span className="text-xl font-bold">${selectedCharge.amount}</span>
+                <span className="text-xl font-bold">
+                  ${selectedCharge.amount}
+                </span>
               </div>
 
               <Separator />

@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +15,13 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import {
   User,
@@ -59,7 +71,7 @@ const mockGuest = {
     nextTierPoints: 4580,
     memberSince: "2020-06-15",
     totalStays: 28,
-    totalSpent: 12450.00,
+    totalSpent: 12450.0,
   },
   notifications: {
     email: {
@@ -91,7 +103,7 @@ const mockGuest = {
     },
     {
       id: "pm-2",
-      type: "credit", 
+      type: "credit",
       last4: "5678",
       brand: "Mastercard",
       expiryMonth: 8,
@@ -124,18 +136,18 @@ export default function GuestProfile() {
 
   const getLoyaltyBadgeColor = (tier: string) => {
     switch (tier.toLowerCase()) {
-      case 'bronze':
-        return 'bg-amber-100 text-amber-800';
-      case 'silver':
-        return 'bg-gray-100 text-gray-800';
-      case 'gold':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'platinum':
-        return 'bg-purple-100 text-purple-800';
-      case 'diamond':
-        return 'bg-blue-100 text-blue-800';
+      case "bronze":
+        return "bg-amber-100 text-amber-800";
+      case "silver":
+        return "bg-gray-100 text-gray-800";
+      case "gold":
+        return "bg-yellow-100 text-yellow-800";
+      case "platinum":
+        return "bg-purple-100 text-purple-800";
+      case "diamond":
+        return "bg-blue-100 text-blue-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -144,7 +156,9 @@ export default function GuestProfile() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">My Profile</h1>
-          <p className="text-gray-600">Manage your account information and preferences</p>
+          <p className="text-gray-600">
+            Manage your account information and preferences
+          </p>
         </div>
         <Button onClick={isEditing ? handleSave : () => setIsEditing(true)}>
           {isEditing ? (
@@ -169,7 +183,8 @@ export default function GuestProfile() {
               <Avatar className="h-24 w-24">
                 <AvatarImage src="" />
                 <AvatarFallback className="text-xl bg-hotel-500 text-white">
-                  {profileData.firstName[0]}{profileData.lastName[0]}
+                  {profileData.firstName[0]}
+                  {profileData.lastName[0]}
                 </AvatarFallback>
               </Avatar>
               {isEditing && (
@@ -183,21 +198,30 @@ export default function GuestProfile() {
             </div>
 
             <div className="flex-1">
-              <h2 className="text-2xl font-bold">{profileData.firstName} {profileData.lastName}</h2>
+              <h2 className="text-2xl font-bold">
+                {profileData.firstName} {profileData.lastName}
+              </h2>
               <p className="text-gray-600">{profileData.email}</p>
               <div className="flex items-center space-x-4 mt-2">
-                <Badge className={getLoyaltyBadgeColor(profileData.loyalty.tier)}>
+                <Badge
+                  className={getLoyaltyBadgeColor(profileData.loyalty.tier)}
+                >
                   <Crown className="h-3 w-3 mr-1" />
                   {profileData.loyalty.tier} Member
                 </Badge>
                 <span className="text-sm text-gray-500">
-                  Member since {new Date(profileData.loyalty.memberSince).toLocaleDateString()}
+                  Member since{" "}
+                  {new Date(
+                    profileData.loyalty.memberSince,
+                  ).toLocaleDateString()}
                 </span>
               </div>
             </div>
 
             <div className="text-right">
-              <div className="text-2xl font-bold text-hotel-600">{profileData.loyalty.points.toLocaleString()}</div>
+              <div className="text-2xl font-bold text-hotel-600">
+                {profileData.loyalty.points.toLocaleString()}
+              </div>
               <div className="text-sm text-gray-600">Loyalty Points</div>
             </div>
           </div>
@@ -227,7 +251,12 @@ export default function GuestProfile() {
                     id="firstName"
                     value={profileData.firstName}
                     disabled={!isEditing}
-                    onChange={(e) => setProfileData({...profileData, firstName: e.target.value})}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        firstName: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div>
@@ -236,7 +265,12 @@ export default function GuestProfile() {
                     id="lastName"
                     value={profileData.lastName}
                     disabled={!isEditing}
-                    onChange={(e) => setProfileData({...profileData, lastName: e.target.value})}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        lastName: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div>
@@ -246,7 +280,9 @@ export default function GuestProfile() {
                     type="email"
                     value={profileData.email}
                     disabled={!isEditing}
-                    onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                    onChange={(e) =>
+                      setProfileData({ ...profileData, email: e.target.value })
+                    }
                   />
                 </div>
                 <div>
@@ -256,7 +292,9 @@ export default function GuestProfile() {
                     type="tel"
                     value={profileData.phone}
                     disabled={!isEditing}
-                    onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
+                    onChange={(e) =>
+                      setProfileData({ ...profileData, phone: e.target.value })
+                    }
                   />
                 </div>
                 <div>
@@ -266,7 +304,12 @@ export default function GuestProfile() {
                     type="date"
                     value={profileData.dateOfBirth}
                     disabled={!isEditing}
-                    onChange={(e) => setProfileData({...profileData, dateOfBirth: e.target.value})}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        dateOfBirth: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -282,10 +325,15 @@ export default function GuestProfile() {
                       id="street"
                       value={profileData.address.street}
                       disabled={!isEditing}
-                      onChange={(e) => setProfileData({
-                        ...profileData,
-                        address: {...profileData.address, street: e.target.value}
-                      })}
+                      onChange={(e) =>
+                        setProfileData({
+                          ...profileData,
+                          address: {
+                            ...profileData.address,
+                            street: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -294,10 +342,15 @@ export default function GuestProfile() {
                       id="city"
                       value={profileData.address.city}
                       disabled={!isEditing}
-                      onChange={(e) => setProfileData({
-                        ...profileData,
-                        address: {...profileData.address, city: e.target.value}
-                      })}
+                      onChange={(e) =>
+                        setProfileData({
+                          ...profileData,
+                          address: {
+                            ...profileData.address,
+                            city: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -306,10 +359,15 @@ export default function GuestProfile() {
                       id="state"
                       value={profileData.address.state}
                       disabled={!isEditing}
-                      onChange={(e) => setProfileData({
-                        ...profileData,
-                        address: {...profileData.address, state: e.target.value}
-                      })}
+                      onChange={(e) =>
+                        setProfileData({
+                          ...profileData,
+                          address: {
+                            ...profileData.address,
+                            state: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -318,10 +376,15 @@ export default function GuestProfile() {
                       id="zipCode"
                       value={profileData.address.zipCode}
                       disabled={!isEditing}
-                      onChange={(e) => setProfileData({
-                        ...profileData,
-                        address: {...profileData.address, zipCode: e.target.value}
-                      })}
+                      onChange={(e) =>
+                        setProfileData({
+                          ...profileData,
+                          address: {
+                            ...profileData.address,
+                            zipCode: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -330,10 +393,15 @@ export default function GuestProfile() {
                       id="country"
                       value={profileData.address.country}
                       disabled={!isEditing}
-                      onChange={(e) => setProfileData({
-                        ...profileData,
-                        address: {...profileData.address, country: e.target.value}
-                      })}
+                      onChange={(e) =>
+                        setProfileData({
+                          ...profileData,
+                          address: {
+                            ...profileData.address,
+                            country: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -346,7 +414,9 @@ export default function GuestProfile() {
           <Card>
             <CardHeader>
               <CardTitle>Stay Preferences</CardTitle>
-              <CardDescription>Customize your hotel stay experience</CardDescription>
+              <CardDescription>
+                Customize your hotel stay experience
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -354,10 +424,15 @@ export default function GuestProfile() {
                   <Label htmlFor="roomType">Preferred Room Type</Label>
                   <Select
                     value={profileData.preferences.roomType}
-                    onValueChange={(value) => setProfileData({
-                      ...profileData,
-                      preferences: {...profileData.preferences, roomType: value}
-                    })}
+                    onValueChange={(value) =>
+                      setProfileData({
+                        ...profileData,
+                        preferences: {
+                          ...profileData.preferences,
+                          roomType: value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                   >
                     <SelectTrigger>
@@ -367,7 +442,9 @@ export default function GuestProfile() {
                       <SelectItem value="standard">Standard Room</SelectItem>
                       <SelectItem value="deluxe">Deluxe Room</SelectItem>
                       <SelectItem value="suite">Suite</SelectItem>
-                      <SelectItem value="presidential">Presidential Suite</SelectItem>
+                      <SelectItem value="presidential">
+                        Presidential Suite
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -375,10 +452,15 @@ export default function GuestProfile() {
                   <Label htmlFor="bedType">Bed Preference</Label>
                   <Select
                     value={profileData.preferences.bedType}
-                    onValueChange={(value) => setProfileData({
-                      ...profileData,
-                      preferences: {...profileData.preferences, bedType: value}
-                    })}
+                    onValueChange={(value) =>
+                      setProfileData({
+                        ...profileData,
+                        preferences: {
+                          ...profileData.preferences,
+                          bedType: value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                   >
                     <SelectTrigger>
@@ -396,10 +478,15 @@ export default function GuestProfile() {
                   <Label htmlFor="floorPreference">Floor Preference</Label>
                   <Select
                     value={profileData.preferences.floorPreference}
-                    onValueChange={(value) => setProfileData({
-                      ...profileData,
-                      preferences: {...profileData.preferences, floorPreference: value}
-                    })}
+                    onValueChange={(value) =>
+                      setProfileData({
+                        ...profileData,
+                        preferences: {
+                          ...profileData.preferences,
+                          floorPreference: value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                   >
                     <SelectTrigger>
@@ -407,7 +494,9 @@ export default function GuestProfile() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="low">Lower Floors (1-3)</SelectItem>
-                      <SelectItem value="middle">Middle Floors (4-7)</SelectItem>
+                      <SelectItem value="middle">
+                        Middle Floors (4-7)
+                      </SelectItem>
                       <SelectItem value="high">Higher Floors (8+)</SelectItem>
                       <SelectItem value="any">No Preference</SelectItem>
                     </SelectContent>
@@ -417,10 +506,15 @@ export default function GuestProfile() {
                   <Switch
                     id="smokingRoom"
                     checked={profileData.preferences.smokingRoom}
-                    onCheckedChange={(checked) => setProfileData({
-                      ...profileData,
-                      preferences: {...profileData.preferences, smokingRoom: checked}
-                    })}
+                    onCheckedChange={(checked) =>
+                      setProfileData({
+                        ...profileData,
+                        preferences: {
+                          ...profileData.preferences,
+                          smokingRoom: checked,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                   />
                   <Label htmlFor="smokingRoom">Smoking Room</Label>
@@ -434,10 +528,15 @@ export default function GuestProfile() {
                   placeholder="Any special requests or accommodations..."
                   value={profileData.preferences.specialRequests}
                   disabled={!isEditing}
-                  onChange={(e) => setProfileData({
-                    ...profileData,
-                    preferences: {...profileData.preferences, specialRequests: e.target.value}
-                  })}
+                  onChange={(e) =>
+                    setProfileData({
+                      ...profileData,
+                      preferences: {
+                        ...profileData.preferences,
+                        specialRequests: e.target.value,
+                      },
+                    })
+                  }
                 />
               </div>
             </CardContent>
@@ -451,27 +550,37 @@ export default function GuestProfile() {
                 <Crown className="h-5 w-5" />
                 <span>Loyalty Program</span>
               </CardTitle>
-              <CardDescription>Your membership status and benefits</CardDescription>
+              <CardDescription>
+                Your membership status and benefits
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-hotel-600">{profileData.loyalty.points.toLocaleString()}</div>
+                  <div className="text-3xl font-bold text-hotel-600">
+                    {profileData.loyalty.points.toLocaleString()}
+                  </div>
                   <div className="text-sm text-gray-600">Current Points</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold">{profileData.loyalty.totalStays}</div>
+                  <div className="text-3xl font-bold">
+                    {profileData.loyalty.totalStays}
+                  </div>
                   <div className="text-sm text-gray-600">Total Stays</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold">${profileData.loyalty.totalSpent.toLocaleString()}</div>
+                  <div className="text-3xl font-bold">
+                    ${profileData.loyalty.totalSpent.toLocaleString()}
+                  </div>
                   <div className="text-sm text-gray-600">Total Spent</div>
                 </div>
               </div>
 
               <div className="bg-gradient-to-r from-hotel-50 to-hotel-100 p-4 rounded-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <Badge className={getLoyaltyBadgeColor(profileData.loyalty.tier)}>
+                  <Badge
+                    className={getLoyaltyBadgeColor(profileData.loyalty.tier)}
+                  >
                     <Crown className="h-3 w-3 mr-1" />
                     {profileData.loyalty.tier} Member
                   </Badge>
@@ -500,7 +609,9 @@ export default function GuestProfile() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Gift className="h-4 w-4 text-green-600" />
-                    <span className="text-sm">Priority restaurant reservations</span>
+                    <span className="text-sm">
+                      Priority restaurant reservations
+                    </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Gift className="h-4 w-4 text-green-600" />
@@ -516,21 +627,31 @@ export default function GuestProfile() {
           <Card>
             <CardHeader>
               <CardTitle>Payment Methods</CardTitle>
-              <CardDescription>Manage your saved payment methods</CardDescription>
+              <CardDescription>
+                Manage your saved payment methods
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {profileData.paymentMethods.map((method) => (
-                <div key={method.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div
+                  key={method.id}
+                  className="flex items-center justify-between p-4 border rounded-lg"
+                >
                   <div className="flex items-center space-x-4">
                     <CreditCard className="h-8 w-8 text-gray-600" />
                     <div>
-                      <div className="font-medium">**** **** **** {method.last4}</div>
+                      <div className="font-medium">
+                        **** **** **** {method.last4}
+                      </div>
                       <div className="text-sm text-gray-600">
-                        {method.brand} • Expires {method.expiryMonth}/{method.expiryYear}
+                        {method.brand} • Expires {method.expiryMonth}/
+                        {method.expiryYear}
                       </div>
                     </div>
                     {method.isDefault && (
-                      <Badge className="bg-green-100 text-green-800">Default</Badge>
+                      <Badge className="bg-green-100 text-green-800">
+                        Default
+                      </Badge>
                     )}
                   </div>
                   <div className="flex space-x-2">
@@ -543,7 +664,7 @@ export default function GuestProfile() {
                   </div>
                 </div>
               ))}
-              
+
               <Button variant="outline" className="w-full">
                 <CreditCard className="h-4 w-4 mr-2" />
                 Add New Payment Method
@@ -556,30 +677,42 @@ export default function GuestProfile() {
           <Card>
             <CardHeader>
               <CardTitle>Notification Preferences</CardTitle>
-              <CardDescription>Choose how you want to receive updates</CardDescription>
+              <CardDescription>
+                Choose how you want to receive updates
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
                 <h4 className="font-medium mb-3">Email Notifications</h4>
                 <div className="space-y-3">
-                  {Object.entries(profileData.notifications.email).map(([key, value]) => (
-                    <div key={key} className="flex items-center justify-between">
-                      <Label htmlFor={`email-${key}`} className="capitalize">
-                        {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                      </Label>
-                      <Switch
-                        id={`email-${key}`}
-                        checked={value}
-                        onCheckedChange={(checked) => setProfileData({
-                          ...profileData,
-                          notifications: {
-                            ...profileData.notifications,
-                            email: {...profileData.notifications.email, [key]: checked}
+                  {Object.entries(profileData.notifications.email).map(
+                    ([key, value]) => (
+                      <div
+                        key={key}
+                        className="flex items-center justify-between"
+                      >
+                        <Label htmlFor={`email-${key}`} className="capitalize">
+                          {key.replace(/([A-Z])/g, " $1").toLowerCase()}
+                        </Label>
+                        <Switch
+                          id={`email-${key}`}
+                          checked={value}
+                          onCheckedChange={(checked) =>
+                            setProfileData({
+                              ...profileData,
+                              notifications: {
+                                ...profileData.notifications,
+                                email: {
+                                  ...profileData.notifications.email,
+                                  [key]: checked,
+                                },
+                              },
+                            })
                           }
-                        })}
-                      />
-                    </div>
-                  ))}
+                        />
+                      </div>
+                    ),
+                  )}
                 </div>
               </div>
 
@@ -588,24 +721,34 @@ export default function GuestProfile() {
               <div>
                 <h4 className="font-medium mb-3">SMS Notifications</h4>
                 <div className="space-y-3">
-                  {Object.entries(profileData.notifications.sms).map(([key, value]) => (
-                    <div key={key} className="flex items-center justify-between">
-                      <Label htmlFor={`sms-${key}`} className="capitalize">
-                        {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                      </Label>
-                      <Switch
-                        id={`sms-${key}`}
-                        checked={value}
-                        onCheckedChange={(checked) => setProfileData({
-                          ...profileData,
-                          notifications: {
-                            ...profileData.notifications,
-                            sms: {...profileData.notifications.sms, [key]: checked}
+                  {Object.entries(profileData.notifications.sms).map(
+                    ([key, value]) => (
+                      <div
+                        key={key}
+                        className="flex items-center justify-between"
+                      >
+                        <Label htmlFor={`sms-${key}`} className="capitalize">
+                          {key.replace(/([A-Z])/g, " $1").toLowerCase()}
+                        </Label>
+                        <Switch
+                          id={`sms-${key}`}
+                          checked={value}
+                          onCheckedChange={(checked) =>
+                            setProfileData({
+                              ...profileData,
+                              notifications: {
+                                ...profileData.notifications,
+                                sms: {
+                                  ...profileData.notifications.sms,
+                                  [key]: checked,
+                                },
+                              },
+                            })
                           }
-                        })}
-                      />
-                    </div>
-                  ))}
+                        />
+                      </div>
+                    ),
+                  )}
                 </div>
               </div>
             </CardContent>

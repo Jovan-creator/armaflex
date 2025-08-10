@@ -116,7 +116,7 @@ const App = () => (
               element={
                 <ProtectedRoute requiredPermission="*">
                   <HotelLayout>
-                    <Staff />
+                    <StaffAdmin />
                   </HotelLayout>
                 </ProtectedRoute>
               }

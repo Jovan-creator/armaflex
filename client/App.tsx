@@ -29,6 +29,7 @@ import PublicHome from "./pages/PublicHome";
 import { AboutPage, ContactPage, FAQPage, GalleryPage } from "./pages/PublicPages";
 import { PublicRoomsPage, PublicReviewsPage } from "./pages/PublicRoomsReviews";
 import NotFound from "./pages/NotFound";
+import GuestBookingReal from "./pages/GuestBookingReal";
 
 const queryClient = new QueryClient();
 

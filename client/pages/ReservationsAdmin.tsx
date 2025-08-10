@@ -560,7 +560,7 @@ export default function ReservationsAdmin() {
                           setShowCheckOut(true);
                         }}
                       >
-                        <CheckOut className="h-4 w-4 mr-2" />
+                        <LogOut className="h-4 w-4 mr-2" />
                         Check Out
                       </Button>
                     </div>

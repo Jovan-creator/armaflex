@@ -190,8 +190,8 @@ export default function ReservationsAdmin() {
     switch (status) {
       case 'pending': return <Clock className="w-3 h-3" />;
       case 'confirmed': return <CheckCircle className="w-3 h-3" />;
-      case 'checked_in': return <CheckIn className="w-3 h-3" />;
-      case 'checked_out': return <CheckOut className="w-3 h-3" />;
+      case 'checked_in': return <LogIn className="w-3 h-3" />;
+      case 'checked_out': return <LogOut className="w-3 h-3" />;
       case 'cancelled': return <X className="w-3 h-3" />;
       default: return <AlertCircle className="w-3 h-3" />;
     }

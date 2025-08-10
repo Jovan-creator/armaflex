@@ -224,6 +224,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 export function useUser() {
   const context = useContext(UserContext);
   if (context === undefined) {
+    console.error('UserContext is undefined. Make sure the component is wrapped in UserProvider.');
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;

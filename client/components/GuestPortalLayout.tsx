@@ -283,7 +283,8 @@ export function GuestPortalLayout({ children }: GuestPortalLayoutProps) {
       <Separator />
 
       {/* Footer */}
-      <div className="p-4">
+      <div className="p-4 space-y-2">
+        <LanguageSwitcher variant="button" showLabel={false} />
         <Button
           variant="ghost"
           onClick={handleLogout}

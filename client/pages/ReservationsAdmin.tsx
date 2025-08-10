@@ -671,7 +671,7 @@ export default function ReservationsAdmin() {
                     setShowDetails(false);
                     setShowCheckOut(true);
                   }}>
-                    <CheckOut className="h-4 w-4 mr-2" />
+                    <LogOut className="h-4 w-4 mr-2" />
                     Check Out
                   </Button>
                 )}

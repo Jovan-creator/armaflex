@@ -316,6 +316,7 @@ export function HotelLayout({ children }: HotelLayoutProps) {
                 <Moon className="h-5 w-5" />
               )}
             </Button>
+            <LanguageSwitcher variant="minimal" />
             <NotificationSystem />
           </div>
         </header>

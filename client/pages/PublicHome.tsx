@@ -30,22 +30,22 @@ export default function PublicHome() {
   // Hero background images
   const heroImages = [
     {
-      gradient: "from-blue-900 via-indigo-800 to-purple-900",
+      url: "https://cdn.pixabay.com/photo/2016/11/18/17/20/living-room-1835923_1280.jpg",
       title: "Luxury Rooms & Suites",
       subtitle: "Experience comfort like never before"
     },
     {
-      gradient: "from-emerald-900 via-teal-800 to-cyan-900",
+      url: "https://cdn.pixabay.com/photo/2017/03/22/17/39/kitchen-2165756_1280.jpg",
       title: "Fine Dining Experience",
       subtitle: "Culinary excellence at its finest"
     },
     {
-      gradient: "from-amber-900 via-orange-800 to-red-900",
+      url: "https://cdn.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg",
       title: "Stunning City Views",
       subtitle: "Breathtaking panoramas from every window"
     },
     {
-      gradient: "from-violet-900 via-purple-800 to-pink-900",
+      url: "https://cdn.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg",
       title: "Wellness & Spa",
       subtitle: "Rejuvenate your mind, body and soul"
     }

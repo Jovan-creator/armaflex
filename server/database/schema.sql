@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS rooms (
     status VARCHAR(50) DEFAULT 'available', -- available, occupied, maintenance, cleaning
     notes TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (room_type_id) REFERENCES room_types(id)
 );
 

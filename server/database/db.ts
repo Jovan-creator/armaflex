@@ -500,4 +500,199 @@ export class DatabaseService {
       [paymentId],
     );
   }
+
+  // Notification preferences methods
+  static async getNotificationPreferences(userId?: number, guestId?: number) {
+    const database = await getDatabase();
+
+    const preferences = await database.get(
+      `SELECT * FROM notification_preferences
+       WHERE user_id = ? OR guest_id = ?`,
+      [userId, guestId]
+    );
+
+    if (!preferences) {
+      return null;
+    }
+
+    return {
+      ...preferences,
+      email_preferences: preferences.email_preferences ? JSON.parse(preferences.email_preferences) : {},
+      sms_preferences: preferences.sms_preferences ? JSON.parse(preferences.sms_preferences) : {}
+    };
+  }
+
+  static async upsertNotificationPreferences(preferences: {
+    userId?: number;
+    guestId?: number;
+    emailAddress?: string;
+    phoneNumber?: string;
+    enableEmail?: boolean;
+    enableSMS?: boolean;
+    emailPreferences?: any;
+    smsPreferences?: any;
+    quietHoursEnabled?: boolean;
+    quietHoursStart?: string;
+    quietHoursEnd?: string;
+    language?: string;
+    timezone?: string;
+  }) {
+    const database = await getDatabase();
+
+    const existingPrefs = await this.getNotificationPreferences(preferences.userId, preferences.guestId);
+
+    if (existingPrefs) {
+      await database.run(
+        `UPDATE notification_preferences
+         SET email_address = ?, phone_number = ?, enable_email = ?, enable_sms = ?,
+             email_preferences = ?, sms_preferences = ?, quiet_hours_enabled = ?,
+             quiet_hours_start = ?, quiet_hours_end = ?, language = ?, timezone = ?,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE user_id = ? OR guest_id = ?`,
+        [
+          preferences.emailAddress,
+          preferences.phoneNumber,
+          preferences.enableEmail,
+          preferences.enableSMS,
+          JSON.stringify(preferences.emailPreferences || {}),
+          JSON.stringify(preferences.smsPreferences || {}),
+          preferences.quietHoursEnabled,
+          preferences.quietHoursStart,
+          preferences.quietHoursEnd,
+          preferences.language,
+          preferences.timezone,
+          preferences.userId,
+          preferences.guestId
+        ]
+      );
+    } else {
+      await database.run(
+        `INSERT INTO notification_preferences
+         (user_id, guest_id, email_address, phone_number, enable_email, enable_sms,
+          email_preferences, sms_preferences, quiet_hours_enabled, quiet_hours_start,
+          quiet_hours_end, language, timezone)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          preferences.userId,
+          preferences.guestId,
+          preferences.emailAddress,
+          preferences.phoneNumber,
+          preferences.enableEmail,
+          preferences.enableSMS,
+          JSON.stringify(preferences.emailPreferences || {}),
+          JSON.stringify(preferences.smsPreferences || {}),
+          preferences.quietHoursEnabled,
+          preferences.quietHoursStart,
+          preferences.quietHoursEnd,
+          preferences.language,
+          preferences.timezone
+        ]
+      );
+    }
+
+    return this.getNotificationPreferences(preferences.userId, preferences.guestId);
+  }
+
+  // Notification logs methods
+  static async logNotification(log: {
+    userId?: number;
+    guestId?: number;
+    type: 'email' | 'sms';
+    templateName: string;
+    recipient: string;
+    subject?: string;
+    status?: string;
+    errorMessage?: string;
+    sentAt?: Date;
+    deliveredAt?: Date;
+    metadata?: any;
+  }) {
+    const database = await getDatabase();
+
+    const result = await database.run(
+      `INSERT INTO notification_logs
+       (user_id, guest_id, type, template_name, recipient, subject, status,
+        error_message, sent_at, delivered_at, metadata)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        log.userId,
+        log.guestId,
+        log.type,
+        log.templateName,
+        log.recipient,
+        log.subject,
+        log.status || 'pending',
+        log.errorMessage,
+        log.sentAt,
+        log.deliveredAt,
+        JSON.stringify(log.metadata || {})
+      ]
+    );
+
+    return result.lastID;
+  }
+
+  static async updateNotificationStatus(
+    logId: number,
+    status: string,
+    errorMessage?: string,
+    deliveredAt?: Date
+  ) {
+    const database = await getDatabase();
+
+    await database.run(
+      `UPDATE notification_logs
+       SET status = ?, error_message = ?, delivered_at = ?, updated_at = CURRENT_TIMESTAMP
+       WHERE id = ?`,
+      [status, errorMessage, deliveredAt, logId]
+    );
+  }
+
+  static async getNotificationLogs(filters: {
+    userId?: number;
+    guestId?: number;
+    type?: string;
+    status?: string;
+    limit?: number;
+    offset?: number;
+  } = {}) {
+    const database = await getDatabase();
+
+    let query = `SELECT * FROM notification_logs WHERE 1=1`;
+    const params: any[] = [];
+
+    if (filters.userId) {
+      query += ` AND user_id = ?`;
+      params.push(filters.userId);
+    }
+
+    if (filters.guestId) {
+      query += ` AND guest_id = ?`;
+      params.push(filters.guestId);
+    }
+
+    if (filters.type) {
+      query += ` AND type = ?`;
+      params.push(filters.type);
+    }
+
+    if (filters.status) {
+      query += ` AND status = ?`;
+      params.push(filters.status);
+    }
+
+    query += ` ORDER BY created_at DESC`;
+
+    if (filters.limit) {
+      query += ` LIMIT ?`;
+      params.push(filters.limit);
+
+      if (filters.offset) {
+        query += ` OFFSET ?`;
+        params.push(filters.offset);
+      }
+    }
+
+    return database.all(query, params);
+  }
 }

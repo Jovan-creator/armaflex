@@ -145,37 +145,43 @@ const stats = [
   { label: "Customer Satisfaction", value: "99.5%" },
 ];
 
-// Hotel background images for slider - Using reliable CDN sources
+// Hotel background images for slider - Using placeholder.svg with gradient overlays
 const hotelImages = [
   {
-    url: "https://picsum.photos/1920/1080?random=1",
+    url: "/placeholder.svg",
     alt: "Luxury Hotel Lobby with modern design",
-    title: "Grand Lobby Experience"
+    title: "Grand Lobby Experience",
+    gradient: "from-blue-900 via-indigo-800 to-purple-900"
   },
   {
-    url: "https://picsum.photos/1920/1080?random=2",
+    url: "/placeholder.svg",
     alt: "Elegant hotel room with city view",
-    title: "Premium Accommodation"
+    title: "Premium Accommodation",
+    gradient: "from-emerald-900 via-teal-800 to-cyan-900"
   },
   {
-    url: "https://picsum.photos/1920/1080?random=3",
+    url: "/placeholder.svg",
     alt: "Hotel exterior with beautiful architecture",
-    title: "Stunning Architecture"
+    title: "Stunning Architecture",
+    gradient: "from-amber-900 via-orange-800 to-red-900"
   },
   {
-    url: "https://picsum.photos/1920/1080?random=4",
+    url: "/placeholder.svg",
     alt: "Hotel restaurant dining area",
-    title: "Fine Dining Experience"
+    title: "Fine Dining Experience",
+    gradient: "from-violet-900 via-purple-800 to-pink-900"
   },
   {
-    url: "https://picsum.photos/1920/1080?random=5",
+    url: "/placeholder.svg",
     alt: "Modern hotel swimming pool area",
-    title: "Relaxation & Recreation"
+    title: "Relaxation & Recreation",
+    gradient: "from-slate-900 via-gray-800 to-zinc-900"
   },
   {
-    url: "https://picsum.photos/1920/1080?random=6",
+    url: "/placeholder.svg",
     alt: "Luxurious hotel spa and wellness center",
-    title: "Wellness & Spa Services"
+    title: "Wellness & Spa Services",
+    gradient: "from-green-900 via-emerald-800 to-teal-900"
   }
 ];
 

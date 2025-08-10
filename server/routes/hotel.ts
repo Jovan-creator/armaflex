@@ -90,61 +90,61 @@ router.post("/rooms", authenticateToken, async (req, res) => {
   }
 });
 
-router.put('/rooms/:id', authenticateToken, async (req, res) => {
+router.put("/rooms/:id", authenticateToken, async (req, res) => {
   try {
     const { user } = req;
-    if (user.role !== 'admin') {
-      return res.status(403).json({ error: 'Admin access required' });
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
     }
 
     const roomId = parseInt(req.params.id);
     await db.updateRoom(roomId, req.body);
-    res.json({ message: 'Room updated successfully' });
+    res.json({ message: "Room updated successfully" });
   } catch (error) {
-    console.error('Update room error:', error);
-    res.status(500).json({ error: 'Failed to update room' });
+    console.error("Update room error:", error);
+    res.status(500).json({ error: "Failed to update room" });
   }
 });
 
-router.delete('/rooms/:id', authenticateToken, async (req, res) => {
+router.delete("/rooms/:id", authenticateToken, async (req, res) => {
   try {
     const { user } = req;
-    if (user.role !== 'admin') {
-      return res.status(403).json({ error: 'Admin access required' });
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
     }
 
     const roomId = parseInt(req.params.id);
     await db.deleteRoom(roomId);
-    res.json({ message: 'Room deleted successfully' });
+    res.json({ message: "Room deleted successfully" });
   } catch (error) {
-    console.error('Delete room error:', error);
-    res.status(500).json({ error: 'Failed to delete room' });
+    console.error("Delete room error:", error);
+    res.status(500).json({ error: "Failed to delete room" });
   }
 });
 
 // Room type routes
-router.get('/room-types', authenticateToken, async (req, res) => {
+router.get("/room-types", authenticateToken, async (req, res) => {
   try {
     const roomTypes = await db.getAllRoomTypes();
     res.json(roomTypes);
   } catch (error) {
-    console.error('Get room types error:', error);
-    res.status(500).json({ error: 'Failed to fetch room types' });
+    console.error("Get room types error:", error);
+    res.status(500).json({ error: "Failed to fetch room types" });
   }
 });
 
-router.post('/room-types', authenticateToken, async (req, res) => {
+router.post("/room-types", authenticateToken, async (req, res) => {
   try {
     const { user } = req;
-    if (user.role !== 'admin') {
-      return res.status(403).json({ error: 'Admin access required' });
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
     }
 
     const result = await db.createRoomType(req.body);
-    res.json({ id: result.lastID, message: 'Room type created successfully' });
+    res.json({ id: result.lastID, message: "Room type created successfully" });
   } catch (error) {
-    console.error('Create room type error:', error);
-    res.status(500).json({ error: 'Failed to create room type' });
+    console.error("Create room type error:", error);
+    res.status(500).json({ error: "Failed to create room type" });
   }
 });
 

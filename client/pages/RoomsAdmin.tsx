@@ -1,13 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@/contexts/UserContext";
@@ -32,7 +61,7 @@ import {
   Wind,
   Bath,
   Utensils,
-  MapPin
+  MapPin,
 } from "lucide-react";
 
 interface Room {
@@ -63,8 +92,8 @@ export default function RoomsAdmin() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterType, setFilterType] = useState("all");
@@ -77,71 +106,83 @@ export default function RoomsAdmin() {
 
   // Form states
   const [roomForm, setRoomForm] = useState({
-    room_number: '',
-    room_type_id: '',
-    floor: '',
-    status: 'available',
-    notes: ''
+    room_number: "",
+    room_type_id: "",
+    floor: "",
+    status: "available",
+    notes: "",
   });
 
   const [roomTypeForm, setRoomTypeForm] = useState({
-    name: '',
-    description: '',
-    base_price: '',
-    max_occupancy: '',
-    amenities: ['Free WiFi', 'Air Conditioning', 'TV']
+    name: "",
+    description: "",
+    base_price: "",
+    max_occupancy: "",
+    amenities: ["Free WiFi", "Air Conditioning", "TV"],
   });
 
   const availableAmenities = [
-    'Free WiFi', 'Air Conditioning', 'TV', 'Mini Bar', 'Mini Fridge', 
-    'Balcony', 'Living Area', 'Jacuzzi', 'Butler Service', 'Room Service',
-    'Safe', 'Hair Dryer', 'Coffee Machine', 'Work Desk', 'City View'
+    "Free WiFi",
+    "Air Conditioning",
+    "TV",
+    "Mini Bar",
+    "Mini Fridge",
+    "Balcony",
+    "Living Area",
+    "Jacuzzi",
+    "Butler Service",
+    "Room Service",
+    "Safe",
+    "Hair Dryer",
+    "Coffee Machine",
+    "Work Desk",
+    "City View",
   ];
 
   // Get auth token
   const getAuthToken = () => {
-    return localStorage.getItem('auth_token') || '';
+    return localStorage.getItem("auth_token") || "";
   };
 
   // Fetch rooms from API
   const fetchRooms = async () => {
     try {
-      const response = await fetch('/api/hotel/rooms', {
+      const response = await fetch("/api/hotel/rooms", {
         headers: {
-          'Authorization': `Bearer ${getAuthToken()}`
-        }
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to fetch rooms');
+        throw new Error("Failed to fetch rooms");
       }
 
       const data = await response.json();
       setRooms(data);
     } catch (err) {
-      setError('Failed to load rooms');
-      console.error('Fetch rooms error:', err);
+      setError("Failed to load rooms");
+      console.error("Fetch rooms error:", err);
     }
   };
 
   // Fetch room types from API
   const fetchRoomTypes = async () => {
     try {
-      const response = await fetch('/api/hotel/room-types', {
+      const response = await fetch("/api/hotel/room-types", {
         headers: {
-          'Authorization': `Bearer ${getAuthToken()}`
-        }
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to fetch room types');
+        throw new Error("Failed to fetch room types");
       }
 
       const data = await response.json();
       setRoomTypes(data);
     } catch (err) {
-      setError('Failed to load room types');
-      console.error('Fetch room types error:', err);
+      setError("Failed to load room types");
+      console.error("Fetch room types error:", err);
     }
   };
 
@@ -159,30 +200,36 @@ export default function RoomsAdmin() {
   // Create new room
   const createRoom = async () => {
     try {
-      const response = await fetch('/api/hotel/rooms', {
-        method: 'POST',
+      const response = await fetch("/api/hotel/rooms", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getAuthToken()}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
           ...roomForm,
           room_type_id: parseInt(roomForm.room_type_id),
-          floor: parseInt(roomForm.floor)
-        })
+          floor: parseInt(roomForm.floor),
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create room');
+        throw new Error("Failed to create room");
       }
 
-      setSuccess('Room created successfully');
+      setSuccess("Room created successfully");
       setShowAddRoom(false);
-      setRoomForm({ room_number: '', room_type_id: '', floor: '', status: 'available', notes: '' });
+      setRoomForm({
+        room_number: "",
+        room_type_id: "",
+        floor: "",
+        status: "available",
+        notes: "",
+      });
       fetchRooms();
     } catch (err) {
-      setError('Failed to create room');
-      console.error('Create room error:', err);
+      setError("Failed to create room");
+      console.error("Create room error:", err);
     }
   };
 
@@ -192,29 +239,29 @@ export default function RoomsAdmin() {
 
     try {
       const response = await fetch(`/api/hotel/rooms/${selectedRoom.id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getAuthToken()}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
           ...roomForm,
           room_type_id: parseInt(roomForm.room_type_id),
-          floor: parseInt(roomForm.floor)
-        })
+          floor: parseInt(roomForm.floor),
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update room');
+        throw new Error("Failed to update room");
       }
 
-      setSuccess('Room updated successfully');
+      setSuccess("Room updated successfully");
       setShowEditRoom(false);
       setSelectedRoom(null);
       fetchRooms();
     } catch (err) {
-      setError('Failed to update room');
-      console.error('Update room error:', err);
+      setError("Failed to update room");
+      console.error("Update room error:", err);
     }
   };
 
@@ -222,88 +269,111 @@ export default function RoomsAdmin() {
   const deleteRoom = async (roomId: number) => {
     try {
       const response = await fetch(`/api/hotel/rooms/${roomId}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${getAuthToken()}`
-        }
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete room');
+        throw new Error("Failed to delete room");
       }
 
-      setSuccess('Room deleted successfully');
+      setSuccess("Room deleted successfully");
       fetchRooms();
     } catch (err) {
-      setError('Failed to delete room');
-      console.error('Delete room error:', err);
+      setError("Failed to delete room");
+      console.error("Delete room error:", err);
     }
   };
 
   // Create room type
   const createRoomType = async () => {
     try {
-      const response = await fetch('/api/hotel/room-types', {
-        method: 'POST',
+      const response = await fetch("/api/hotel/room-types", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getAuthToken()}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
           ...roomTypeForm,
           base_price: parseFloat(roomTypeForm.base_price),
           max_occupancy: parseInt(roomTypeForm.max_occupancy),
-          amenities: JSON.stringify(roomTypeForm.amenities)
-        })
+          amenities: JSON.stringify(roomTypeForm.amenities),
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create room type');
+        throw new Error("Failed to create room type");
       }
 
-      setSuccess('Room type created successfully');
+      setSuccess("Room type created successfully");
       setShowAddRoomType(false);
-      setRoomTypeForm({ name: '', description: '', base_price: '', max_occupancy: '', amenities: ['Free WiFi', 'Air Conditioning', 'TV'] });
+      setRoomTypeForm({
+        name: "",
+        description: "",
+        base_price: "",
+        max_occupancy: "",
+        amenities: ["Free WiFi", "Air Conditioning", "TV"],
+      });
       fetchRoomTypes();
     } catch (err) {
-      setError('Failed to create room type');
-      console.error('Create room type error:', err);
+      setError("Failed to create room type");
+      console.error("Create room type error:", err);
     }
   };
 
   // Filter rooms
-  const filteredRooms = rooms.filter(room => {
-    const matchesSearch = room.room_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         room.room_type_name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === 'all' || room.status === filterStatus;
-    const matchesType = filterType === 'all' || room.room_type_name === filterType;
-    
+  const filteredRooms = rooms.filter((room) => {
+    const matchesSearch =
+      room.room_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.room_type_name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === "all" || room.status === filterStatus;
+    const matchesType =
+      filterType === "all" || room.room_type_name === filterType;
+
     return matchesSearch && matchesStatus && matchesType;
   });
 
   // Get status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'available': return 'bg-green-100 text-green-800';
-      case 'occupied': return 'bg-blue-100 text-blue-800';
-      case 'maintenance': return 'bg-red-100 text-red-800';
-      case 'cleaning': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "available":
+        return "bg-green-100 text-green-800";
+      case "occupied":
+        return "bg-blue-100 text-blue-800";
+      case "maintenance":
+        return "bg-red-100 text-red-800";
+      case "cleaning":
+        return "bg-yellow-100 text-yellow-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   // Get amenity icon
   const getAmenityIcon = (amenity: string) => {
     switch (amenity.toLowerCase()) {
-      case 'free wifi': return <Wifi className="w-4 h-4" />;
-      case 'air conditioning': return <Wind className="w-4 h-4" />;
-      case 'tv': return <Tv className="w-4 h-4" />;
-      case 'mini bar': return <Coffee className="w-4 h-4" />;
-      case 'mini fridge': return <Coffee className="w-4 h-4" />;
-      case 'balcony': return <MapPin className="w-4 h-4" />;
-      case 'jacuzzi': return <Bath className="w-4 h-4" />;
-      case 'butler service': return <Users className="w-4 h-4" />;
-      default: return <CheckCircle className="w-4 h-4" />;
+      case "free wifi":
+        return <Wifi className="w-4 h-4" />;
+      case "air conditioning":
+        return <Wind className="w-4 h-4" />;
+      case "tv":
+        return <Tv className="w-4 h-4" />;
+      case "mini bar":
+        return <Coffee className="w-4 h-4" />;
+      case "mini fridge":
+        return <Coffee className="w-4 h-4" />;
+      case "balcony":
+        return <MapPin className="w-4 h-4" />;
+      case "jacuzzi":
+        return <Bath className="w-4 h-4" />;
+      case "butler service":
+        return <Users className="w-4 h-4" />;
+      default:
+        return <CheckCircle className="w-4 h-4" />;
     }
   };
 
@@ -315,7 +385,7 @@ export default function RoomsAdmin() {
       room_type_id: room.room_type_id.toString(),
       floor: room.floor.toString(),
       status: room.status,
-      notes: room.notes || ''
+      notes: room.notes || "",
     });
     setShowEditRoom(true);
   };
@@ -324,8 +394,8 @@ export default function RoomsAdmin() {
   useEffect(() => {
     if (error || success) {
       const timer = setTimeout(() => {
-        setError('');
-        setSuccess('');
+        setError("");
+        setSuccess("");
       }, 5000);
       return () => clearTimeout(timer);
     }
@@ -344,7 +414,9 @@ export default function RoomsAdmin() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Room Management</h1>
-          <p className="text-muted-foreground">Manage hotel rooms and room types</p>
+          <p className="text-muted-foreground">
+            Manage hotel rooms and room types
+          </p>
         </div>
         <div className="flex space-x-2">
           <Dialog open={showAddRoomType} onOpenChange={setShowAddRoomType}>
@@ -377,14 +449,18 @@ export default function RoomsAdmin() {
       {success && (
         <Alert className="border-green-200 bg-green-50">
           <CheckCircle className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-green-700">{success}</AlertDescription>
+          <AlertDescription className="text-green-700">
+            {success}
+          </AlertDescription>
         </Alert>
       )}
 
       <Tabs defaultValue="rooms" className="space-y-4">
         <TabsList>
           <TabsTrigger value="rooms">Rooms ({rooms.length})</TabsTrigger>
-          <TabsTrigger value="types">Room Types ({roomTypes.length})</TabsTrigger>
+          <TabsTrigger value="types">
+            Room Types ({roomTypes.length})
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="rooms" className="space-y-4">
@@ -421,8 +497,10 @@ export default function RoomsAdmin() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Types</SelectItem>
-                    {roomTypes.map(type => (
-                      <SelectItem key={type.id} value={type.name}>{type.name}</SelectItem>
+                    {roomTypes.map((type) => (
+                      <SelectItem key={type.id} value={type.name}>
+                        {type.name}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -437,7 +515,9 @@ export default function RoomsAdmin() {
                 <CardHeader className="pb-3">
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-lg">Room {room.room_number}</CardTitle>
+                      <CardTitle className="text-lg">
+                        Room {room.room_number}
+                      </CardTitle>
                       <CardDescription>{room.room_type_name}</CardDescription>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -461,12 +541,15 @@ export default function RoomsAdmin() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete Room</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you want to delete Room {room.room_number}? This action cannot be undone.
+                              Are you sure you want to delete Room{" "}
+                              {room.room_number}? This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => deleteRoom(room.id)}>
+                            <AlertDialogAction
+                              onClick={() => deleteRoom(room.id)}
+                            >
                               Delete
                             </AlertDialogAction>
                           </AlertDialogFooter>
@@ -478,10 +561,14 @@ export default function RoomsAdmin() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Floor {room.floor}</span>
-                      <span className="font-medium">${room.base_price}/night</span>
+                      <span className="text-muted-foreground">
+                        Floor {room.floor}
+                      </span>
+                      <span className="font-medium">
+                        ${room.base_price}/night
+                      </span>
                     </div>
-                    
+
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Users className="w-4 h-4 mr-1" />
                       Up to {room.max_occupancy} guests
@@ -489,12 +576,17 @@ export default function RoomsAdmin() {
 
                     {room.amenities && (
                       <div className="flex flex-wrap gap-1">
-                        {JSON.parse(room.amenities).slice(0, 3).map((amenity: string, idx: number) => (
-                          <div key={idx} className="flex items-center space-x-1 text-xs text-muted-foreground">
-                            {getAmenityIcon(amenity)}
-                            <span>{amenity}</span>
-                          </div>
-                        ))}
+                        {JSON.parse(room.amenities)
+                          .slice(0, 3)
+                          .map((amenity: string, idx: number) => (
+                            <div
+                              key={idx}
+                              className="flex items-center space-x-1 text-xs text-muted-foreground"
+                            >
+                              {getAmenityIcon(amenity)}
+                              <span>{amenity}</span>
+                            </div>
+                          ))}
                         {JSON.parse(room.amenities).length > 3 && (
                           <span className="text-xs text-muted-foreground">
                             +{JSON.parse(room.amenities).length - 3} more
@@ -511,7 +603,9 @@ export default function RoomsAdmin() {
           {filteredRooms.length === 0 && (
             <Card>
               <CardContent className="pt-6 text-center">
-                <p className="text-muted-foreground">No rooms found matching your criteria.</p>
+                <p className="text-muted-foreground">
+                  No rooms found matching your criteria.
+                </p>
               </CardContent>
             </Card>
           )}
@@ -529,21 +623,37 @@ export default function RoomsAdmin() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Base Price</span>
-                      <span className="font-medium">${type.base_price}/night</span>
+                      <span className="text-sm text-muted-foreground">
+                        Base Price
+                      </span>
+                      <span className="font-medium">
+                        ${type.base_price}/night
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Max Occupancy</span>
-                      <span className="font-medium">{type.max_occupancy} guests</span>
+                      <span className="text-sm text-muted-foreground">
+                        Max Occupancy
+                      </span>
+                      <span className="font-medium">
+                        {type.max_occupancy} guests
+                      </span>
                     </div>
                     <div>
-                      <span className="text-sm text-muted-foreground mb-2 block">Amenities</span>
+                      <span className="text-sm text-muted-foreground mb-2 block">
+                        Amenities
+                      </span>
                       <div className="flex flex-wrap gap-1">
-                        {JSON.parse(type.amenities).map((amenity: string, idx: number) => (
-                          <Badge key={idx} variant="secondary" className="text-xs">
-                            {amenity}
-                          </Badge>
-                        ))}
+                        {JSON.parse(type.amenities).map(
+                          (amenity: string, idx: number) => (
+                            <Badge
+                              key={idx}
+                              variant="secondary"
+                              className="text-xs"
+                            >
+                              {amenity}
+                            </Badge>
+                          ),
+                        )}
                       </div>
                     </div>
                   </div>
@@ -559,7 +669,9 @@ export default function RoomsAdmin() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add New Room</DialogTitle>
-            <DialogDescription>Create a new room in the hotel.</DialogDescription>
+            <DialogDescription>
+              Create a new room in the hotel.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -568,7 +680,9 @@ export default function RoomsAdmin() {
                 <Input
                   id="roomNumber"
                   value={roomForm.room_number}
-                  onChange={(e) => setRoomForm({...roomForm, room_number: e.target.value})}
+                  onChange={(e) =>
+                    setRoomForm({ ...roomForm, room_number: e.target.value })
+                  }
                   placeholder="101"
                 />
               </div>
@@ -578,27 +692,41 @@ export default function RoomsAdmin() {
                   id="floor"
                   type="number"
                   value={roomForm.floor}
-                  onChange={(e) => setRoomForm({...roomForm, floor: e.target.value})}
+                  onChange={(e) =>
+                    setRoomForm({ ...roomForm, floor: e.target.value })
+                  }
                   placeholder="1"
                 />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="roomType">Room Type</Label>
-              <Select value={roomForm.room_type_id} onValueChange={(value) => setRoomForm({...roomForm, room_type_id: value})}>
+              <Select
+                value={roomForm.room_type_id}
+                onValueChange={(value) =>
+                  setRoomForm({ ...roomForm, room_type_id: value })
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select room type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {roomTypes.map(type => (
-                    <SelectItem key={type.id} value={type.id.toString()}>{type.name}</SelectItem>
+                  {roomTypes.map((type) => (
+                    <SelectItem key={type.id} value={type.id.toString()}>
+                      {type.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
-              <Select value={roomForm.status} onValueChange={(value) => setRoomForm({...roomForm, status: value})}>
+              <Select
+                value={roomForm.status}
+                onValueChange={(value) =>
+                  setRoomForm({ ...roomForm, status: value })
+                }
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -614,13 +742,17 @@ export default function RoomsAdmin() {
               <Textarea
                 id="notes"
                 value={roomForm.notes}
-                onChange={(e) => setRoomForm({...roomForm, notes: e.target.value})}
+                onChange={(e) =>
+                  setRoomForm({ ...roomForm, notes: e.target.value })
+                }
                 placeholder="Any additional notes..."
               />
             </div>
           </div>
           <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={() => setShowAddRoom(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setShowAddRoom(false)}>
+              Cancel
+            </Button>
             <Button onClick={createRoom}>Create Room</Button>
           </div>
         </DialogContent>
@@ -640,7 +772,9 @@ export default function RoomsAdmin() {
                 <Input
                   id="editRoomNumber"
                   value={roomForm.room_number}
-                  onChange={(e) => setRoomForm({...roomForm, room_number: e.target.value})}
+                  onChange={(e) =>
+                    setRoomForm({ ...roomForm, room_number: e.target.value })
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -649,26 +783,40 @@ export default function RoomsAdmin() {
                   id="editFloor"
                   type="number"
                   value={roomForm.floor}
-                  onChange={(e) => setRoomForm({...roomForm, floor: e.target.value})}
+                  onChange={(e) =>
+                    setRoomForm({ ...roomForm, floor: e.target.value })
+                  }
                 />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="editRoomType">Room Type</Label>
-              <Select value={roomForm.room_type_id} onValueChange={(value) => setRoomForm({...roomForm, room_type_id: value})}>
+              <Select
+                value={roomForm.room_type_id}
+                onValueChange={(value) =>
+                  setRoomForm({ ...roomForm, room_type_id: value })
+                }
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {roomTypes.map(type => (
-                    <SelectItem key={type.id} value={type.id.toString()}>{type.name}</SelectItem>
+                  {roomTypes.map((type) => (
+                    <SelectItem key={type.id} value={type.id.toString()}>
+                      {type.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="editStatus">Status</Label>
-              <Select value={roomForm.status} onValueChange={(value) => setRoomForm({...roomForm, status: value})}>
+              <Select
+                value={roomForm.status}
+                onValueChange={(value) =>
+                  setRoomForm({ ...roomForm, status: value })
+                }
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -685,12 +833,16 @@ export default function RoomsAdmin() {
               <Textarea
                 id="editNotes"
                 value={roomForm.notes}
-                onChange={(e) => setRoomForm({...roomForm, notes: e.target.value})}
+                onChange={(e) =>
+                  setRoomForm({ ...roomForm, notes: e.target.value })
+                }
               />
             </div>
           </div>
           <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={() => setShowEditRoom(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setShowEditRoom(false)}>
+              Cancel
+            </Button>
             <Button onClick={updateRoom}>Update Room</Button>
           </div>
         </DialogContent>
@@ -701,7 +853,9 @@ export default function RoomsAdmin() {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Add Room Type</DialogTitle>
-            <DialogDescription>Create a new room type with amenities and pricing.</DialogDescription>
+            <DialogDescription>
+              Create a new room type with amenities and pricing.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -710,7 +864,9 @@ export default function RoomsAdmin() {
                 <Input
                   id="typeName"
                   value={roomTypeForm.name}
-                  onChange={(e) => setRoomTypeForm({...roomTypeForm, name: e.target.value})}
+                  onChange={(e) =>
+                    setRoomTypeForm({ ...roomTypeForm, name: e.target.value })
+                  }
                   placeholder="e.g., Deluxe Suite"
                 />
               </div>
@@ -720,7 +876,12 @@ export default function RoomsAdmin() {
                   id="basePrice"
                   type="number"
                   value={roomTypeForm.base_price}
-                  onChange={(e) => setRoomTypeForm({...roomTypeForm, base_price: e.target.value})}
+                  onChange={(e) =>
+                    setRoomTypeForm({
+                      ...roomTypeForm,
+                      base_price: e.target.value,
+                    })
+                  }
                   placeholder="150"
                 />
               </div>
@@ -730,7 +891,12 @@ export default function RoomsAdmin() {
               <Textarea
                 id="description"
                 value={roomTypeForm.description}
-                onChange={(e) => setRoomTypeForm({...roomTypeForm, description: e.target.value})}
+                onChange={(e) =>
+                  setRoomTypeForm({
+                    ...roomTypeForm,
+                    description: e.target.value,
+                  })
+                }
                 placeholder="Describe the room type..."
               />
             </div>
@@ -740,14 +906,19 @@ export default function RoomsAdmin() {
                 id="maxOccupancy"
                 type="number"
                 value={roomTypeForm.max_occupancy}
-                onChange={(e) => setRoomTypeForm({...roomTypeForm, max_occupancy: e.target.value})}
+                onChange={(e) =>
+                  setRoomTypeForm({
+                    ...roomTypeForm,
+                    max_occupancy: e.target.value,
+                  })
+                }
                 placeholder="2"
               />
             </div>
             <div className="space-y-2">
               <Label>Amenities</Label>
               <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
-                {availableAmenities.map(amenity => (
+                {availableAmenities.map((amenity) => (
                   <label key={amenity} className="flex items-center space-x-2">
                     <input
                       type="checkbox"
@@ -756,12 +927,14 @@ export default function RoomsAdmin() {
                         if (e.target.checked) {
                           setRoomTypeForm({
                             ...roomTypeForm,
-                            amenities: [...roomTypeForm.amenities, amenity]
+                            amenities: [...roomTypeForm.amenities, amenity],
                           });
                         } else {
                           setRoomTypeForm({
                             ...roomTypeForm,
-                            amenities: roomTypeForm.amenities.filter(a => a !== amenity)
+                            amenities: roomTypeForm.amenities.filter(
+                              (a) => a !== amenity,
+                            ),
                           });
                         }
                       }}
@@ -773,7 +946,9 @@ export default function RoomsAdmin() {
             </div>
           </div>
           <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={() => setShowAddRoomType(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setShowAddRoomType(false)}>
+              Cancel
+            </Button>
             <Button onClick={createRoomType}>Create Room Type</Button>
           </div>
         </DialogContent>

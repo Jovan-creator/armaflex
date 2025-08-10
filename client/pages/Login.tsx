@@ -277,7 +277,7 @@ export default function Login() {
       }
     } catch (error) {
       setError("Login failed. Please try again.");
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
 
     setIsLoading(false);

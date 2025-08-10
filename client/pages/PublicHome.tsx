@@ -278,9 +278,23 @@ export default function PublicHome() {
               <Button
                 size="lg"
                 className="bg-hotel-500 hover:bg-hotel-600 text-white transform hover:scale-105 transition-all duration-200"
+                asChild
               >
-                <Calendar className="h-5 w-5 mr-2" />
-                Book Your Stay
+                <a href="/book">
+                  <Calendar className="h-5 w-5 mr-2" />
+                  Book Your Stay
+                </a>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-luxury-900 transform hover:scale-105 transition-all duration-200"
+                asChild
+              >
+                <a href="/guest/login">
+                  <Hotel className="h-5 w-5 mr-2" />
+                  Guest Portal
+                </a>
               </Button>
               <Button
                 size="lg"

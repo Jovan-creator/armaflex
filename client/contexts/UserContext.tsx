@@ -58,7 +58,6 @@ const rolePermissions = {
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize user from stored data
   useEffect(() => {

@@ -593,6 +593,83 @@ export class DatabaseService {
     return this.getNotificationPreferences(preferences.userId, preferences.guestId);
   }
 
+  // Additional room methods
+  static async getRoomById(roomId: number) {
+    const database = await getDatabase();
+    return await database.get(`
+      SELECT r.*, rt.name as room_type_name, rt.base_price, rt.max_occupancy
+      FROM rooms r
+      JOIN room_types rt ON r.room_type_id = rt.id
+      WHERE r.id = ?
+    `, [roomId]);
+  }
+
+  // Additional reservation methods
+  static async updateReservation(reservationId: number, reservationData: any) {
+    const database = await getDatabase();
+
+    const updates: string[] = [];
+    const values: any[] = [];
+
+    if (reservationData.guest_id !== undefined) {
+      updates.push('guest_id = ?');
+      values.push(reservationData.guest_id);
+    }
+
+    if (reservationData.room_id !== undefined) {
+      updates.push('room_id = ?');
+      values.push(reservationData.room_id);
+    }
+
+    if (reservationData.check_in_date !== undefined) {
+      updates.push('check_in_date = ?');
+      values.push(reservationData.check_in_date);
+    }
+
+    if (reservationData.check_out_date !== undefined) {
+      updates.push('check_out_date = ?');
+      values.push(reservationData.check_out_date);
+    }
+
+    if (reservationData.adults !== undefined) {
+      updates.push('adults = ?');
+      values.push(reservationData.adults);
+    }
+
+    if (reservationData.children !== undefined) {
+      updates.push('children = ?');
+      values.push(reservationData.children);
+    }
+
+    if (reservationData.total_amount !== undefined) {
+      updates.push('total_amount = ?');
+      values.push(reservationData.total_amount);
+    }
+
+    if (reservationData.status !== undefined) {
+      updates.push('status = ?');
+      values.push(reservationData.status);
+    }
+
+    if (reservationData.confirmation_code !== undefined) {
+      updates.push('confirmation_code = ?');
+      values.push(reservationData.confirmation_code);
+    }
+
+    if (reservationData.special_requests !== undefined) {
+      updates.push('special_requests = ?');
+      values.push(reservationData.special_requests);
+    }
+
+    updates.push('updated_at = CURRENT_TIMESTAMP');
+    values.push(reservationId);
+
+    return await database.run(
+      `UPDATE reservations SET ${updates.join(', ')} WHERE id = ?`,
+      values
+    );
+  }
+
   // Notification logs methods
   static async logNotification(log: {
     userId?: number;

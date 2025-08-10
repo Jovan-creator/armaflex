@@ -62,9 +62,47 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/hotel/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        return false;
+      }
+
+      const data = await response.json();
+
+      // Store token
+      localStorage.setItem('auth_token', data.token);
+      localStorage.setItem('user_data', JSON.stringify(data.user));
+
+      // Set user in context
+      setUser({
+        id: data.user.id.toString(),
+        email: data.user.email,
+        name: data.user.name,
+        role: data.user.role,
+        department: data.user.department
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     // Clear any stored authentication data
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
     localStorage.removeItem('hotel_auth_token');
     sessionStorage.removeItem('hotel_user_session');
   };

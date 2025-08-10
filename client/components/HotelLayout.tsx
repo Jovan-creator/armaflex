@@ -98,6 +98,12 @@ const navigationItems = [
     badge: "2 New",
   },
   {
+    title: "Notification Settings",
+    href: "/notification-settings",
+    icon: Settings2,
+    badge: null,
+  },
+  {
     title: "Channel Manager",
     href: "/channel-manager",
     icon: Globe,

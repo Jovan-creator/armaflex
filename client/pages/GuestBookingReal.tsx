@@ -77,7 +77,7 @@ export default function GuestBookingReal() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [step, setStep] = useState(1); // 1: Search, 2: Select Room, 3: Guest Info, 4: Confirmation
+  const [step, setStep] = useState(1); // 1: Search, 2: Select Room, 3: Guest Info, 4: Payment, 5: Confirmation
 
   // Guest information
   const [guest, setGuest] = useState<Guest>({

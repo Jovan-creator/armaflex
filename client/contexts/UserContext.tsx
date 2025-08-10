@@ -58,6 +58,31 @@ const rolePermissions = {
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize user from stored data
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    const userData = localStorage.getItem('user_data');
+
+    if (token && userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setUser({
+          id: parsedUser.id.toString(),
+          email: parsedUser.email,
+          name: parsedUser.name,
+          role: parsedUser.role,
+          department: parsedUser.department
+        });
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user_data');
+      }
+    }
+    setIsInitialized(true);
+  }, []);
 
   const switchRole = (role: UserRole) => {
     if (user) {

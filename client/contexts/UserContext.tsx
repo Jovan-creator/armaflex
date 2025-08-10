@@ -187,10 +187,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     // Clear any stored authentication data
-    localStorage.removeItem("auth_token");
-    localStorage.removeItem("user_data");
-    localStorage.removeItem("hotel_auth_token");
-    sessionStorage.removeItem("hotel_user_session");
+    try {
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("user_data");
+      localStorage.removeItem("hotel_auth_token");
+      sessionStorage.removeItem("hotel_user_session");
+    } catch (error) {
+      console.warn('Could not clear storage during logout:', error);
+    }
   };
 
   const hasPermission = (permission: string) => {

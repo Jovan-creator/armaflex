@@ -156,25 +156,24 @@ export default function PublicHome() {
     <div className="flex flex-col">
       {/* Hero Section with Sliding Background */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Gradients */}
+        {/* Background Images */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out bg-gradient-to-br ${image.gradient} ${
+              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
                 index === currentSlide
                   ? 'opacity-100 scale-100'
                   : 'opacity-0 scale-105'
               }`}
+              style={{
+                backgroundImage: `url(${image.url})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
             >
-              {/* Subtle pattern overlay */}
-              <div
-                className="absolute inset-0 opacity-10"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='m0 40l40-40v40z'/%3E%3Cpath d='m40 40v-40l-40 40z'/%3E%3C/g%3E%3C/svg%3E")`
-                }}
-              />
-              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 bg-black/50" />
             </div>
           ))}
         </div>

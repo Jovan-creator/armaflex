@@ -253,7 +253,7 @@ export default function GuestBookingReal() {
               >
                 {num}
               </div>
-              {num < 4 && (
+              {num < 5 && (
                 <div
                   className={`w-12 h-0.5 ${step > num ? "bg-hotel-500" : "bg-gray-200"}`}
                 />

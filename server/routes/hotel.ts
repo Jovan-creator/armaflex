@@ -202,6 +202,21 @@ router.post("/reservations", async (req, res) => {
 });
 
 // User management routes (admin only)
+router.get("/users", authenticateToken, async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const users = await db.getAllUsers();
+    res.json(users);
+  } catch (error) {
+    console.error("Get users error:", error);
+    res.status(500).json({ error: "Failed to fetch users" });
+  }
+});
+
 router.post("/users", authenticateToken, async (req, res) => {
   try {
     const { user } = req;

@@ -19,6 +19,7 @@ import {
   UserCheck,
   BarChart3,
   Settings,
+  Settings2,
   BellRing,
   Globe,
   Package,

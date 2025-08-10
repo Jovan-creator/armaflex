@@ -43,6 +43,7 @@ import GuestDashboard from "./pages/GuestDashboard";
 import GuestReservations from "./pages/GuestReservations";
 import GuestServices from "./pages/GuestServices";
 import GuestBilling from "./pages/GuestBilling";
+import GuestProfile from "./pages/GuestProfile";
 
 const queryClient = new QueryClient();
 

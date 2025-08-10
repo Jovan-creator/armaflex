@@ -35,6 +35,7 @@ import {
 import { PublicRoomsPage, PublicReviewsPage } from "./pages/PublicRoomsReviews";
 import NotFound from "./pages/NotFound";
 import GuestBookingReal from "./pages/GuestBookingReal";
+import PaymentAdmin from "./pages/PaymentAdmin";
 
 const queryClient = new QueryClient();
 

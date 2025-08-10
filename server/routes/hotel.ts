@@ -323,6 +323,150 @@ router.delete("/users/:id", authenticateToken, async (req, res) => {
   }
 });
 
+// Payment routes
+router.post("/payments/create-intent", authenticateToken, async (req, res) => {
+  try {
+    const { amount, currency, reservation_id, description } = req.body;
+
+    const paymentIntent = await paymentService.createPaymentIntent(
+      amount,
+      currency,
+      { reservation_id, description }
+    );
+
+    // Save payment record to database
+    await db.createPayment({
+      reservation_id,
+      stripe_payment_intent_id: paymentIntent.id,
+      amount,
+      currency: currency || 'USD',
+      status: 'pending',
+      description,
+    });
+
+    res.json({
+      client_secret: paymentIntent.client_secret,
+      payment_intent_id: paymentIntent.id,
+    });
+  } catch (error) {
+    console.error("Create payment intent error:", error);
+    res.status(500).json({ error: "Failed to create payment intent" });
+  }
+});
+
+router.post("/payments/:id/confirm", authenticateToken, async (req, res) => {
+  try {
+    const paymentIntentId = req.params.id;
+    const paymentIntent = await paymentService.getPaymentIntent(paymentIntentId);
+
+    // Update payment status based on Stripe status
+    if (paymentIntent.status === 'succeeded') {
+      // Find payment by stripe_payment_intent_id and update
+      const payments = await db.getAllPayments();
+      const payment = payments.find(p => p.stripe_payment_intent_id === paymentIntentId);
+
+      if (payment) {
+        await db.updatePaymentStatus(payment.id, 'succeeded', {
+          card_last4: paymentIntent.charges?.data[0]?.payment_method_details?.card?.last4,
+          card_brand: paymentIntent.charges?.data[0]?.payment_method_details?.card?.brand,
+        });
+      }
+    }
+
+    res.json({ status: paymentIntent.status });
+  } catch (error) {
+    console.error("Confirm payment error:", error);
+    res.status(500).json({ error: "Failed to confirm payment" });
+  }
+});
+
+router.get("/payments", authenticateToken, async (req, res) => {
+  try {
+    const payments = await db.getAllPayments();
+    res.json(payments);
+  } catch (error) {
+    console.error("Get payments error:", error);
+    res.status(500).json({ error: "Failed to fetch payments" });
+  }
+});
+
+router.get("/payments/reservation/:id", authenticateToken, async (req, res) => {
+  try {
+    const reservationId = parseInt(req.params.id);
+    const payments = await db.getPaymentsByReservation(reservationId);
+    res.json(payments);
+  } catch (error) {
+    console.error("Get reservation payments error:", error);
+    res.status(500).json({ error: "Failed to fetch reservation payments" });
+  }
+});
+
+router.post("/payments/:id/refund", authenticateToken, async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.role !== 'admin' && user.role !== 'accountant') {
+      return res.status(403).json({ error: 'Admin or accountant access required' });
+    }
+
+    const paymentId = parseInt(req.params.id);
+    const { amount, reason } = req.body;
+
+    // Get payment details
+    const payments = await db.getAllPayments();
+    const payment = payments.find(p => p.id === paymentId);
+
+    if (!payment) {
+      return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Create refund in Stripe
+    const refund = await paymentService.createRefund(
+      payment.stripe_payment_intent_id,
+      amount,
+      reason
+    );
+
+    // Save refund record to database
+    await db.createRefund({
+      payment_id: paymentId,
+      stripe_refund_id: refund.id,
+      amount: refund.amount / 100, // Convert from cents
+      reason,
+      status: refund.status,
+      created_by: user.id,
+    });
+
+    res.json({ message: 'Refund created successfully', refund_id: refund.id });
+  } catch (error) {
+    console.error("Create refund error:", error);
+    res.status(500).json({ error: "Failed to create refund" });
+  }
+});
+
+// Stripe webhook endpoint
+router.post("/webhooks/stripe", async (req, res) => {
+  try {
+    const sig = req.headers['stripe-signature'];
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!sig || !endpointSecret) {
+      return res.status(400).json({ error: 'Missing signature or webhook secret' });
+    }
+
+    // Verify webhook signature and construct event
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+
+    // Handle the event
+    await paymentService.handleWebhookEvent(event);
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error("Webhook error:", error);
+    res.status(400).json({ error: "Webhook signature verification failed" });
+  }
+});
+
 // Health check
 router.get("/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });

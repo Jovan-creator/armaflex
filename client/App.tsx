@@ -12,7 +12,7 @@ import { PublicLayout } from "@/components/PublicLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import RoomsAdmin from "./pages/RoomsAdmin";
-import Reservations from "./pages/Reservations";
+import ReservationsAdmin from "./pages/ReservationsAdmin";
 import Guests from "./pages/Guests";
 import Billing from "./pages/Billing";
 import Housekeeping from "./pages/Housekeeping";

@@ -198,19 +198,8 @@ export default function Login() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
+  const { setUser, login } = useUser();
   const navigate = useNavigate();
-
-  // Get user context with error handling
-  let userContext;
-  try {
-    userContext = useUser();
-  } catch (error) {
-    console.error('UserContext error:', error);
-    // Fallback - redirect to a safe state
-    return <div>Loading...</div>;
-  }
-
-  const { setUser, login } = userContext;
 
   const testimonials = [
     {

@@ -187,6 +187,47 @@ CREATE TABLE IF NOT EXISTS payment_refunds (
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
+-- Notification preferences table
+CREATE TABLE IF NOT EXISTS notification_preferences (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    guest_id INTEGER,
+    email_address VARCHAR(255),
+    phone_number VARCHAR(50),
+    enable_email BOOLEAN DEFAULT true,
+    enable_sms BOOLEAN DEFAULT false,
+    email_preferences TEXT, -- JSON of email notification types
+    sms_preferences TEXT, -- JSON of SMS notification types
+    quiet_hours_enabled BOOLEAN DEFAULT false,
+    quiet_hours_start TIME DEFAULT '22:00',
+    quiet_hours_end TIME DEFAULT '08:00',
+    language VARCHAR(10) DEFAULT 'en',
+    timezone VARCHAR(50) DEFAULT 'UTC',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (guest_id) REFERENCES guests(id)
+);
+
+-- Notification logs table
+CREATE TABLE IF NOT EXISTS notification_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    guest_id INTEGER,
+    type VARCHAR(50) NOT NULL, -- email, sms
+    template_name VARCHAR(100) NOT NULL,
+    recipient VARCHAR(255) NOT NULL,
+    subject VARCHAR(255),
+    status VARCHAR(50) DEFAULT 'pending', -- pending, sent, failed, delivered
+    error_message TEXT,
+    sent_at DATETIME,
+    delivered_at DATETIME,
+    metadata TEXT, -- JSON for additional data
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (guest_id) REFERENCES guests(id)
+);
+
 -- Insert default admin user (password: admin123)
 INSERT OR IGNORE INTO users (email, password_hash, name, role, department) VALUES
 ('admin@armaflex.com', '$2b$10$example_hash_for_admin123', 'System Administrator', 'admin', 'Management');

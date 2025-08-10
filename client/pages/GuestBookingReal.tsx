@@ -1,14 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -29,7 +45,7 @@ import {
   Tv,
   Wind,
   Bath,
-  Bed
+  Bed,
 } from "lucide-react";
 
 interface Room {
@@ -58,58 +74,60 @@ export default function GuestBookingReal() {
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [step, setStep] = useState(1); // 1: Search, 2: Select Room, 3: Guest Info, 4: Confirmation
 
   // Guest information
   const [guest, setGuest] = useState<Guest>({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    address: '',
-    id_number: ''
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    address: "",
+    id_number: "",
   });
 
-  const [specialRequests, setSpecialRequests] = useState('');
+  const [specialRequests, setSpecialRequests] = useState("");
 
   // Search for available rooms
   const searchRooms = async () => {
     if (!checkInDate || !checkOutDate) {
-      setError('Please select check-in and check-out dates');
+      setError("Please select check-in and check-out dates");
       return;
     }
 
     if (checkInDate >= checkOutDate) {
-      setError('Check-out date must be after check-in date');
+      setError("Check-out date must be after check-in date");
       return;
     }
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
-      const checkIn = format(checkInDate, 'yyyy-MM-dd');
-      const checkOut = format(checkOutDate, 'yyyy-MM-dd');
-      
-      const response = await fetch(`/api/hotel/rooms/available?checkIn=${checkIn}&checkOut=${checkOut}`);
-      
+      const checkIn = format(checkInDate, "yyyy-MM-dd");
+      const checkOut = format(checkOutDate, "yyyy-MM-dd");
+
+      const response = await fetch(
+        `/api/hotel/rooms/available?checkIn=${checkIn}&checkOut=${checkOut}`,
+      );
+
       if (!response.ok) {
-        throw new Error('Failed to search rooms');
+        throw new Error("Failed to search rooms");
       }
 
       const rooms = await response.json();
       setAvailableRooms(rooms);
-      
+
       if (rooms.length === 0) {
-        setError('No rooms available for the selected dates');
+        setError("No rooms available for the selected dates");
       } else {
         setStep(2);
       }
     } catch (err) {
-      setError('Failed to search for available rooms. Please try again.');
-      console.error('Search error:', err);
+      setError("Failed to search for available rooms. Please try again.");
+      console.error("Search error:", err);
     } finally {
       setLoading(false);
     }
@@ -118,8 +136,10 @@ export default function GuestBookingReal() {
   // Calculate total nights and price
   const calculateTotal = () => {
     if (!checkInDate || !checkOutDate || !selectedRoom) return 0;
-    
-    const nights = Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    const nights = Math.ceil(
+      (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24),
+    );
     return nights * selectedRoom.base_price;
   };
 
@@ -128,40 +148,40 @@ export default function GuestBookingReal() {
     if (!selectedRoom || !checkInDate || !checkOutDate) return;
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const bookingData = {
         guest,
         reservation: {
           room_id: selectedRoom.id,
-          check_in_date: format(checkInDate, 'yyyy-MM-dd'),
-          check_out_date: format(checkOutDate, 'yyyy-MM-dd'),
+          check_in_date: format(checkInDate, "yyyy-MM-dd"),
+          check_out_date: format(checkOutDate, "yyyy-MM-dd"),
           adults,
           children,
           total_amount: calculateTotal(),
-          special_requests: specialRequests
-        }
+          special_requests: specialRequests,
+        },
       };
 
-      const response = await fetch('/api/hotel/reservations', {
-        method: 'POST',
+      const response = await fetch("/api/hotel/reservations", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(bookingData)
+        body: JSON.stringify(bookingData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create booking');
+        throw new Error("Failed to create booking");
       }
 
       const result = await response.json();
       setSuccess(`Booking confirmed! Reservation ID: ${result.reservation_id}`);
       setStep(4);
     } catch (err) {
-      setError('Failed to create booking. Please try again.');
-      console.error('Booking error:', err);
+      setError("Failed to create booking. Please try again.");
+      console.error("Booking error:", err);
     } finally {
       setLoading(false);
     }
@@ -170,24 +190,38 @@ export default function GuestBookingReal() {
   // Amenity icons mapping
   const getAmenityIcon = (amenity: string) => {
     switch (amenity.toLowerCase()) {
-      case 'free wifi': return <Wifi className="w-4 h-4" />;
-      case 'air conditioning': return <Wind className="w-4 h-4" />;
-      case 'tv': return <Tv className="w-4 h-4" />;
-      case 'mini bar': return <Coffee className="w-4 h-4" />;
-      case 'mini fridge': return <Coffee className="w-4 h-4" />;
-      case 'balcony': return <MapPin className="w-4 h-4" />;
-      case 'living area': return <Bed className="w-4 h-4" />;
-      case 'jacuzzi': return <Bath className="w-4 h-4" />;
-      case 'butler service': return <Users className="w-4 h-4" />;
-      default: return <Check className="w-4 h-4" />;
+      case "free wifi":
+        return <Wifi className="w-4 h-4" />;
+      case "air conditioning":
+        return <Wind className="w-4 h-4" />;
+      case "tv":
+        return <Tv className="w-4 h-4" />;
+      case "mini bar":
+        return <Coffee className="w-4 h-4" />;
+      case "mini fridge":
+        return <Coffee className="w-4 h-4" />;
+      case "balcony":
+        return <MapPin className="w-4 h-4" />;
+      case "living area":
+        return <Bed className="w-4 h-4" />;
+      case "jacuzzi":
+        return <Bath className="w-4 h-4" />;
+      case "butler service":
+        return <Users className="w-4 h-4" />;
+      default:
+        return <Check className="w-4 h-4" />;
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Book Your Stay</h1>
-        <p className="text-gray-600">Experience luxury and comfort at Armaflex Hotel</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          Book Your Stay
+        </h1>
+        <p className="text-gray-600">
+          Experience luxury and comfort at Armaflex Hotel
+        </p>
       </div>
 
       {/* Progress indicator */}
@@ -195,13 +229,19 @@ export default function GuestBookingReal() {
         <div className="flex items-center space-x-4">
           {[1, 2, 3, 4].map((num) => (
             <div key={num} className="flex items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                step >= num ? 'bg-hotel-500 text-white' : 'bg-gray-200 text-gray-500'
-              }`}>
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  step >= num
+                    ? "bg-hotel-500 text-white"
+                    : "bg-gray-200 text-gray-500"
+                }`}
+              >
                 {num}
               </div>
               {num < 4 && (
-                <div className={`w-12 h-0.5 ${step > num ? 'bg-hotel-500' : 'bg-gray-200'}`} />
+                <div
+                  className={`w-12 h-0.5 ${step > num ? "bg-hotel-500" : "bg-gray-200"}`}
+                />
               )}
             </div>
           ))}
@@ -218,7 +258,9 @@ export default function GuestBookingReal() {
       {success && (
         <Alert className="mb-6 border-green-200 bg-green-50">
           <Check className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-green-700">{success}</AlertDescription>
+          <AlertDescription className="text-green-700">
+            {success}
+          </AlertDescription>
         </Alert>
       )}
 
@@ -227,7 +269,9 @@ export default function GuestBookingReal() {
         <Card>
           <CardHeader>
             <CardTitle>Search Available Rooms</CardTitle>
-            <CardDescription>Select your dates and number of guests</CardDescription>
+            <CardDescription>
+              Select your dates and number of guests
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -240,7 +284,7 @@ export default function GuestBookingReal() {
                       variant="outline"
                       className={cn(
                         "w-full justify-start text-left font-normal",
-                        !checkInDate && "text-muted-foreground"
+                        !checkInDate && "text-muted-foreground",
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
@@ -268,11 +312,13 @@ export default function GuestBookingReal() {
                       variant="outline"
                       className={cn(
                         "w-full justify-start text-left font-normal",
-                        !checkOutDate && "text-muted-foreground"
+                        !checkOutDate && "text-muted-foreground",
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {checkOutDate ? format(checkOutDate, "PPP") : "Select date"}
+                      {checkOutDate
+                        ? format(checkOutDate, "PPP")
+                        : "Select date"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">
@@ -292,13 +338,18 @@ export default function GuestBookingReal() {
               {/* Adults */}
               <div className="space-y-2">
                 <Label>Adults</Label>
-                <Select value={adults.toString()} onValueChange={(value) => setAdults(Number(value))}>
+                <Select
+                  value={adults.toString()}
+                  onValueChange={(value) => setAdults(Number(value))}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {[1, 2, 3, 4, 5, 6].map((num) => (
-                      <SelectItem key={num} value={num.toString()}>{num} Adult{num > 1 ? 's' : ''}</SelectItem>
+                      <SelectItem key={num} value={num.toString()}>
+                        {num} Adult{num > 1 ? "s" : ""}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -307,13 +358,18 @@ export default function GuestBookingReal() {
               {/* Children */}
               <div className="space-y-2">
                 <Label>Children</Label>
-                <Select value={children.toString()} onValueChange={(value) => setChildren(Number(value))}>
+                <Select
+                  value={children.toString()}
+                  onValueChange={(value) => setChildren(Number(value))}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {[0, 1, 2, 3, 4].map((num) => (
-                      <SelectItem key={num} value={num.toString()}>{num} Child{num > 1 ? 'ren' : num === 1 ? '' : 'ren'}</SelectItem>
+                      <SelectItem key={num} value={num.toString()}>
+                        {num} Child{num > 1 ? "ren" : num === 1 ? "" : "ren"}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -321,7 +377,7 @@ export default function GuestBookingReal() {
             </div>
 
             <Button onClick={searchRooms} disabled={loading} className="w-full">
-              {loading ? 'Searching...' : 'Search Available Rooms'}
+              {loading ? "Searching..." : "Search Available Rooms"}
             </Button>
           </CardContent>
         </Card>
@@ -339,17 +395,27 @@ export default function GuestBookingReal() {
 
           <div className="grid gap-6">
             {availableRooms.map((room) => (
-              <Card key={room.id} className={`cursor-pointer transition-all ${
-                selectedRoom?.id === room.id ? 'ring-2 ring-hotel-500 border-hotel-500' : 'hover:shadow-lg'
-              }`} onClick={() => setSelectedRoom(room)}>
+              <Card
+                key={room.id}
+                className={`cursor-pointer transition-all ${
+                  selectedRoom?.id === room.id
+                    ? "ring-2 ring-hotel-500 border-hotel-500"
+                    : "hover:shadow-lg"
+                }`}
+                onClick={() => setSelectedRoom(room)}
+              >
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-semibold">{room.room_type_name}</h3>
+                      <h3 className="text-xl font-semibold">
+                        {room.room_type_name}
+                      </h3>
                       <p className="text-gray-600">Room {room.room_number}</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-hotel-600">${room.base_price}</div>
+                      <div className="text-2xl font-bold text-hotel-600">
+                        ${room.base_price}
+                      </div>
                       <div className="text-sm text-gray-500">per night</div>
                     </div>
                   </div>
@@ -363,12 +429,17 @@ export default function GuestBookingReal() {
 
                   {room.amenities && (
                     <div className="flex flex-wrap gap-2">
-                      {JSON.parse(room.amenities).map((amenity: string, idx: number) => (
-                        <div key={idx} className="flex items-center space-x-1 text-sm text-gray-600">
-                          {getAmenityIcon(amenity)}
-                          <span>{amenity}</span>
-                        </div>
-                      ))}
+                      {JSON.parse(room.amenities).map(
+                        (amenity: string, idx: number) => (
+                          <div
+                            key={idx}
+                            className="flex items-center space-x-1 text-sm text-gray-600"
+                          >
+                            {getAmenityIcon(amenity)}
+                            <span>{amenity}</span>
+                          </div>
+                        ),
+                      )}
                     </div>
                   )}
                 </CardContent>
@@ -391,7 +462,9 @@ export default function GuestBookingReal() {
         <Card>
           <CardHeader>
             <CardTitle>Guest Information</CardTitle>
-            <CardDescription>Please provide your details for the reservation</CardDescription>
+            <CardDescription>
+              Please provide your details for the reservation
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -400,7 +473,9 @@ export default function GuestBookingReal() {
                 <Input
                   id="firstName"
                   value={guest.first_name}
-                  onChange={(e) => setGuest({...guest, first_name: e.target.value})}
+                  onChange={(e) =>
+                    setGuest({ ...guest, first_name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -409,7 +484,9 @@ export default function GuestBookingReal() {
                 <Input
                   id="lastName"
                   value={guest.last_name}
-                  onChange={(e) => setGuest({...guest, last_name: e.target.value})}
+                  onChange={(e) =>
+                    setGuest({ ...guest, last_name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -422,7 +499,9 @@ export default function GuestBookingReal() {
                   id="email"
                   type="email"
                   value={guest.email}
-                  onChange={(e) => setGuest({...guest, email: e.target.value})}
+                  onChange={(e) =>
+                    setGuest({ ...guest, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -431,7 +510,9 @@ export default function GuestBookingReal() {
                 <Input
                   id="phone"
                   value={guest.phone}
-                  onChange={(e) => setGuest({...guest, phone: e.target.value})}
+                  onChange={(e) =>
+                    setGuest({ ...guest, phone: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -442,7 +523,9 @@ export default function GuestBookingReal() {
               <Input
                 id="address"
                 value={guest.address}
-                onChange={(e) => setGuest({...guest, address: e.target.value})}
+                onChange={(e) =>
+                  setGuest({ ...guest, address: e.target.value })
+                }
                 required
               />
             </div>
@@ -452,7 +535,9 @@ export default function GuestBookingReal() {
               <Input
                 id="idNumber"
                 value={guest.id_number}
-                onChange={(e) => setGuest({...guest, id_number: e.target.value})}
+                onChange={(e) =>
+                  setGuest({ ...guest, id_number: e.target.value })
+                }
                 placeholder="Passport or ID number"
                 required
               />
@@ -476,19 +561,27 @@ export default function GuestBookingReal() {
                 <div className="space-y-1 text-sm">
                   <div className="flex justify-between">
                     <span>Room:</span>
-                    <span>{selectedRoom.room_type_name} (#{selectedRoom.room_number})</span>
+                    <span>
+                      {selectedRoom.room_type_name} (#{selectedRoom.room_number}
+                      )
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Check-in:</span>
-                    <span>{format(checkInDate, 'PPP')}</span>
+                    <span>{format(checkInDate, "PPP")}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Check-out:</span>
-                    <span>{format(checkOutDate, 'PPP')}</span>
+                    <span>{format(checkOutDate, "PPP")}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Guests:</span>
-                    <span>{adults} adult{adults > 1 ? 's' : ''}{children > 0 ? `, ${children} child${children > 1 ? 'ren' : ''}` : ''}</span>
+                    <span>
+                      {adults} adult{adults > 1 ? "s" : ""}
+                      {children > 0
+                        ? `, ${children} child${children > 1 ? "ren" : ""}`
+                        : ""}
+                    </span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-semibold">
@@ -504,7 +597,7 @@ export default function GuestBookingReal() {
                 Back to Rooms
               </Button>
               <Button onClick={submitBooking} disabled={loading}>
-                {loading ? 'Creating Booking...' : 'Confirm Booking'}
+                {loading ? "Creating Booking..." : "Confirm Booking"}
               </Button>
             </div>
           </CardContent>
@@ -518,8 +611,12 @@ export default function GuestBookingReal() {
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="w-8 h-8 text-green-600" />
             </div>
-            <CardTitle className="text-2xl text-green-700">Booking Confirmed!</CardTitle>
-            <CardDescription>Thank you for choosing Armaflex Hotel</CardDescription>
+            <CardTitle className="text-2xl text-green-700">
+              Booking Confirmed!
+            </CardTitle>
+            <CardDescription>
+              Thank you for choosing Armaflex Hotel
+            </CardDescription>
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <p className="text-gray-600">

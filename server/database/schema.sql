@@ -155,6 +155,38 @@ INSERT OR IGNORE INTO rooms (room_number, room_type_id, floor) VALUES
 ('201', 2, 2), ('202', 2, 2),
 ('301', 3, 3);
 
+-- Payments table
+CREATE TABLE IF NOT EXISTS payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    reservation_id INTEGER NOT NULL,
+    stripe_payment_intent_id VARCHAR(255),
+    amount DECIMAL(10,2) NOT NULL,
+    currency VARCHAR(10) DEFAULT 'USD',
+    status VARCHAR(50) DEFAULT 'pending', -- pending, processing, succeeded, failed, cancelled, refunded
+    payment_method VARCHAR(50), -- card, bank_transfer, cash, etc.
+    card_last4 VARCHAR(4),
+    card_brand VARCHAR(20),
+    description TEXT,
+    metadata TEXT, -- JSON for additional data
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (reservation_id) REFERENCES reservations(id)
+);
+
+-- Payment refunds table
+CREATE TABLE IF NOT EXISTS payment_refunds (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    payment_id INTEGER NOT NULL,
+    stripe_refund_id VARCHAR(255),
+    amount DECIMAL(10,2) NOT NULL,
+    reason VARCHAR(100),
+    status VARCHAR(50) DEFAULT 'pending', -- pending, succeeded, failed, cancelled
+    created_by INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (payment_id) REFERENCES payments(id),
+    FOREIGN KEY (created_by) REFERENCES users(id)
+);
+
 -- Insert default admin user (password: admin123)
 INSERT OR IGNORE INTO users (email, password_hash, name, role, department) VALUES
 ('admin@armaflex.com', '$2b$10$example_hash_for_admin123', 'System Administrator', 'admin', 'Management');

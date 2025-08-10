@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { CheckCircle, AlertCircle, CreditCard, Lock } from "lucide-react";
 
 // Initialize Stripe (replace with your publishable key)
-const stripePromise = loadStripe(process.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_...');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51234567890_test_key');
 
 interface PaymentFormProps {
   amount: number;

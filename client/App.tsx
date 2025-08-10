@@ -188,6 +188,13 @@ const App = () => (
                 </PublicLayout>
               </ProtectedRoute>
             } />
+            <Route path="/book" element={
+              <ProtectedRoute requireAuth={false}>
+                <PublicLayout>
+                  <GuestBookingReal />
+                </PublicLayout>
+              </ProtectedRoute>
+            } />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

@@ -300,11 +300,39 @@ export class DatabaseService {
   }
 
   // Reservation operations
+  async getAllReservations() {
+    if (!this.db) await this.init();
+    return await this.db!.all(`
+      SELECT
+        r.id,
+        r.check_in_date,
+        r.check_out_date,
+        r.adults,
+        r.children,
+        r.total_amount,
+        r.status,
+        r.special_requests,
+        r.created_at,
+        g.first_name || ' ' || g.last_name as guest_name,
+        g.email as guest_email,
+        g.phone as guest_phone,
+        rm.room_number,
+        rt.name as room_type_name,
+        u.name as created_by
+      FROM reservations r
+      JOIN guests g ON r.guest_id = g.id
+      JOIN rooms rm ON r.room_id = rm.id
+      JOIN room_types rt ON rm.room_type_id = rt.id
+      LEFT JOIN users u ON r.created_by = u.id
+      ORDER BY r.created_at DESC
+    `);
+  }
+
   async createReservation(reservationData: any) {
     if (!this.db) await this.init();
     return await this.db!.run(
       `
-      INSERT INTO reservations (guest_id, room_id, check_in_date, check_out_date, adults, children, total_amount, status, special_requests, created_by) 
+      INSERT INTO reservations (guest_id, room_id, check_in_date, check_out_date, adults, children, total_amount, status, special_requests, created_by)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
       [
@@ -319,6 +347,22 @@ export class DatabaseService {
         reservationData.special_requests,
         reservationData.created_by,
       ],
+    );
+  }
+
+  async updateReservationStatus(reservationId: number, status: string) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `UPDATE reservations SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+      [status, reservationId]
+    );
+  }
+
+  async cancelReservation(reservationId: number) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `UPDATE reservations SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+      [reservationId]
     );
   }
 

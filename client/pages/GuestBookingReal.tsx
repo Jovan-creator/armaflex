@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import StripePayment, { PaymentSuccess } from "@/components/StripePayment";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {

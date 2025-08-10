@@ -1,0 +1,52 @@
+{
+  "name": "Armaflex Hotel Management System",
+  "short_name": "Armaflex Hotel",
+  "description": "Complete hotel management system with guest portal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c5aa0",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["business", "productivity", "travel"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/placeholder.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Admin Dashboard",
+      "short_name": "Dashboard",
+      "description": "Access the admin dashboard",
+      "url": "/",
+      "icons": [{ "src": "/placeholder.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Guest Portal",
+      "short_name": "Guest Portal",
+      "description": "Access the guest portal",
+      "url": "/guest/login",
+      "icons": [{ "src": "/placeholder.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Book Room",
+      "short_name": "Book",
+      "description": "Book a room",
+      "url": "/book",
+      "icons": [{ "src": "/placeholder.svg", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

@@ -18,6 +18,7 @@ interface UserContextType {
   isLoggedIn: boolean;
   logout: () => void;
   hasPermission: (permission: string) => boolean;
+  login: (email: string, password: string) => Promise<boolean>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

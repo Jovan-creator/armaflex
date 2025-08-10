@@ -180,14 +180,26 @@ export default function GuestBookingReal() {
       }
 
       const result = await response.json();
-      setSuccess(`Booking confirmed! Reservation ID: ${result.reservation_id}`);
-      setStep(4);
+      setReservationId(result.reservation_id);
+      setStep(4); // Proceed to payment step
     } catch (err) {
       setError("Failed to create booking. Please try again.");
       console.error("Booking error:", err);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Handle payment success
+  const handlePaymentSuccess = (paymentIntentId: string) => {
+    setPaymentIntentId(paymentIntentId);
+    setSuccess(`Payment successful! Reservation confirmed.`);
+    setStep(5); // Proceed to final confirmation
+  };
+
+  // Handle payment error
+  const handlePaymentError = (error: string) => {
+    setError(error);
   };
 
   // Amenity icons mapping

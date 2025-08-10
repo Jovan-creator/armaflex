@@ -162,7 +162,7 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.all(
       `SELECT id, email, name, role, department, is_active, created_at, updated_at
-       FROM users ORDER BY created_at DESC`
+       FROM users ORDER BY created_at DESC`,
     );
   }
 
@@ -184,7 +184,13 @@ export class DatabaseService {
         SET name = ?, role = ?, department = ?, password_hash = ?, updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
       `;
-      params = [userData.name, userData.role, userData.department, hashedPassword, userId];
+      params = [
+        userData.name,
+        userData.role,
+        userData.department,
+        hashedPassword,
+        userId,
+      ];
     }
 
     return await this.db!.run(query, params);
@@ -194,7 +200,7 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.run(
       `UPDATE users SET is_active = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
-      [isActive, userId]
+      [isActive, userId],
     );
   }
 
@@ -354,7 +360,7 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.run(
       `UPDATE reservations SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
-      [status, reservationId]
+      [status, reservationId],
     );
   }
 
@@ -362,7 +368,7 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.run(
       `UPDATE reservations SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
-      [reservationId]
+      [reservationId],
     );
   }
 

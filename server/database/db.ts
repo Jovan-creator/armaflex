@@ -508,7 +508,7 @@ export class DatabaseService {
     const preferences = await database.get(
       `SELECT * FROM notification_preferences
        WHERE user_id = ? OR guest_id = ?`,
-      [userId, guestId]
+      [userId, guestId],
     );
 
     if (!preferences) {
@@ -517,8 +517,12 @@ export class DatabaseService {
 
     return {
       ...preferences,
-      email_preferences: preferences.email_preferences ? JSON.parse(preferences.email_preferences) : {},
-      sms_preferences: preferences.sms_preferences ? JSON.parse(preferences.sms_preferences) : {}
+      email_preferences: preferences.email_preferences
+        ? JSON.parse(preferences.email_preferences)
+        : {},
+      sms_preferences: preferences.sms_preferences
+        ? JSON.parse(preferences.sms_preferences)
+        : {},
     };
   }
 
@@ -539,7 +543,10 @@ export class DatabaseService {
   }) {
     const database = await getDatabase();
 
-    const existingPrefs = await this.getNotificationPreferences(preferences.userId, preferences.guestId);
+    const existingPrefs = await this.getNotificationPreferences(
+      preferences.userId,
+      preferences.guestId,
+    );
 
     if (existingPrefs) {
       await database.run(
@@ -562,8 +569,8 @@ export class DatabaseService {
           preferences.language,
           preferences.timezone,
           preferences.userId,
-          preferences.guestId
-        ]
+          preferences.guestId,
+        ],
       );
     } else {
       await database.run(
@@ -585,23 +592,29 @@ export class DatabaseService {
           preferences.quietHoursStart,
           preferences.quietHoursEnd,
           preferences.language,
-          preferences.timezone
-        ]
+          preferences.timezone,
+        ],
       );
     }
 
-    return this.getNotificationPreferences(preferences.userId, preferences.guestId);
+    return this.getNotificationPreferences(
+      preferences.userId,
+      preferences.guestId,
+    );
   }
 
   // Additional room methods
   static async getRoomById(roomId: number) {
     const database = await getDatabase();
-    return await database.get(`
+    return await database.get(
+      `
       SELECT r.*, rt.name as room_type_name, rt.base_price, rt.max_occupancy
       FROM rooms r
       JOIN room_types rt ON r.room_type_id = rt.id
       WHERE r.id = ?
-    `, [roomId]);
+    `,
+      [roomId],
+    );
   }
 
   // Additional reservation methods
@@ -612,61 +625,61 @@ export class DatabaseService {
     const values: any[] = [];
 
     if (reservationData.guest_id !== undefined) {
-      updates.push('guest_id = ?');
+      updates.push("guest_id = ?");
       values.push(reservationData.guest_id);
     }
 
     if (reservationData.room_id !== undefined) {
-      updates.push('room_id = ?');
+      updates.push("room_id = ?");
       values.push(reservationData.room_id);
     }
 
     if (reservationData.check_in_date !== undefined) {
-      updates.push('check_in_date = ?');
+      updates.push("check_in_date = ?");
       values.push(reservationData.check_in_date);
     }
 
     if (reservationData.check_out_date !== undefined) {
-      updates.push('check_out_date = ?');
+      updates.push("check_out_date = ?");
       values.push(reservationData.check_out_date);
     }
 
     if (reservationData.adults !== undefined) {
-      updates.push('adults = ?');
+      updates.push("adults = ?");
       values.push(reservationData.adults);
     }
 
     if (reservationData.children !== undefined) {
-      updates.push('children = ?');
+      updates.push("children = ?");
       values.push(reservationData.children);
     }
 
     if (reservationData.total_amount !== undefined) {
-      updates.push('total_amount = ?');
+      updates.push("total_amount = ?");
       values.push(reservationData.total_amount);
     }
 
     if (reservationData.status !== undefined) {
-      updates.push('status = ?');
+      updates.push("status = ?");
       values.push(reservationData.status);
     }
 
     if (reservationData.confirmation_code !== undefined) {
-      updates.push('confirmation_code = ?');
+      updates.push("confirmation_code = ?");
       values.push(reservationData.confirmation_code);
     }
 
     if (reservationData.special_requests !== undefined) {
-      updates.push('special_requests = ?');
+      updates.push("special_requests = ?");
       values.push(reservationData.special_requests);
     }
 
-    updates.push('updated_at = CURRENT_TIMESTAMP');
+    updates.push("updated_at = CURRENT_TIMESTAMP");
     values.push(reservationId);
 
     return await database.run(
-      `UPDATE reservations SET ${updates.join(', ')} WHERE id = ?`,
-      values
+      `UPDATE reservations SET ${updates.join(", ")} WHERE id = ?`,
+      values,
     );
   }
 
@@ -675,7 +688,7 @@ export class DatabaseService {
     const database = await getDatabase();
     return await database.get(
       `SELECT * FROM payments WHERE stripe_payment_intent_id = ?`,
-      [stripePaymentIntentId]
+      [stripePaymentIntentId],
     );
   }
 
@@ -683,7 +696,7 @@ export class DatabaseService {
     const database = await getDatabase();
     return await database.run(
       `UPDATE payments SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
-      [status, paymentId]
+      [status, paymentId],
     );
   }
 
@@ -691,7 +704,7 @@ export class DatabaseService {
     const database = await getDatabase();
     return await database.run(
       `UPDATE payment_refunds SET status = ? WHERE stripe_refund_id = ?`,
-      [status, stripeRefundId]
+      [status, stripeRefundId],
     );
   }
 
@@ -702,23 +715,20 @@ export class DatabaseService {
        FROM reservations r
        JOIN guests g ON r.guest_id = g.id
        WHERE r.id = ?`,
-      [reservationId]
+      [reservationId],
     );
   }
 
   static async getGuestById(guestId: number) {
     const database = await getDatabase();
-    return await database.get(
-      `SELECT * FROM guests WHERE id = ?`,
-      [guestId]
-    );
+    return await database.get(`SELECT * FROM guests WHERE id = ?`, [guestId]);
   }
 
   // Notification logs methods
   static async logNotification(log: {
     userId?: number;
     guestId?: number;
-    type: 'email' | 'sms';
+    type: "email" | "sms";
     templateName: string;
     recipient: string;
     subject?: string;
@@ -742,12 +752,12 @@ export class DatabaseService {
         log.templateName,
         log.recipient,
         log.subject,
-        log.status || 'pending',
+        log.status || "pending",
         log.errorMessage,
         log.sentAt,
         log.deliveredAt,
-        JSON.stringify(log.metadata || {})
-      ]
+        JSON.stringify(log.metadata || {}),
+      ],
     );
 
     return result.lastID;
@@ -757,7 +767,7 @@ export class DatabaseService {
     logId: number,
     status: string,
     errorMessage?: string,
-    deliveredAt?: Date
+    deliveredAt?: Date,
   ) {
     const database = await getDatabase();
 
@@ -765,18 +775,20 @@ export class DatabaseService {
       `UPDATE notification_logs
        SET status = ?, error_message = ?, delivered_at = ?, updated_at = CURRENT_TIMESTAMP
        WHERE id = ?`,
-      [status, errorMessage, deliveredAt, logId]
+      [status, errorMessage, deliveredAt, logId],
     );
   }
 
-  static async getNotificationLogs(filters: {
-    userId?: number;
-    guestId?: number;
-    type?: string;
-    status?: string;
-    limit?: number;
-    offset?: number;
-  } = {}) {
+  static async getNotificationLogs(
+    filters: {
+      userId?: number;
+      guestId?: number;
+      type?: string;
+      status?: string;
+      limit?: number;
+      offset?: number;
+    } = {},
+  ) {
     const database = await getDatabase();
 
     let query = `SELECT * FROM notification_logs WHERE 1=1`;

@@ -1,13 +1,29 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useUser } from "@/contexts/UserContext";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -83,26 +99,30 @@ const defaultPreferences: NotificationPreferences = {
     staffEmergencies: true,
   },
   preferences: {
-    emailAddress: '',
-    phoneNumber: '',
+    emailAddress: "",
+    phoneNumber: "",
     enableEmail: true,
     enableSMS: false,
     quietHours: {
       enabled: false,
-      start: '22:00',
-      end: '08:00',
+      start: "22:00",
+      end: "08:00",
     },
-    language: 'en',
-    timezone: 'UTC',
+    language: "en",
+    timezone: "UTC",
   },
 };
 
 export default function NotificationSettings() {
   const { user } = useUser();
   const { toast } = useToast();
-  const [preferences, setPreferences] = useState<NotificationPreferences>(defaultPreferences);
+  const [preferences, setPreferences] =
+    useState<NotificationPreferences>(defaultPreferences);
   const [loading, setLoading] = useState(false);
-  const [testing, setTesting] = useState<{ email: boolean; sms: boolean }>({ email: false, sms: false });
+  const [testing, setTesting] = useState<{ email: boolean; sms: boolean }>({
+    email: false,
+    sms: false,
+  });
 
   useEffect(() => {
     loadPreferences();
@@ -112,9 +132,9 @@ export default function NotificationSettings() {
     if (!user) return;
 
     try {
-      const response = await fetch('/api/hotel/notifications/preferences', {
+      const response = await fetch("/api/hotel/notifications/preferences", {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -123,7 +143,7 @@ export default function NotificationSettings() {
         setPreferences({ ...defaultPreferences, ...data });
       }
     } catch (error) {
-      console.error('Failed to load notification preferences:', error);
+      console.error("Failed to load notification preferences:", error);
     }
   };
 
@@ -132,11 +152,11 @@ export default function NotificationSettings() {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/hotel/notifications/preferences', {
-        method: 'POST',
+      const response = await fetch("/api/hotel/notifications/preferences", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(preferences),
       });
@@ -147,7 +167,7 @@ export default function NotificationSettings() {
           description: "Your notification preferences have been updated.",
         });
       } else {
-        throw new Error('Failed to save preferences');
+        throw new Error("Failed to save preferences");
       }
     } catch (error) {
       toast({
@@ -160,22 +180,22 @@ export default function NotificationSettings() {
     }
   };
 
-  const testNotification = async (type: 'email' | 'sms') => {
+  const testNotification = async (type: "email" | "sms") => {
     if (!user) return;
 
-    setTesting(prev => ({ ...prev, [type]: true }));
-    
+    setTesting((prev) => ({ ...prev, [type]: true }));
+
     try {
-      const response = await fetch('/api/hotel/notifications/test', {
-        method: 'POST',
+      const response = await fetch("/api/hotel/notifications/test", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           type,
           email: preferences.preferences.emailAddress,
-          phone: preferences.preferences.phoneNumber 
+          phone: preferences.preferences.phoneNumber,
         }),
       });
 
@@ -194,49 +214,128 @@ export default function NotificationSettings() {
         variant: "destructive",
       });
     } finally {
-      setTesting(prev => ({ ...prev, [type]: false }));
+      setTesting((prev) => ({ ...prev, [type]: false }));
     }
   };
 
-  const updateEmailPreference = (key: keyof NotificationPreferences['email'], value: boolean) => {
-    setPreferences(prev => ({
+  const updateEmailPreference = (
+    key: keyof NotificationPreferences["email"],
+    value: boolean,
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
-      email: { ...prev.email, [key]: value }
+      email: { ...prev.email, [key]: value },
     }));
   };
 
-  const updateSMSPreference = (key: keyof NotificationPreferences['sms'], value: boolean) => {
-    setPreferences(prev => ({
+  const updateSMSPreference = (
+    key: keyof NotificationPreferences["sms"],
+    value: boolean,
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
-      sms: { ...prev.sms, [key]: value }
+      sms: { ...prev.sms, [key]: value },
     }));
   };
 
-  const updatePreference = (key: keyof NotificationPreferences['preferences'], value: any) => {
-    setPreferences(prev => ({
+  const updatePreference = (
+    key: keyof NotificationPreferences["preferences"],
+    value: any,
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
-      preferences: { ...prev.preferences, [key]: value }
+      preferences: { ...prev.preferences, [key]: value },
     }));
   };
 
   const emailNotificationTypes = [
-    { key: 'bookingConfirmation', label: 'Booking Confirmations', icon: Calendar, description: 'Receive confirmation when bookings are made' },
-    { key: 'paymentReceipts', label: 'Payment Receipts', icon: CreditCard, description: 'Get receipts for all payments processed' },
-    { key: 'checkInReminders', label: 'Check-in Reminders', icon: Clock, description: 'Reminders before your check-in time' },
-    { key: 'checkOutReminders', label: 'Check-out Reminders', icon: Clock, description: 'Reminders before check-out time' },
-    { key: 'staffAlerts', label: 'Staff Alerts', icon: Users, description: 'Important alerts for staff members' },
-    { key: 'maintenanceUpdates', label: 'Maintenance Updates', icon: Wrench, description: 'Updates about hotel maintenance' },
-    { key: 'promotionalOffers', label: 'Promotional Offers', icon: Star, description: 'Special offers and promotions' },
-    { key: 'systemUpdates', label: 'System Updates', icon: Settings, description: 'Important system announcements' },
+    {
+      key: "bookingConfirmation",
+      label: "Booking Confirmations",
+      icon: Calendar,
+      description: "Receive confirmation when bookings are made",
+    },
+    {
+      key: "paymentReceipts",
+      label: "Payment Receipts",
+      icon: CreditCard,
+      description: "Get receipts for all payments processed",
+    },
+    {
+      key: "checkInReminders",
+      label: "Check-in Reminders",
+      icon: Clock,
+      description: "Reminders before your check-in time",
+    },
+    {
+      key: "checkOutReminders",
+      label: "Check-out Reminders",
+      icon: Clock,
+      description: "Reminders before check-out time",
+    },
+    {
+      key: "staffAlerts",
+      label: "Staff Alerts",
+      icon: Users,
+      description: "Important alerts for staff members",
+    },
+    {
+      key: "maintenanceUpdates",
+      label: "Maintenance Updates",
+      icon: Wrench,
+      description: "Updates about hotel maintenance",
+    },
+    {
+      key: "promotionalOffers",
+      label: "Promotional Offers",
+      icon: Star,
+      description: "Special offers and promotions",
+    },
+    {
+      key: "systemUpdates",
+      label: "System Updates",
+      icon: Settings,
+      description: "Important system announcements",
+    },
   ];
 
   const smsNotificationTypes = [
-    { key: 'bookingConfirmation', label: 'Booking Confirmations', icon: Calendar, description: 'SMS confirmation for bookings' },
-    { key: 'paymentReceipts', label: 'Payment Receipts', icon: CreditCard, description: 'SMS receipts for payments' },
-    { key: 'checkInReminders', label: 'Check-in Reminders', icon: Clock, description: 'SMS reminders before check-in' },
-    { key: 'checkOutReminders', label: 'Check-out Reminders', icon: Clock, description: 'SMS reminders before check-out' },
-    { key: 'urgentAlerts', label: 'Urgent Alerts', icon: AlertTriangle, description: 'Important urgent notifications' },
-    { key: 'staffEmergencies', label: 'Staff Emergencies', icon: Users, description: 'Emergency alerts for staff' },
+    {
+      key: "bookingConfirmation",
+      label: "Booking Confirmations",
+      icon: Calendar,
+      description: "SMS confirmation for bookings",
+    },
+    {
+      key: "paymentReceipts",
+      label: "Payment Receipts",
+      icon: CreditCard,
+      description: "SMS receipts for payments",
+    },
+    {
+      key: "checkInReminders",
+      label: "Check-in Reminders",
+      icon: Clock,
+      description: "SMS reminders before check-in",
+    },
+    {
+      key: "checkOutReminders",
+      label: "Check-out Reminders",
+      icon: Clock,
+      description: "SMS reminders before check-out",
+    },
+    {
+      key: "urgentAlerts",
+      label: "Urgent Alerts",
+      icon: AlertTriangle,
+      description: "Important urgent notifications",
+    },
+    {
+      key: "staffEmergencies",
+      label: "Staff Emergencies",
+      icon: Users,
+      description: "Emergency alerts for staff",
+    },
   ];
 
   return (
@@ -244,7 +343,9 @@ export default function NotificationSettings() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Notification Settings</h1>
-          <p className="text-muted-foreground">Configure how you want to receive notifications</p>
+          <p className="text-muted-foreground">
+            Configure how you want to receive notifications
+          </p>
         </div>
         <Button onClick={savePreferences} disabled={loading}>
           {loading ? "Saving..." : "Save Settings"}
@@ -273,7 +374,13 @@ export default function NotificationSettings() {
               <CardTitle className="flex items-center space-x-2">
                 <Mail className="w-5 h-5" />
                 <span>Email Notifications</span>
-                <Badge variant={preferences.preferences.enableEmail ? "default" : "secondary"}>
+                <Badge
+                  variant={
+                    preferences.preferences.enableEmail
+                      ? "default"
+                      : "secondary"
+                  }
+                >
                   {preferences.preferences.enableEmail ? "Enabled" : "Disabled"}
                 </Badge>
               </CardTitle>
@@ -284,13 +391,19 @@ export default function NotificationSettings() {
             <CardContent className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="enable-email">Enable Email Notifications</Label>
-                  <p className="text-sm text-muted-foreground">Master switch for all email notifications</p>
+                  <Label htmlFor="enable-email">
+                    Enable Email Notifications
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Master switch for all email notifications
+                  </p>
                 </div>
                 <Switch
                   id="enable-email"
                   checked={preferences.preferences.enableEmail}
-                  onCheckedChange={(checked) => updatePreference('enableEmail', checked)}
+                  onCheckedChange={(checked) =>
+                    updatePreference("enableEmail", checked)
+                  }
                 />
               </div>
 
@@ -301,16 +414,26 @@ export default function NotificationSettings() {
                     type="email"
                     placeholder="your-email@example.com"
                     value={preferences.preferences.emailAddress}
-                    onChange={(e) => updatePreference('emailAddress', e.target.value)}
+                    onChange={(e) =>
+                      updatePreference("emailAddress", e.target.value)
+                    }
                     disabled={!preferences.preferences.enableEmail}
                   />
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => testNotification('email')}
-                    disabled={!preferences.preferences.enableEmail || !preferences.preferences.emailAddress || testing.email}
+                    onClick={() => testNotification("email")}
+                    disabled={
+                      !preferences.preferences.enableEmail ||
+                      !preferences.preferences.emailAddress ||
+                      testing.email
+                    }
                   >
-                    {testing.email ? <div className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full" /> : <TestTube className="w-4 h-4" />}
+                    {testing.email ? (
+                      <div className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full" />
+                    ) : (
+                      <TestTube className="w-4 h-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -322,17 +445,31 @@ export default function NotificationSettings() {
                 {emailNotificationTypes.map((type) => {
                   const IconComponent = type.icon;
                   return (
-                    <div key={type.key} className="flex items-center justify-between py-2">
+                    <div
+                      key={type.key}
+                      className="flex items-center justify-between py-2"
+                    >
                       <div className="flex items-center space-x-3">
                         <IconComponent className="w-4 h-4 text-muted-foreground" />
                         <div>
                           <p className="font-medium">{type.label}</p>
-                          <p className="text-sm text-muted-foreground">{type.description}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {type.description}
+                          </p>
                         </div>
                       </div>
                       <Switch
-                        checked={preferences.email[type.key as keyof NotificationPreferences['email']]}
-                        onCheckedChange={(checked) => updateEmailPreference(type.key as keyof NotificationPreferences['email'], checked)}
+                        checked={
+                          preferences.email[
+                            type.key as keyof NotificationPreferences["email"]
+                          ]
+                        }
+                        onCheckedChange={(checked) =>
+                          updateEmailPreference(
+                            type.key as keyof NotificationPreferences["email"],
+                            checked,
+                          )
+                        }
                         disabled={!preferences.preferences.enableEmail}
                       />
                     </div>
@@ -349,7 +486,11 @@ export default function NotificationSettings() {
               <CardTitle className="flex items-center space-x-2">
                 <MessageSquare className="w-5 h-5" />
                 <span>SMS Notifications</span>
-                <Badge variant={preferences.preferences.enableSMS ? "default" : "secondary"}>
+                <Badge
+                  variant={
+                    preferences.preferences.enableSMS ? "default" : "secondary"
+                  }
+                >
                   {preferences.preferences.enableSMS ? "Enabled" : "Disabled"}
                 </Badge>
               </CardTitle>
@@ -361,12 +502,16 @@ export default function NotificationSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="enable-sms">Enable SMS Notifications</Label>
-                  <p className="text-sm text-muted-foreground">Master switch for all SMS notifications</p>
+                  <p className="text-sm text-muted-foreground">
+                    Master switch for all SMS notifications
+                  </p>
                 </div>
                 <Switch
                   id="enable-sms"
                   checked={preferences.preferences.enableSMS}
-                  onCheckedChange={(checked) => updatePreference('enableSMS', checked)}
+                  onCheckedChange={(checked) =>
+                    updatePreference("enableSMS", checked)
+                  }
                 />
               </div>
 
@@ -377,20 +522,31 @@ export default function NotificationSettings() {
                     type="tel"
                     placeholder="+1 (555) 123-4567"
                     value={preferences.preferences.phoneNumber}
-                    onChange={(e) => updatePreference('phoneNumber', e.target.value)}
+                    onChange={(e) =>
+                      updatePreference("phoneNumber", e.target.value)
+                    }
                     disabled={!preferences.preferences.enableSMS}
                   />
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => testNotification('sms')}
-                    disabled={!preferences.preferences.enableSMS || !preferences.preferences.phoneNumber || testing.sms}
+                    onClick={() => testNotification("sms")}
+                    disabled={
+                      !preferences.preferences.enableSMS ||
+                      !preferences.preferences.phoneNumber ||
+                      testing.sms
+                    }
                   >
-                    {testing.sms ? <div className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full" /> : <TestTube className="w-4 h-4" />}
+                    {testing.sms ? (
+                      <div className="animate-spin w-4 h-4 border-2 border-current border-t-transparent rounded-full" />
+                    ) : (
+                      <TestTube className="w-4 h-4" />
+                    )}
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Standard messaging rates may apply. SMS limited to urgent notifications only.
+                  Standard messaging rates may apply. SMS limited to urgent
+                  notifications only.
                 </p>
               </div>
 
@@ -401,17 +557,31 @@ export default function NotificationSettings() {
                 {smsNotificationTypes.map((type) => {
                   const IconComponent = type.icon;
                   return (
-                    <div key={type.key} className="flex items-center justify-between py-2">
+                    <div
+                      key={type.key}
+                      className="flex items-center justify-between py-2"
+                    >
                       <div className="flex items-center space-x-3">
                         <IconComponent className="w-4 h-4 text-muted-foreground" />
                         <div>
                           <p className="font-medium">{type.label}</p>
-                          <p className="text-sm text-muted-foreground">{type.description}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {type.description}
+                          </p>
                         </div>
                       </div>
                       <Switch
-                        checked={preferences.sms[type.key as keyof NotificationPreferences['sms']]}
-                        onCheckedChange={(checked) => updateSMSPreference(type.key as keyof NotificationPreferences['sms'], checked)}
+                        checked={
+                          preferences.sms[
+                            type.key as keyof NotificationPreferences["sms"]
+                          ]
+                        }
+                        onCheckedChange={(checked) =>
+                          updateSMSPreference(
+                            type.key as keyof NotificationPreferences["sms"],
+                            checked,
+                          )
+                        }
                         disabled={!preferences.preferences.enableSMS}
                       />
                     </div>
@@ -439,13 +609,18 @@ export default function NotificationSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="quiet-hours">Enable Quiet Hours</Label>
-                    <p className="text-sm text-muted-foreground">Suppress non-urgent notifications during specified hours</p>
+                    <p className="text-sm text-muted-foreground">
+                      Suppress non-urgent notifications during specified hours
+                    </p>
                   </div>
                   <Switch
                     id="quiet-hours"
                     checked={preferences.preferences.quietHours.enabled}
-                    onCheckedChange={(checked) => 
-                      updatePreference('quietHours', { ...preferences.preferences.quietHours, enabled: checked })
+                    onCheckedChange={(checked) =>
+                      updatePreference("quietHours", {
+                        ...preferences.preferences.quietHours,
+                        enabled: checked,
+                      })
                     }
                   />
                 </div>
@@ -457,10 +632,10 @@ export default function NotificationSettings() {
                       <Input
                         type="time"
                         value={preferences.preferences.quietHours.start}
-                        onChange={(e) => 
-                          updatePreference('quietHours', { 
-                            ...preferences.preferences.quietHours, 
-                            start: e.target.value 
+                        onChange={(e) =>
+                          updatePreference("quietHours", {
+                            ...preferences.preferences.quietHours,
+                            start: e.target.value,
                           })
                         }
                       />
@@ -470,10 +645,10 @@ export default function NotificationSettings() {
                       <Input
                         type="time"
                         value={preferences.preferences.quietHours.end}
-                        onChange={(e) => 
-                          updatePreference('quietHours', { 
-                            ...preferences.preferences.quietHours, 
-                            end: e.target.value 
+                        onChange={(e) =>
+                          updatePreference("quietHours", {
+                            ...preferences.preferences.quietHours,
+                            end: e.target.value,
                           })
                         }
                       />
@@ -489,10 +664,12 @@ export default function NotificationSettings() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label>Language</Label>
-                    <select 
+                    <select
                       className="w-full p-2 border rounded-md"
                       value={preferences.preferences.language}
-                      onChange={(e) => updatePreference('language', e.target.value)}
+                      onChange={(e) =>
+                        updatePreference("language", e.target.value)
+                      }
                     >
                       <option value="en">English</option>
                       <option value="es">Spanish</option>
@@ -502,10 +679,12 @@ export default function NotificationSettings() {
                   </div>
                   <div>
                     <Label>Timezone</Label>
-                    <select 
+                    <select
                       className="w-full p-2 border rounded-md"
                       value={preferences.preferences.timezone}
-                      onChange={(e) => updatePreference('timezone', e.target.value)}
+                      onChange={(e) =>
+                        updatePreference("timezone", e.target.value)
+                      }
                     >
                       <option value="UTC">UTC</option>
                       <option value="America/New_York">Eastern Time</option>
@@ -529,7 +708,9 @@ export default function NotificationSettings() {
                         <span className="font-medium">Email Service</span>
                         <CheckCircle className="w-4 h-4 text-green-600" />
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">Operational</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Operational
+                      </p>
                     </CardContent>
                   </Card>
                   <Card>
@@ -539,7 +720,9 @@ export default function NotificationSettings() {
                         <span className="font-medium">SMS Service</span>
                         <CheckCircle className="w-4 h-4 text-green-600" />
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">Operational</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Operational
+                      </p>
                     </CardContent>
                   </Card>
                 </div>

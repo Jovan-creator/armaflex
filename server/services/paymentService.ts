@@ -132,18 +132,22 @@ export class PaymentService {
 
           // Update payment status in database and send receipt
           try {
-            const { DatabaseService } = await import('../database/db');
-            const { notificationService } = await import('./notificationService');
+            const { DatabaseService } = await import("../database/db");
+            const { notificationService } = await import(
+              "./notificationService"
+            );
             const db = DatabaseService.getInstance();
 
             // Find payment and reservation details
             const payment = await db.findPaymentByStripeId(paymentIntent.id);
             if (payment) {
               // Update payment status
-              await db.updatePaymentStatus(payment.id, 'succeeded');
+              await db.updatePaymentStatus(payment.id, "succeeded");
 
               // Get reservation and guest details
-              const reservation = await db.getReservationById(payment.reservation_id);
+              const reservation = await db.getReservationById(
+                payment.reservation_id,
+              );
               if (reservation) {
                 const guest = await db.getGuestById(reservation.guest_id);
                 const room = await db.getRoomById(reservation.room_id);
@@ -154,35 +158,39 @@ export class PaymentService {
                     recipientEmail: guest.email,
                     recipientPhone: guest.phone,
                     guestName: `${guest.first_name} ${guest.last_name}`,
-                    roomNumber: room?.room_number || 'N/A',
+                    roomNumber: room?.room_number || "N/A",
                     confirmationCode: reservation.confirmation_code,
                     totalAmount: payment.amount,
-                    paymentMethod: payment.payment_method || 'Card',
+                    paymentMethod: payment.payment_method || "Card",
                     paymentId: paymentIntent.id,
-                    reservationId: reservation.id
+                    reservationId: reservation.id,
                   };
 
-                  const emailSent = await notificationService.sendPaymentReceipt(
-                    notificationData,
-                    ['email']
-                  );
+                  const emailSent =
+                    await notificationService.sendPaymentReceipt(
+                      notificationData,
+                      ["email"],
+                    );
 
                   // Log notification
                   await db.logNotification({
                     guestId: guest.id,
-                    type: 'email',
-                    templateName: 'paymentReceipt',
+                    type: "email",
+                    templateName: "paymentReceipt",
                     recipient: guest.email,
-                    subject: 'Payment Receipt - Armaflex Hotel',
-                    status: emailSent.email ? 'sent' : 'failed',
+                    subject: "Payment Receipt - Armaflex Hotel",
+                    status: emailSent.email ? "sent" : "failed",
                     sentAt: emailSent.email ? new Date() : undefined,
-                    metadata: { paymentId: paymentIntent.id, reservationId: reservation.id }
+                    metadata: {
+                      paymentId: paymentIntent.id,
+                      reservationId: reservation.id,
+                    },
                   });
                 }
               }
             }
           } catch (notificationError) {
-            console.error('Failed to send payment receipt:', notificationError);
+            console.error("Failed to send payment receipt:", notificationError);
           }
           break;
 
@@ -192,14 +200,14 @@ export class PaymentService {
 
           // Update payment status in database
           try {
-            const { DatabaseService } = await import('../database/db');
+            const { DatabaseService } = await import("../database/db");
             const db = DatabaseService.getInstance();
             const payment = await db.findPaymentByStripeId(failedPayment.id);
             if (payment) {
-              await db.updatePaymentStatus(payment.id, 'failed');
+              await db.updatePaymentStatus(payment.id, "failed");
             }
           } catch (error) {
-            console.error('Failed to update payment status:', error);
+            console.error("Failed to update payment status:", error);
           }
           break;
 
@@ -209,11 +217,11 @@ export class PaymentService {
 
           // Update refund status in database
           try {
-            const { DatabaseService } = await import('../database/db');
+            const { DatabaseService } = await import("../database/db");
             const db = DatabaseService.getInstance();
-            await db.updateRefundStatus(refund.id, 'succeeded');
+            await db.updateRefundStatus(refund.id, "succeeded");
           } catch (error) {
-            console.error('Failed to update refund status:', error);
+            console.error("Failed to update refund status:", error);
           }
           break;
 

@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useUser, UserRole } from "@/contexts/UserContext";
 import { NotificationSystem } from "@/components/NotificationSystem";
 import {
@@ -179,7 +185,7 @@ export function HotelLayout({ children }: HotelLayoutProps) {
       <aside
         className={cn(
           "fixed left-0 top-0 z-50 h-full w-72 transform bg-sidebar border-r border-sidebar-border transition-transform duration-300 ease-in-out lg:translate-x-0",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          sidebarOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex h-full flex-col">
@@ -190,8 +196,12 @@ export function HotelLayout({ children }: HotelLayoutProps) {
                 <Hotel className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-sidebar-foreground">Armaflex HMS</h1>
-                <p className="text-xs text-sidebar-foreground/70">Hotel Management</p>
+                <h1 className="text-lg font-bold text-sidebar-foreground">
+                  Armaflex HMS
+                </h1>
+                <p className="text-xs text-sidebar-foreground/70">
+                  Hotel Management
+                </p>
               </div>
             </div>
             <Button
@@ -217,7 +227,7 @@ export function HotelLayout({ children }: HotelLayoutProps) {
                       "flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                       isActive
                         ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     )}
                   >
                     <div className="flex items-center space-x-3">
@@ -244,12 +254,19 @@ export function HotelLayout({ children }: HotelLayoutProps) {
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 rounded-full bg-hotel-500 flex items-center justify-center">
                 <span className="text-sm font-semibold text-white">
-                  {user?.name.split(" ").map(n => n[0]).join("") || "GU"}
+                  {user?.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("") || "GU"}
                 </span>
               </div>
               <div className="text-sm flex-1">
-                <p className="font-medium text-sidebar-foreground">{user?.name || "Guest User"}</p>
-                <p className="text-xs text-sidebar-foreground/70">{user?.department}</p>
+                <p className="font-medium text-sidebar-foreground">
+                  {user?.name || "Guest User"}
+                </p>
+                <p className="text-xs text-sidebar-foreground/70">
+                  {user?.department}
+                </p>
                 {user?.role && (
                   <Badge
                     className={`text-xs mt-1 ${getRoleColor(user.role)}`}
@@ -267,7 +284,7 @@ export function HotelLayout({ children }: HotelLayoutProps) {
               className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent"
               onClick={() => {
                 logout();
-                window.location.href = '/login';
+                window.location.href = "/login";
               }}
             >
               <User className="h-4 w-4 mr-2" />
@@ -320,9 +337,7 @@ export function HotelLayout({ children }: HotelLayoutProps) {
         </header>
 
         {/* Page content */}
-        <div className="flex-1 p-6">
-          {children}
-        </div>
+        <div className="flex-1 p-6">{children}</div>
       </main>
     </div>
   );

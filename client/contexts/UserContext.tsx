@@ -80,7 +80,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem('user_data');
       }
     }
-    setIsInitialized(true);
   }, []);
 
   const switchRole = (role: UserRole) => {

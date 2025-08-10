@@ -164,6 +164,16 @@ const App = () => (
               }
             />
             <Route
+              path="/notification-settings"
+              element={
+                <ProtectedRoute requiredPermission="*">
+                  <HotelLayout>
+                    <NotificationSettings />
+                  </HotelLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/channel-manager"
               element={
                 <ProtectedRoute requiredPermission="*">

@@ -27,7 +27,8 @@
     "sqlite3": "^5.1.6",
     "sqlite": "^5.1.1",
     "bcrypt": "^5.1.1",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^14.21.0"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.9.0",

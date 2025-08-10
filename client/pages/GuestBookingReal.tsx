@@ -612,7 +612,7 @@ export default function GuestBookingReal() {
                 Back to Rooms
               </Button>
               <Button onClick={submitBooking} disabled={loading}>
-                {loading ? "Creating Booking..." : "Confirm Booking"}
+                {loading ? "Creating Booking..." : "Proceed to Payment"}
               </Button>
             </div>
           </CardContent>

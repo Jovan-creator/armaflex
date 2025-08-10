@@ -292,6 +292,41 @@ const App = () => (
               }
             />
 
+            {/* Guest Portal Routes */}
+            <Route path="/guest/login" element={<GuestLogin />} />
+            <Route
+              path="/guest"
+              element={
+                <GuestPortalLayout>
+                  <GuestDashboard />
+                </GuestPortalLayout>
+              }
+            />
+            <Route
+              path="/guest/reservations"
+              element={
+                <GuestPortalLayout>
+                  <GuestReservations />
+                </GuestPortalLayout>
+              }
+            />
+            <Route
+              path="/guest/services"
+              element={
+                <GuestPortalLayout>
+                  <GuestServices />
+                </GuestPortalLayout>
+              }
+            />
+            <Route
+              path="/guest/billing"
+              element={
+                <GuestPortalLayout>
+                  <GuestBilling />
+                </GuestPortalLayout>
+              }
+            />
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

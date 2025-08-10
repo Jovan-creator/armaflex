@@ -198,7 +198,7 @@ export default function Login() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  const { setUser } = useUser();
+  const { setUser, login } = useUser();
   const navigate = useNavigate();
 
   const testimonials = [

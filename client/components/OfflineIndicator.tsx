@@ -165,7 +165,7 @@ export function OfflineIndicator({ position = 'top', compact = false }: OfflineI
           <CardContent className="p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Sync className="h-4 w-4 text-yellow-600 animate-spin" />
+                <RefreshCw className="h-4 w-4 text-yellow-600 animate-spin" />
                 <span className="text-sm font-medium text-yellow-800">
                   Syncing {pendingOperations.total} changes...
                 </span>

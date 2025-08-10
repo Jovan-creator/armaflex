@@ -476,6 +476,187 @@ router.post("/webhooks/stripe", async (req, res) => {
   }
 });
 
+// Notification endpoints
+
+// Get notification preferences
+router.get("/notifications/preferences", authenticateToken, async (req, res) => {
+  try {
+    const user = req.user as any;
+    const preferences = await db.getNotificationPreferences(user.id);
+
+    if (!preferences) {
+      // Return default preferences if none exist
+      return res.json({
+        email: {
+          bookingConfirmation: true,
+          paymentReceipts: true,
+          checkInReminders: true,
+          checkOutReminders: true,
+          staffAlerts: true,
+          maintenanceUpdates: false,
+          promotionalOffers: false,
+          systemUpdates: true,
+        },
+        sms: {
+          bookingConfirmation: false,
+          paymentReceipts: false,
+          checkInReminders: true,
+          checkOutReminders: false,
+          urgentAlerts: true,
+          staffEmergencies: true,
+        },
+        preferences: {
+          emailAddress: user.email || '',
+          phoneNumber: '',
+          enableEmail: true,
+          enableSMS: false,
+          quietHours: {
+            enabled: false,
+            start: '22:00',
+            end: '08:00',
+          },
+          language: 'en',
+          timezone: 'UTC',
+        },
+      });
+    }
+
+    res.json({
+      email: preferences.email_preferences,
+      sms: preferences.sms_preferences,
+      preferences: {
+        emailAddress: preferences.email_address,
+        phoneNumber: preferences.phone_number,
+        enableEmail: preferences.enable_email,
+        enableSMS: preferences.enable_sms,
+        quietHours: {
+          enabled: preferences.quiet_hours_enabled,
+          start: preferences.quiet_hours_start,
+          end: preferences.quiet_hours_end,
+        },
+        language: preferences.language,
+        timezone: preferences.timezone,
+      },
+    });
+  } catch (error) {
+    console.error("Get notification preferences error:", error);
+    res.status(500).json({ error: "Failed to get notification preferences" });
+  }
+});
+
+// Save notification preferences
+router.post("/notifications/preferences", authenticateToken, async (req, res) => {
+  try {
+    const user = req.user as any;
+    const { email, sms, preferences } = req.body;
+
+    await db.upsertNotificationPreferences({
+      userId: user.id,
+      emailAddress: preferences.emailAddress,
+      phoneNumber: preferences.phoneNumber,
+      enableEmail: preferences.enableEmail,
+      enableSMS: preferences.enableSMS,
+      emailPreferences: email,
+      smsPreferences: sms,
+      quietHoursEnabled: preferences.quietHours?.enabled,
+      quietHoursStart: preferences.quietHours?.start,
+      quietHoursEnd: preferences.quietHours?.end,
+      language: preferences.language,
+      timezone: preferences.timezone,
+    });
+
+    res.json({ message: "Notification preferences saved successfully" });
+  } catch (error) {
+    console.error("Save notification preferences error:", error);
+    res.status(500).json({ error: "Failed to save notification preferences" });
+  }
+});
+
+// Test notification endpoint
+router.post("/notifications/test", authenticateToken, async (req, res) => {
+  try {
+    const user = req.user as any;
+    const { type, email, phone } = req.body;
+
+    const { notificationService } = await import('../services/notificationService');
+
+    if (type === 'email' && email) {
+      const success = await notificationService.sendEmail('bookingConfirmation', {
+        recipientEmail: email,
+        guestName: user.name,
+        roomNumber: 'TEST-101',
+        confirmationCode: 'TEST-' + Date.now(),
+        checkInDate: new Date().toLocaleDateString(),
+        checkOutDate: new Date(Date.now() + 24*60*60*1000).toLocaleDateString(),
+        totalAmount: 150.00
+      });
+
+      // Log the test notification
+      await db.logNotification({
+        userId: user.id,
+        type: 'email',
+        templateName: 'bookingConfirmation',
+        recipient: email,
+        subject: 'Test Email Notification',
+        status: success ? 'sent' : 'failed',
+        sentAt: success ? new Date() : undefined,
+        metadata: { test: true }
+      });
+
+      res.json({ success, message: success ? 'Test email sent' : 'Failed to send test email' });
+    } else if (type === 'sms' && phone) {
+      const success = await notificationService.sendSMS('bookingConfirmation', {
+        recipientPhone: phone,
+        guestName: user.name,
+        roomNumber: 'TEST-101',
+        confirmationCode: 'TEST-' + Date.now(),
+        checkInDate: new Date().toLocaleDateString(),
+        checkOutDate: new Date(Date.now() + 24*60*60*1000).toLocaleDateString(),
+        totalAmount: 150.00
+      });
+
+      // Log the test notification
+      await db.logNotification({
+        userId: user.id,
+        type: 'sms',
+        templateName: 'bookingConfirmation',
+        recipient: phone,
+        status: success ? 'sent' : 'failed',
+        sentAt: success ? new Date() : undefined,
+        metadata: { test: true }
+      });
+
+      res.json({ success, message: success ? 'Test SMS sent' : 'Failed to send test SMS' });
+    } else {
+      res.status(400).json({ error: 'Invalid test parameters' });
+    }
+  } catch (error) {
+    console.error("Test notification error:", error);
+    res.status(500).json({ error: "Failed to send test notification" });
+  }
+});
+
+// Get notification logs
+router.get("/notifications/logs", authenticateToken, async (req, res) => {
+  try {
+    const user = req.user as any;
+    const { type, status, limit = 50, offset = 0 } = req.query;
+
+    const logs = await db.getNotificationLogs({
+      userId: user.id,
+      type: type as string,
+      status: status as string,
+      limit: parseInt(limit as string),
+      offset: parseInt(offset as string)
+    });
+
+    res.json(logs);
+  } catch (error) {
+    console.error("Get notification logs error:", error);
+    res.status(500).json({ error: "Failed to get notification logs" });
+  }
+});
+
 // Health check
 router.get("/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });

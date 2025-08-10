@@ -1,11 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { offlineOperations } from '@/utils/offlineStorage';
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { offlineOperations } from "@/utils/offlineStorage";
 import {
   Wifi,
   WifiOff,
@@ -17,7 +23,7 @@ import {
   Clock,
   Database,
   X,
-} from 'lucide-react';
+} from "lucide-react";
 
 // Hook for network status detection
 export function useNetworkStatus() {
@@ -26,32 +32,35 @@ export function useNetworkStatus() {
 
   useEffect(() => {
     const handleOnline = () => {
-      console.log('Network: Back online');
+      console.log("Network: Back online");
       setIsOnline(true);
       setWasOffline(true);
-      
+
       // Trigger background sync
-      if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
-        navigator.serviceWorker.ready.then(registration => {
-          registration.sync.register('offline-data-sync');
+      if (
+        "serviceWorker" in navigator &&
+        "sync" in window.ServiceWorkerRegistration.prototype
+      ) {
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.sync.register("offline-data-sync");
         });
       }
-      
+
       // Clear offline flag after a short delay
       setTimeout(() => setWasOffline(false), 3000);
     };
 
     const handleOffline = () => {
-      console.log('Network: Gone offline');
+      console.log("Network: Gone offline");
       setIsOnline(false);
     };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
@@ -59,11 +68,14 @@ export function useNetworkStatus() {
 }
 
 interface OfflineIndicatorProps {
-  position?: 'top' | 'bottom';
+  position?: "top" | "bottom";
   compact?: boolean;
 }
 
-export function OfflineIndicator({ position = 'top', compact = false }: OfflineIndicatorProps) {
+export function OfflineIndicator({
+  position = "top",
+  compact = false,
+}: OfflineIndicatorProps) {
   const { t } = useTranslation();
   const { isOnline, wasOffline } = useNetworkStatus();
   const [pendingOperations, setPendingOperations] = useState<any>(null);
@@ -81,18 +93,18 @@ export function OfflineIndicator({ position = 'top', compact = false }: OfflineI
       const operations = await offlineOperations.getPendingOperations();
       setPendingOperations(operations);
     } catch (error) {
-      console.error('Failed to load pending operations:', error);
+      console.error("Failed to load pending operations:", error);
     }
   };
 
   const retrySync = async () => {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       try {
         const registration = await navigator.serviceWorker.ready;
-        await registration.sync.register('manual-sync');
+        await registration.sync.register("manual-sync");
         loadPendingOperations(); // Refresh pending operations
       } catch (error) {
-        console.error('Manual sync failed:', error);
+        console.error("Manual sync failed:", error);
       }
     }
   };
@@ -102,9 +114,10 @@ export function OfflineIndicator({ position = 'top', compact = false }: OfflineI
     return null;
   }
 
-  const positionClasses = position === 'top' 
-    ? 'top-4 left-1/2 transform -translate-x-1/2' 
-    : 'bottom-4 right-4';
+  const positionClasses =
+    position === "top"
+      ? "top-4 left-1/2 transform -translate-x-1/2"
+      : "bottom-4 right-4";
 
   return (
     <div className={`fixed ${positionClasses} z-50 max-w-sm`}>
@@ -115,10 +128,11 @@ export function OfflineIndicator({ position = 'top', compact = false }: OfflineI
           <AlertDescription className="flex items-center justify-between">
             <div>
               <span className="font-medium text-red-800">
-                {t('messages.connectionError', 'Connection Error')}
+                {t("messages.connectionError", "Connection Error")}
               </span>
               <p className="text-xs text-red-600 mt-1">
-                You're working offline. Changes will sync when connection is restored.
+                You're working offline. Changes will sync when connection is
+                restored.
               </p>
             </div>
             {pendingOperations?.total > 0 && (
@@ -133,8 +147,8 @@ export function OfflineIndicator({ position = 'top', compact = false }: OfflineI
                   <DialogHeader>
                     <DialogTitle>Pending Offline Changes</DialogTitle>
                   </DialogHeader>
-                  <OfflineDataDetails 
-                    pendingOperations={pendingOperations} 
+                  <OfflineDataDetails
+                    pendingOperations={pendingOperations}
                     onRetry={retrySync}
                   />
                 </DialogContent>
@@ -182,22 +196,22 @@ export function OfflineIndicator({ position = 'top', compact = false }: OfflineI
 }
 
 // Detailed view of pending offline operations
-function OfflineDataDetails({ 
-  pendingOperations, 
-  onRetry 
-}: { 
-  pendingOperations: any; 
+function OfflineDataDetails({
+  pendingOperations,
+  onRetry,
+}: {
+  pendingOperations: any;
   onRetry: () => void;
 }) {
   const { t } = useTranslation();
 
   const getOperationIcon = (type: string) => {
     switch (type) {
-      case 'reservation':
+      case "reservation":
         return <Clock className="h-4 w-4 text-blue-600" />;
-      case 'service_request':
+      case "service_request":
         return <AlertTriangle className="h-4 w-4 text-orange-600" />;
-      case 'profile_update':
+      case "profile_update":
         return <CheckCircle className="h-4 w-4 text-green-600" />;
       default:
         return <Database className="h-4 w-4 text-gray-600" />;
@@ -223,10 +237,15 @@ function OfflineDataDetails({
       {/* Reservations */}
       {pendingOperations.reservations.length > 0 && (
         <div>
-          <h4 className="font-medium text-sm mb-2">Reservations ({pendingOperations.reservations.length})</h4>
+          <h4 className="font-medium text-sm mb-2">
+            Reservations ({pendingOperations.reservations.length})
+          </h4>
           <div className="space-y-2">
             {pendingOperations.reservations.map((item: any) => (
-              <div key={item.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+              <div
+                key={item.id}
+                className="flex items-center justify-between p-2 bg-gray-50 rounded"
+              >
                 <div className="flex items-center space-x-2">
                   {getOperationIcon(item.type)}
                   <span className="text-sm">New reservation</span>
@@ -243,10 +262,15 @@ function OfflineDataDetails({
       {/* Service Requests */}
       {pendingOperations.serviceRequests.length > 0 && (
         <div>
-          <h4 className="font-medium text-sm mb-2">Service Requests ({pendingOperations.serviceRequests.length})</h4>
+          <h4 className="font-medium text-sm mb-2">
+            Service Requests ({pendingOperations.serviceRequests.length})
+          </h4>
           <div className="space-y-2">
             {pendingOperations.serviceRequests.map((item: any) => (
-              <div key={item.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+              <div
+                key={item.id}
+                className="flex items-center justify-between p-2 bg-gray-50 rounded"
+              >
                 <div className="flex items-center space-x-2">
                   {getOperationIcon(item.type)}
                   <span className="text-sm">Service request</span>
@@ -263,10 +287,15 @@ function OfflineDataDetails({
       {/* Profile Updates */}
       {pendingOperations.profileUpdates.length > 0 && (
         <div>
-          <h4 className="font-medium text-sm mb-2">Profile Updates ({pendingOperations.profileUpdates.length})</h4>
+          <h4 className="font-medium text-sm mb-2">
+            Profile Updates ({pendingOperations.profileUpdates.length})
+          </h4>
           <div className="space-y-2">
             {pendingOperations.profileUpdates.map((item: any) => (
-              <div key={item.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+              <div
+                key={item.id}
+                className="flex items-center justify-between p-2 bg-gray-50 rounded"
+              >
                 <div className="flex items-center space-x-2">
                   {getOperationIcon(item.type)}
                   <span className="text-sm">Profile update</span>
@@ -281,7 +310,8 @@ function OfflineDataDetails({
       )}
 
       <div className="text-xs text-gray-500 pt-2 border-t">
-        These changes were made while offline and will be synchronized when your connection is restored.
+        These changes were made while offline and will be synchronized when your
+        connection is restored.
       </div>
     </div>
   );
@@ -303,17 +333,20 @@ export function PWAInstallPrompt() {
     };
 
     const handleAppInstalled = () => {
-      console.log('PWA was installed');
+      console.log("PWA was installed");
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    window.addEventListener('appinstalled', handleAppInstalled);
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      window.removeEventListener('appinstalled', handleAppInstalled);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt,
+      );
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
@@ -325,11 +358,11 @@ export function PWAInstallPrompt() {
 
     // Wait for the user to respond to the prompt
     const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt');
+
+    if (outcome === "accepted") {
+      console.log("User accepted the install prompt");
     } else {
-      console.log('User dismissed the install prompt');
+      console.log("User dismissed the install prompt");
     }
 
     // Clear the prompt
@@ -350,15 +383,16 @@ export function PWAInstallPrompt() {
             <div>
               <h4 className="font-semibold text-blue-900">Install App</h4>
               <p className="text-sm text-blue-700 mt-1">
-                Install Armaflex Hotel for offline access and a better experience.
+                Install Armaflex Hotel for offline access and a better
+                experience.
               </p>
               <div className="flex space-x-2 mt-3">
                 <Button size="sm" onClick={handleInstallClick}>
                   Install
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => setShowInstallPrompt(false)}
                 >
                   Later
@@ -366,9 +400,9 @@ export function PWAInstallPrompt() {
               </div>
             </div>
           </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setShowInstallPrompt(false)}
           >
             <X className="h-4 w-4" />

@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { DatabaseService } from "../database/db";
+import { paymentService } from "../services/paymentService";
 
 const router = Router();
 const db = DatabaseService.getInstance();

@@ -7,6 +7,7 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 ## ✨ Features
 
 ### 🎯 **Core Management**
+
 - **Dashboard Analytics** - Real-time KPIs and operational metrics
 - **Guest Management** - Complete guest profiles, preferences, and history
 - **Room Management** - Availability, pricing, and room assignments
@@ -14,6 +15,7 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 - **Billing & Payments** - Invoice generation and payment processing
 
 ### 🚀 **Advanced Modules**
+
 - **Channel Manager** - Multi-platform booking management (Booking.com, Expedia, etc.)
 - **Inventory Management** - Supplies, assets, and procurement tracking
 - **Maintenance System** - Work orders, preventive maintenance, and technician management
@@ -21,11 +23,13 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 - **Staff Management** - Employee profiles and role-based permissions
 
 ### 📊 **Business Intelligence**
+
 - **Reports & Analytics** - Comprehensive business insights
 - **Notifications System** - Real-time alerts and communications
 - **Settings Management** - System configuration and customization
 
 ### 🔐 **Security & Access**
+
 - **Role-Based Authentication** - Admin, Manager, Receptionist, Housekeeping roles
 - **Secure Login System** - Protected routes and permissions
 - **User Management** - Staff account management
@@ -43,23 +47,27 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/Jovan-creator/armaflex.git
    cd armaflex
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -69,31 +77,35 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 
 ## 🔑 Demo Accounts
 
-| Role | Email | Password | Access Level |
-|------|-------|----------|--------------|
-| **Admin** | jovan.k@armaflex.com | admin123 | Full system access |
-| **Receptionist** | sarah.j@armaflex.com | front123 | Front desk operations |
-| **Housekeeping** | mike.w@armaflex.com | house123 | Housekeeping management |
-| **Manager** | emma.d@armaflex.com | mgmt123 | Departmental oversight |
+| Role             | Email                | Password | Access Level            |
+| ---------------- | -------------------- | -------- | ----------------------- |
+| **Admin**        | jovan.k@armaflex.com | admin123 | Full system access      |
+| **Receptionist** | sarah.j@armaflex.com | front123 | Front desk operations   |
+| **Housekeeping** | mike.w@armaflex.com  | house123 | Housekeeping management |
+| **Manager**      | emma.d@armaflex.com  | mgmt123  | Departmental oversight  |
 
 ## 📱 Screenshots
 
 ### Login & Dashboard
+
 - Beautiful sliding background with hotel imagery
 - Role-based dashboard with personalized metrics
 - Real-time analytics and KPI tracking
 
 ### Guest Management
+
 - Comprehensive guest profiles and preferences
 - Booking history and loyalty program integration
 - Communication center and feedback management
 
 ### Channel Manager
+
 - Multi-platform rate and inventory management
 - Performance analytics by booking channel
 - Competitive rate comparison tools
 
 ### Maintenance System
+
 - Work order management and technician assignment
 - Preventive maintenance scheduling
 - Cost tracking and performance metrics
@@ -109,18 +121,21 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 ## 📊 Business Modules
 
 ### **Channel Manager**
+
 - Booking.com, Expedia, Airbnb, Agoda integration
 - Real-time rate synchronization
 - Inventory management across platforms
 - Revenue optimization tools
 
 ### **Inventory Management**
+
 - Supply tracking with low-stock alerts
 - Asset management with maintenance schedules
 - Purchase order management
 - Cost center tracking
 
 ### **Maintenance System**
+
 - Work order creation and assignment
 - Preventive maintenance scheduling
 - Technician management (internal/external)
@@ -129,6 +144,7 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 ## 🔧 Configuration
 
 ### Environment Setup
+
 Create a `.env` file in the root directory:
 
 ```env
@@ -138,6 +154,7 @@ VITE_APP_VERSION=1.0.0
 ```
 
 ### Customization
+
 - **Branding**: Update logo and colors in `tailwind.config.ts`
 - **Hotel Info**: Modify hotel details in Settings module
 - **Features**: Enable/disable modules based on needs
@@ -145,16 +162,19 @@ VITE_APP_VERSION=1.0.0
 ## 🚢 Deployment
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
 
 ### Deploy to Netlify
+
 1. Connect your GitHub repository to Netlify
 2. Set build command: `npm run build`
 3. Set publish directory: `dist`
 
 ### Deploy to Vercel
+
 ```bash
 npm install -g vercel
 vercel --prod

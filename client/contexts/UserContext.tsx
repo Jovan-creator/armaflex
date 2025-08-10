@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 export type UserRole =
   | "admin"
@@ -62,8 +68,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
   // Initialize user from stored data
   useEffect(() => {
     try {
-      const token = localStorage.getItem('auth_token');
-      const userData = localStorage.getItem('user_data');
+      const token = localStorage.getItem("auth_token");
+      const userData = localStorage.getItem("user_data");
 
       if (token && userData) {
         const parsedUser = JSON.parse(userData);
@@ -72,18 +78,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
           email: parsedUser.email,
           name: parsedUser.name,
           role: parsedUser.role,
-          department: parsedUser.department
+          department: parsedUser.department,
         });
       }
     } catch (error) {
-      console.error('Error initializing user from storage:', error);
+      console.error("Error initializing user from storage:", error);
       // Clear potentially corrupted data
       try {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('user_data');
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("user_data");
       } catch (e) {
         // localStorage might not be available
-        console.warn('localStorage not available');
+        console.warn("localStorage not available");
       }
     }
   }, []);
@@ -165,7 +171,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("auth_token", data.token);
         localStorage.setItem("user_data", JSON.stringify(data.user));
       } catch (error) {
-        console.warn('Could not store auth data to localStorage:', error);
+        console.warn("Could not store auth data to localStorage:", error);
       }
 
       // Set user in context
@@ -193,7 +199,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem("hotel_auth_token");
       sessionStorage.removeItem("hotel_user_session");
     } catch (error) {
-      console.warn('Could not clear storage during logout:', error);
+      console.warn("Could not clear storage during logout:", error);
     }
   };
 
@@ -231,7 +237,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
 export function useUser() {
   const context = useContext(UserContext);
   if (context === undefined) {
-    console.error('UserContext is undefined. Make sure the component is wrapped in UserProvider.');
+    console.error(
+      "UserContext is undefined. Make sure the component is wrapped in UserProvider.",
+    );
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;

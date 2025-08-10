@@ -347,15 +347,26 @@ export default function Login() {
               index === currentImage ? 'opacity-100' : 'opacity-0'
             }`}
           >
+            {/* Beautiful gradient background with subtle pattern */}
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
+              className={`absolute inset-0 bg-gradient-to-br ${image.gradient} transform scale-105`}
               style={{
-                backgroundImage: `url(${image.url})`,
                 animation: index === currentImage ? 'ken-burns 6s ease-in-out infinite alternate' : 'none'
               }}
             />
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-luxury-900/80 via-luxury-800/70 to-luxury-900/90" />
+            {/* Subtle pattern overlay */}
+            <div
+              className="absolute inset-0 opacity-10"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='7' cy='7' r='2'/%3E%3Ccircle cx='17' cy='17' r='2'/%3E%3Ccircle cx='27' cy='27' r='2'/%3E%3Ccircle cx='37' cy='37' r='2'/%3E%3Ccircle cx='47' cy='47' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+              }}
+            />
+            {/* Hotel-themed icon overlay */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-5">
+              <Hotel className="w-96 h-96 text-white" />
+            </div>
+            {/* Enhanced overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50" />
           </div>
         ))}
 

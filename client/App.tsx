@@ -54,6 +54,8 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <OfflineIndicator />
+        <PWAInstallPrompt />
         <BrowserRouter>
           <Routes>
             {/* Authentication Routes */}

@@ -278,7 +278,7 @@ Please address immediately.
 
 class NotificationService {
   private emailTransporter: nodemailer.Transporter | null = null;
-  private twilioClient: Twilio | null = null;
+  private twilioClient: any | null = null;
   private config: NotificationConfig;
 
   constructor() {

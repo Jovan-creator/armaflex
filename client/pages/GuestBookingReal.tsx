@@ -90,6 +90,8 @@ export default function GuestBookingReal() {
   });
 
   const [specialRequests, setSpecialRequests] = useState("");
+  const [reservationId, setReservationId] = useState<number | null>(null);
+  const [paymentIntentId, setPaymentIntentId] = useState('');
 
   // Search for available rooms
   const searchRooms = async () => {

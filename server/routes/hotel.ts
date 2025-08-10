@@ -200,9 +200,60 @@ router.post("/reservations", async (req, res) => {
     };
 
     const result = await db.createReservation(reservationData);
+    const reservationId = result.lastID;
+
+    // Send booking confirmation notification
+    try {
+      const { notificationService } = await import('../services/notificationService');
+
+      // Generate confirmation code
+      const confirmationCode = `ARM-${reservationId}-${Date.now().toString().slice(-6)}`;
+
+      // Get room details
+      const room = await db.getRoomById(reservation.room_id);
+
+      const notificationData = {
+        recipientEmail: guest.email,
+        recipientPhone: guest.phone,
+        guestName: `${guest.first_name} ${guest.last_name}`,
+        roomNumber: room?.room_number || 'N/A',
+        checkInDate: new Date(reservation.check_in_date).toLocaleDateString(),
+        checkOutDate: new Date(reservation.check_out_date).toLocaleDateString(),
+        totalAmount: reservation.total_amount,
+        confirmationCode,
+        reservationId
+      };
+
+      // Send email and SMS notifications based on guest preferences
+      const emailSent = await notificationService.sendBookingConfirmation(
+        notificationData,
+        ['email']
+      );
+
+      // Log notification
+      if (guest.email) {
+        await db.logNotification({
+          guestId: guestRecord.id,
+          type: 'email',
+          templateName: 'bookingConfirmation',
+          recipient: guest.email,
+          subject: 'Booking Confirmation - Armaflex Hotel',
+          status: emailSent.email ? 'sent' : 'failed',
+          sentAt: emailSent.email ? new Date() : undefined,
+          metadata: { reservationId, confirmationCode }
+        });
+      }
+
+      // Update reservation with confirmation code
+      await db.updateReservation(reservationId, { confirmation_code: confirmationCode });
+
+    } catch (notificationError) {
+      console.error('Failed to send booking confirmation:', notificationError);
+      // Don't fail the reservation creation if notification fails
+    }
 
     res.json({
-      reservation_id: result.lastID,
+      reservation_id: reservationId,
       guest_id: guestRecord.id,
       message: "Reservation created successfully",
     });

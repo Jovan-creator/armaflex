@@ -2073,7 +2073,7 @@ export default function Guests() {
                           </Avatar>
                           <div>
                             <p className="text-sm font-medium">{guest.firstName} {guest.lastName}</p>
-                            <Badge className={getTierColor(guest.loyaltyProgram.tier)} variant="outline" className="text-xs">
+                            <Badge className={`${getTierColor(guest.loyaltyProgram.tier)} text-xs`} variant="outline">
                               {guest.loyaltyProgram.tier}
                             </Badge>
                           </div>

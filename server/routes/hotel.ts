@@ -171,6 +171,16 @@ router.get("/rooms/available", async (req, res) => {
 });
 
 // Reservation routes
+router.get("/reservations", authenticateToken, async (req, res) => {
+  try {
+    const reservations = await db.getAllReservations();
+    res.json(reservations);
+  } catch (error) {
+    console.error("Get reservations error:", error);
+    res.status(500).json({ error: "Failed to fetch reservations" });
+  }
+});
+
 router.post("/reservations", async (req, res) => {
   try {
     const { guest, reservation } = req.body;

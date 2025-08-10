@@ -173,14 +173,83 @@ export class DatabaseService {
     if (!this.db) await this.init();
     return await this.db!.run(
       `
-      INSERT INTO rooms (room_number, room_type_id, floor, status) 
-      VALUES (?, ?, ?, ?)
+      INSERT INTO rooms (room_number, room_type_id, floor, status, notes)
+      VALUES (?, ?, ?, ?, ?)
     `,
       [
         roomData.room_number,
         roomData.room_type_id,
         roomData.floor,
         roomData.status || "available",
+        roomData.notes || null,
+      ],
+    );
+  }
+
+  async updateRoom(roomId: number, roomData: any) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `
+      UPDATE rooms
+      SET room_number = ?, room_type_id = ?, floor = ?, status = ?, notes = ?
+      WHERE id = ?
+    `,
+      [
+        roomData.room_number,
+        roomData.room_type_id,
+        roomData.floor,
+        roomData.status,
+        roomData.notes || null,
+        roomId,
+      ],
+    );
+  }
+
+  async deleteRoom(roomId: number) {
+    if (!this.db) await this.init();
+    return await this.db!.run("DELETE FROM rooms WHERE id = ?", [roomId]);
+  }
+
+  // Room type operations
+  async getAllRoomTypes() {
+    if (!this.db) await this.init();
+    return await this.db!.all(
+      "SELECT * FROM room_types WHERE is_active = true ORDER BY name",
+    );
+  }
+
+  async createRoomType(roomTypeData: any) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `
+      INSERT INTO room_types (name, description, base_price, max_occupancy, amenities)
+      VALUES (?, ?, ?, ?, ?)
+    `,
+      [
+        roomTypeData.name,
+        roomTypeData.description,
+        roomTypeData.base_price,
+        roomTypeData.max_occupancy,
+        roomTypeData.amenities,
+      ],
+    );
+  }
+
+  async updateRoomType(roomTypeId: number, roomTypeData: any) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `
+      UPDATE room_types
+      SET name = ?, description = ?, base_price = ?, max_occupancy = ?, amenities = ?
+      WHERE id = ?
+    `,
+      [
+        roomTypeData.name,
+        roomTypeData.description,
+        roomTypeData.base_price,
+        roomTypeData.max_occupancy,
+        roomTypeData.amenities,
+        roomTypeId,
       ],
     );
   }

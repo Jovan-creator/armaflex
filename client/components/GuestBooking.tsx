@@ -2,9 +2,28 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -84,7 +103,13 @@ const sampleRooms: Room[] = [
     description: "Comfortable and elegant accommodation with modern amenities",
     maxGuests: 2,
     size: "25 sqm",
-    amenities: ["Free WiFi", "Air conditioning", "Mini refrigerator", "Work desk", "Daily housekeeping"],
+    amenities: [
+      "Free WiFi",
+      "Air conditioning",
+      "Mini refrigerator",
+      "Work desk",
+      "Daily housekeeping",
+    ],
     features: [
       { icon: Wifi, name: "Free WiFi" },
       { icon: Coffee, name: "Coffee Maker" },
@@ -102,7 +127,13 @@ const sampleRooms: Room[] = [
     description: "Spacious suite with stunning views and luxury amenities",
     maxGuests: 3,
     size: "45 sqm",
-    amenities: ["Separate living area", "Ocean view balcony", "Premium bathroom", "Welcome champagne", "Priority service"],
+    amenities: [
+      "Separate living area",
+      "Ocean view balcony",
+      "Premium bathroom",
+      "Welcome champagne",
+      "Priority service",
+    ],
     features: [
       { icon: Wifi, name: "Premium WiFi" },
       { icon: Coffee, name: "Espresso Machine" },
@@ -120,7 +151,13 @@ const sampleRooms: Room[] = [
     description: "Ultimate luxury experience with exclusive services",
     maxGuests: 6,
     size: "120 sqm",
-    amenities: ["2 separate bedrooms", "Private terrace", "Personal butler", "Jacuzzi", "Airport limousine"],
+    amenities: [
+      "2 separate bedrooms",
+      "Private terrace",
+      "Personal butler",
+      "Jacuzzi",
+      "Airport limousine",
+    ],
     features: [
       { icon: Wifi, name: "Premium WiFi" },
       { icon: Utensils, name: "Private Chef" },
@@ -181,17 +218,17 @@ export function GuestBooking() {
 
   const handleRoomSelect = (room: Room) => {
     setSelectedRoom(room);
-    setBookingData(prev => ({ ...prev, roomId: room.id }));
+    setBookingData((prev) => ({ ...prev, roomId: room.id }));
     setIsBookingOpen(true);
     setCurrentStep(1);
   };
 
   const handleNextStep = () => {
-    setCurrentStep(prev => prev + 1);
+    setCurrentStep((prev) => prev + 1);
   };
 
   const handlePrevStep = () => {
-    setCurrentStep(prev => prev - 1);
+    setCurrentStep((prev) => prev - 1);
   };
 
   const processPayment = async () => {
@@ -199,15 +236,18 @@ export function GuestBooking() {
 
     try {
       // Simulate payment processing with realistic steps
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Validate payment info (basic simulation)
-      if (!bookingData.paymentInfo.cardNumber || bookingData.paymentInfo.cardNumber.length < 16) {
-        throw new Error('Invalid card number');
+      if (
+        !bookingData.paymentInfo.cardNumber ||
+        bookingData.paymentInfo.cardNumber.length < 16
+      ) {
+        throw new Error("Invalid card number");
       }
 
       // Process payment (simulation)
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Generate confirmation number
       const confirmation = `ARM${Date.now().toString().slice(-6)}`;
@@ -217,27 +257,29 @@ export function GuestBooking() {
       setBookingComplete(true);
 
       // Send confirmation email (simulation)
-      console.log('Booking confirmed:', {
+      console.log("Booking confirmed:", {
         confirmationNumber: confirmation,
         guest: bookingData.guestInfo,
         room: selectedRoom,
         dates: { checkIn: bookingData.checkIn, checkOut: bookingData.checkOut },
-        total: calculateTotal()
+        total: calculateTotal(),
       });
-
     } catch (error) {
-      console.error('Payment failed:', error);
-      alert('Payment failed. Please check your card details and try again.');
+      console.error("Payment failed:", error);
+      alert("Payment failed. Please check your card details and try again.");
     } finally {
       setIsProcessingPayment(false);
     }
   };
 
   const renderRoomCard = (room: Room) => (
-    <Card key={room.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
+    <Card
+      key={room.id}
+      className="overflow-hidden hover:shadow-xl transition-all duration-300 group"
+    >
       <div className="aspect-video relative overflow-hidden">
-        <img 
-          src={room.image} 
+        <img
+          src={room.image}
           alt={room.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
@@ -248,13 +290,18 @@ export function GuestBooking() {
           </Badge>
           <div className="flex items-center space-x-2">
             <span className="text-2xl font-bold">${room.price}</span>
-            <span className="text-lg line-through opacity-70">${room.originalPrice}</span>
+            <span className="text-lg line-through opacity-70">
+              ${room.originalPrice}
+            </span>
             <span className="text-sm">/ night</span>
           </div>
         </div>
         <div className="absolute top-4 right-4 flex">
           {[1, 2, 3, 4, 5].map((star) => (
-            <Star key={star} className="h-4 w-4 fill-hotel-400 text-hotel-400" />
+            <Star
+              key={star}
+              className="h-4 w-4 fill-hotel-400 text-hotel-400"
+            />
           ))}
         </div>
       </div>
@@ -288,7 +335,7 @@ export function GuestBooking() {
           ))}
         </div>
 
-        <Button 
+        <Button
           className="w-full bg-hotel-500 hover:bg-hotel-600 transform hover:scale-105 transition-all duration-200"
           onClick={() => handleRoomSelect(room)}
         >
@@ -308,15 +355,21 @@ export function GuestBooking() {
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-green-800 mb-2">Booking Confirmed!</h2>
-              <p className="text-muted-foreground">Your reservation has been successfully processed</p>
+              <h2 className="text-2xl font-bold text-green-800 mb-2">
+                Booking Confirmed!
+              </h2>
+              <p className="text-muted-foreground">
+                Your reservation has been successfully processed
+              </p>
             </div>
-            
+
             <div className="p-4 bg-green-50 rounded-lg border border-green-200">
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="font-medium">Confirmation Number:</span>
-                  <span className="font-mono font-bold text-green-700">{confirmationNumber}</span>
+                  <span className="font-mono font-bold text-green-700">
+                    {confirmationNumber}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Room:</span>
@@ -324,11 +377,15 @@ export function GuestBooking() {
                 </div>
                 <div className="flex justify-between">
                   <span>Dates:</span>
-                  <span>{bookingData.checkIn} to {bookingData.checkOut}</span>
+                  <span>
+                    {bookingData.checkIn} to {bookingData.checkOut}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Total Paid:</span>
-                  <span className="font-bold">${calculateTotal().toFixed(2)}</span>
+                  <span className="font-bold">
+                    ${calculateTotal().toFixed(2)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -336,7 +393,8 @@ export function GuestBooking() {
             <Alert>
               <Mail className="h-4 w-4" />
               <AlertDescription>
-                A confirmation email has been sent to {bookingData.guestInfo.email} with your booking details.
+                A confirmation email has been sent to{" "}
+                {bookingData.guestInfo.email} with your booking details.
               </AlertDescription>
             </Alert>
 
@@ -405,7 +463,9 @@ export function GuestBooking() {
               <span>Book {selectedRoom?.name}</span>
             </DialogTitle>
             <DialogDescription>
-              Complete your reservation in {currentStep === 1 ? "3" : currentStep === 2 ? "2" : "1"} easy steps
+              Complete your reservation in{" "}
+              {currentStep === 1 ? "3" : currentStep === 2 ? "2" : "1"} easy
+              steps
             </DialogDescription>
           </DialogHeader>
 
@@ -413,13 +473,23 @@ export function GuestBooking() {
           <div className="flex items-center space-x-4 mb-6">
             {[1, 2, 3].map((step) => (
               <div key={step} className="flex items-center space-x-2">
-                <div className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step <= currentStep ? 'bg-hotel-500 text-white' : 'bg-gray-200 text-gray-600'
-                }`}>
+                <div
+                  className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    step <= currentStep
+                      ? "bg-hotel-500 text-white"
+                      : "bg-gray-200 text-gray-600"
+                  }`}
+                >
                   {step}
                 </div>
-                <span className={`text-sm ${step <= currentStep ? 'text-hotel-600' : 'text-gray-500'}`}>
-                  {step === 1 ? 'Dates & Guests' : step === 2 ? 'Guest Info' : 'Payment'}
+                <span
+                  className={`text-sm ${step <= currentStep ? "text-hotel-600" : "text-gray-500"}`}
+                >
+                  {step === 1
+                    ? "Dates & Guests"
+                    : step === 2
+                      ? "Guest Info"
+                      : "Payment"}
                 </span>
                 {step < 3 && <ArrowRight className="h-4 w-4 text-gray-400" />}
               </div>
@@ -436,8 +506,13 @@ export function GuestBooking() {
                     id="checkin"
                     type="date"
                     value={bookingData.checkIn}
-                    min={new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setBookingData(prev => ({ ...prev, checkIn: e.target.value }))}
+                    min={new Date().toISOString().split("T")[0]}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        checkIn: e.target.value,
+                      }))
+                    }
                   />
                 </div>
                 <div>
@@ -446,8 +521,16 @@ export function GuestBooking() {
                     id="checkout"
                     type="date"
                     value={bookingData.checkOut}
-                    min={bookingData.checkIn || new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setBookingData(prev => ({ ...prev, checkOut: e.target.value }))}
+                    min={
+                      bookingData.checkIn ||
+                      new Date().toISOString().split("T")[0]
+                    }
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        checkOut: e.target.value,
+                      }))
+                    }
                   />
                 </div>
               </div>
@@ -455,26 +538,46 @@ export function GuestBooking() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="adults">Adults</Label>
-                  <Select value={bookingData.adults.toString()} onValueChange={(value) => setBookingData(prev => ({ ...prev, adults: parseInt(value) }))}>
+                  <Select
+                    value={bookingData.adults.toString()}
+                    onValueChange={(value) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        adults: parseInt(value),
+                      }))
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {[1, 2, 3, 4, 5, 6].map(num => (
-                        <SelectItem key={num} value={num.toString()}>{num} Adult{num > 1 ? 's' : ''}</SelectItem>
+                      {[1, 2, 3, 4, 5, 6].map((num) => (
+                        <SelectItem key={num} value={num.toString()}>
+                          {num} Adult{num > 1 ? "s" : ""}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
                   <Label htmlFor="children">Children</Label>
-                  <Select value={bookingData.children.toString()} onValueChange={(value) => setBookingData(prev => ({ ...prev, children: parseInt(value) }))}>
+                  <Select
+                    value={bookingData.children.toString()}
+                    onValueChange={(value) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        children: parseInt(value),
+                      }))
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {[0, 1, 2, 3, 4].map(num => (
-                        <SelectItem key={num} value={num.toString()}>{num} {num === 1 ? 'Child' : 'Children'}</SelectItem>
+                      {[0, 1, 2, 3, 4].map((num) => (
+                        <SelectItem key={num} value={num.toString()}>
+                          {num} {num === 1 ? "Child" : "Children"}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -488,12 +591,17 @@ export function GuestBooking() {
                       <div>
                         <h4 className="font-semibold">{selectedRoom.name}</h4>
                         <p className="text-sm text-muted-foreground">
-                          {calculateNights()} nights • {bookingData.adults + bookingData.children} guests
+                          {calculateNights()} nights •{" "}
+                          {bookingData.adults + bookingData.children} guests
                         </p>
                       </div>
                       <div className="text-right">
-                        <div className="text-2xl font-bold">${calculateTotal().toFixed(2)}</div>
-                        <div className="text-sm text-muted-foreground">Total (incl. taxes)</div>
+                        <div className="text-2xl font-bold">
+                          ${calculateTotal().toFixed(2)}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          Total (incl. taxes)
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -503,16 +611,25 @@ export function GuestBooking() {
               <Button
                 className="w-full bg-hotel-500 hover:bg-hotel-600"
                 onClick={handleNextStep}
-                disabled={!bookingData.checkIn || !bookingData.checkOut || calculateNights() <= 0 || bookingData.adults + bookingData.children > (selectedRoom?.maxGuests || 0)}
+                disabled={
+                  !bookingData.checkIn ||
+                  !bookingData.checkOut ||
+                  calculateNights() <= 0 ||
+                  bookingData.adults + bookingData.children >
+                    (selectedRoom?.maxGuests || 0)
+                }
               >
                 Continue to Guest Information
               </Button>
 
-              {(bookingData.adults + bookingData.children > (selectedRoom?.maxGuests || 0)) && (
+              {bookingData.adults + bookingData.children >
+                (selectedRoom?.maxGuests || 0) && (
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    This room can accommodate up to {selectedRoom?.maxGuests} guests. Please select a different room or reduce the number of guests.
+                    This room can accommodate up to {selectedRoom?.maxGuests}{" "}
+                    guests. Please select a different room or reduce the number
+                    of guests.
                   </AlertDescription>
                 </Alert>
               )}
@@ -528,10 +645,15 @@ export function GuestBooking() {
                   <Input
                     id="firstName"
                     value={bookingData.guestInfo.firstName}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      guestInfo: { ...prev.guestInfo, firstName: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        guestInfo: {
+                          ...prev.guestInfo,
+                          firstName: e.target.value,
+                        },
+                      }))
+                    }
                     required
                   />
                 </div>
@@ -540,10 +662,15 @@ export function GuestBooking() {
                   <Input
                     id="lastName"
                     value={bookingData.guestInfo.lastName}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      guestInfo: { ...prev.guestInfo, lastName: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        guestInfo: {
+                          ...prev.guestInfo,
+                          lastName: e.target.value,
+                        },
+                      }))
+                    }
                     required
                   />
                 </div>
@@ -556,10 +683,12 @@ export function GuestBooking() {
                     id="email"
                     type="email"
                     value={bookingData.guestInfo.email}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      guestInfo: { ...prev.guestInfo, email: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        guestInfo: { ...prev.guestInfo, email: e.target.value },
+                      }))
+                    }
                     required
                   />
                 </div>
@@ -569,10 +698,12 @@ export function GuestBooking() {
                     id="phone"
                     type="tel"
                     value={bookingData.guestInfo.phone}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      guestInfo: { ...prev.guestInfo, phone: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        guestInfo: { ...prev.guestInfo, phone: e.target.value },
+                      }))
+                    }
                     required
                   />
                 </div>
@@ -583,10 +714,12 @@ export function GuestBooking() {
                 <Input
                   id="address"
                   value={bookingData.guestInfo.address}
-                  onChange={(e) => setBookingData(prev => ({
-                    ...prev,
-                    guestInfo: { ...prev.guestInfo, address: e.target.value }
-                  }))}
+                  onChange={(e) =>
+                    setBookingData((prev) => ({
+                      ...prev,
+                      guestInfo: { ...prev.guestInfo, address: e.target.value },
+                    }))
+                  }
                 />
               </div>
 
@@ -596,10 +729,12 @@ export function GuestBooking() {
                   <Input
                     id="city"
                     value={bookingData.guestInfo.city}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      guestInfo: { ...prev.guestInfo, city: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        guestInfo: { ...prev.guestInfo, city: e.target.value },
+                      }))
+                    }
                   />
                 </div>
                 <div>
@@ -607,10 +742,15 @@ export function GuestBooking() {
                   <Input
                     id="country"
                     value={bookingData.guestInfo.country}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      guestInfo: { ...prev.guestInfo, country: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        guestInfo: {
+                          ...prev.guestInfo,
+                          country: e.target.value,
+                        },
+                      }))
+                    }
                   />
                 </div>
               </div>
@@ -621,10 +761,15 @@ export function GuestBooking() {
                   id="requests"
                   placeholder="Any special requirements or requests..."
                   value={bookingData.guestInfo.specialRequests}
-                  onChange={(e) => setBookingData(prev => ({
-                    ...prev,
-                    guestInfo: { ...prev.guestInfo, specialRequests: e.target.value }
-                  }))}
+                  onChange={(e) =>
+                    setBookingData((prev) => ({
+                      ...prev,
+                      guestInfo: {
+                        ...prev.guestInfo,
+                        specialRequests: e.target.value,
+                      },
+                    }))
+                  }
                 />
               </div>
 
@@ -633,12 +778,17 @@ export function GuestBooking() {
                   Back
                 </Button>
                 <Button
-                className="flex-1 bg-hotel-500 hover:bg-hotel-600"
-                onClick={handleNextStep}
-                disabled={!bookingData.guestInfo.firstName || !bookingData.guestInfo.lastName || !bookingData.guestInfo.email || !bookingData.guestInfo.phone}
-              >
-                Continue to Payment
-              </Button>
+                  className="flex-1 bg-hotel-500 hover:bg-hotel-600"
+                  onClick={handleNextStep}
+                  disabled={
+                    !bookingData.guestInfo.firstName ||
+                    !bookingData.guestInfo.lastName ||
+                    !bookingData.guestInfo.email ||
+                    !bookingData.guestInfo.phone
+                  }
+                >
+                  Continue to Payment
+                </Button>
               </div>
             </div>
           )}
@@ -651,10 +801,15 @@ export function GuestBooking() {
                 <Input
                   id="cardholderName"
                   value={bookingData.paymentInfo.cardholderName}
-                  onChange={(e) => setBookingData(prev => ({
-                    ...prev,
-                    paymentInfo: { ...prev.paymentInfo, cardholderName: e.target.value }
-                  }))}
+                  onChange={(e) =>
+                    setBookingData((prev) => ({
+                      ...prev,
+                      paymentInfo: {
+                        ...prev.paymentInfo,
+                        cardholderName: e.target.value,
+                      },
+                    }))
+                  }
                   required
                 />
               </div>
@@ -665,10 +820,15 @@ export function GuestBooking() {
                   id="cardNumber"
                   placeholder="1234 5678 9012 3456"
                   value={bookingData.paymentInfo.cardNumber}
-                  onChange={(e) => setBookingData(prev => ({
-                    ...prev,
-                    paymentInfo: { ...prev.paymentInfo, cardNumber: e.target.value }
-                  }))}
+                  onChange={(e) =>
+                    setBookingData((prev) => ({
+                      ...prev,
+                      paymentInfo: {
+                        ...prev.paymentInfo,
+                        cardNumber: e.target.value,
+                      },
+                    }))
+                  }
                   required
                 />
               </div>
@@ -680,10 +840,15 @@ export function GuestBooking() {
                     id="expiry"
                     placeholder="MM/YY"
                     value={bookingData.paymentInfo.expiryDate}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      paymentInfo: { ...prev.paymentInfo, expiryDate: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        paymentInfo: {
+                          ...prev.paymentInfo,
+                          expiryDate: e.target.value,
+                        },
+                      }))
+                    }
                     required
                   />
                 </div>
@@ -694,10 +859,15 @@ export function GuestBooking() {
                     placeholder="123"
                     type="password"
                     value={bookingData.paymentInfo.cvv}
-                    onChange={(e) => setBookingData(prev => ({
-                      ...prev,
-                      paymentInfo: { ...prev.paymentInfo, cvv: e.target.value }
-                    }))}
+                    onChange={(e) =>
+                      setBookingData((prev) => ({
+                        ...prev,
+                        paymentInfo: {
+                          ...prev.paymentInfo,
+                          cvv: e.target.value,
+                        },
+                      }))
+                    }
                     required
                   />
                 </div>
@@ -715,11 +885,20 @@ export function GuestBooking() {
                   </div>
                   <div className="flex justify-between">
                     <span>{calculateNights()} nights</span>
-                    <span>${(selectedRoom?.price || 0) * calculateNights()}</span>
+                    <span>
+                      ${(selectedRoom?.price || 0) * calculateNights()}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm text-muted-foreground">
                     <span>Taxes & fees</span>
-                    <span>${((selectedRoom?.price || 0) * calculateNights() * 0.1).toFixed(2)}</span>
+                    <span>
+                      $
+                      {(
+                        (selectedRoom?.price || 0) *
+                        calculateNights() *
+                        0.1
+                      ).toFixed(2)}
+                    </span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
@@ -743,7 +922,13 @@ export function GuestBooking() {
                 <Button
                   className="flex-1 bg-hotel-500 hover:bg-hotel-600"
                   onClick={processPayment}
-                  disabled={isProcessingPayment || !bookingData.paymentInfo.cardNumber || !bookingData.paymentInfo.cardholderName || !bookingData.paymentInfo.expiryDate || !bookingData.paymentInfo.cvv}
+                  disabled={
+                    isProcessingPayment ||
+                    !bookingData.paymentInfo.cardNumber ||
+                    !bookingData.paymentInfo.cardholderName ||
+                    !bookingData.paymentInfo.expiryDate ||
+                    !bookingData.paymentInfo.cvv
+                  }
                 >
                   {isProcessingPayment ? (
                     <>

@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -26,29 +32,29 @@ import {
 
 export default function PublicHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   // Hero background images
   const heroImages = [
     {
       url: "https://cdn.pixabay.com/photo/2016/11/18/17/20/living-room-1835923_1280.jpg",
       title: "Luxury Rooms & Suites",
-      subtitle: "Experience comfort like never before"
+      subtitle: "Experience comfort like never before",
     },
     {
       url: "https://cdn.pixabay.com/photo/2017/03/22/17/39/kitchen-2165756_1280.jpg",
       title: "Fine Dining Experience",
-      subtitle: "Culinary excellence at its finest"
+      subtitle: "Culinary excellence at its finest",
     },
     {
       url: "https://cdn.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg",
       title: "Stunning City Views",
-      subtitle: "Breathtaking panoramas from every window"
+      subtitle: "Breathtaking panoramas from every window",
     },
     {
       url: "https://cdn.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg",
       title: "Wellness & Spa",
-      subtitle: "Rejuvenate your mind, body and soul"
-    }
+      subtitle: "Rejuvenate your mind, body and soul",
+    },
   ];
 
   // Auto-advance slides
@@ -56,7 +62,7 @@ export default function PublicHome() {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 5000);
-    
+
     return () => clearInterval(timer);
   }, [heroImages.length]);
 
@@ -65,7 +71,9 @@ export default function PublicHome() {
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+    setCurrentSlide(
+      (prev) => (prev - 1 + heroImages.length) % heroImages.length,
+    );
   };
 
   const features = [
@@ -107,13 +115,19 @@ export default function PublicHome() {
       price: "$150",
       image: "/placeholder.svg",
       features: ["King Size Bed", "City View", "Free WiFi", "Mini Bar"],
-      description: "Comfortable and elegant accommodation with modern amenities",
+      description:
+        "Comfortable and elegant accommodation with modern amenities",
     },
     {
       name: "Deluxe Suite",
       price: "$250",
       image: "/placeholder.svg",
-      features: ["Separate Living Area", "Ocean View", "Balcony", "Premium Bath"],
+      features: [
+        "Separate Living Area",
+        "Ocean View",
+        "Balcony",
+        "Premium Bath",
+      ],
       description: "Spacious suite with stunning views and luxury amenities",
     },
     {
@@ -130,25 +144,28 @@ export default function PublicHome() {
       name: "Sarah Johnson",
       location: "New York, NY",
       rating: 5,
-      comment: "Absolutely incredible experience! The staff was amazing and the room was perfect. Will definitely be back!",
+      comment:
+        "Absolutely incredible experience! The staff was amazing and the room was perfect. Will definitely be back!",
       date: "2 days ago",
-      avatar: "/placeholder.svg"
+      avatar: "/placeholder.svg",
     },
     {
       name: "Michael Chen",
       location: "San Francisco, CA",
       rating: 5,
-      comment: "The attention to detail and service quality exceeded all expectations. A truly luxury experience.",
+      comment:
+        "The attention to detail and service quality exceeded all expectations. A truly luxury experience.",
       date: "1 week ago",
-      avatar: "/placeholder.svg"
+      avatar: "/placeholder.svg",
     },
     {
       name: "Emily Davis",
       location: "Los Angeles, CA",
       rating: 5,
-      comment: "Perfect for our anniversary celebration. The presidential suite was breathtaking!",
+      comment:
+        "Perfect for our anniversary celebration. The presidential suite was breathtaking!",
       date: "2 weeks ago",
-      avatar: "/placeholder.svg"
+      avatar: "/placeholder.svg",
     },
   ];
 
@@ -163,14 +180,14 @@ export default function PublicHome() {
               key={index}
               className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
                 index === currentSlide
-                  ? 'opacity-100 scale-100'
-                  : 'opacity-0 scale-105'
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-105"
               }`}
               style={{
                 backgroundImage: `url(${image.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
             >
               <div className="absolute inset-0 bg-black/50" />
@@ -202,7 +219,9 @@ export default function PublicHome() {
             <button
               key={index}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-hotel-400 scale-125' : 'bg-white/50 hover:bg-white/70'
+                index === currentSlide
+                  ? "bg-hotel-400 scale-125"
+                  : "bg-white/50 hover:bg-white/70"
               }`}
               onClick={() => setCurrentSlide(index)}
             />
@@ -212,9 +231,18 @@ export default function PublicHome() {
         {/* Floating Elements Animation */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-2 h-2 bg-hotel-400/30 rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-3 h-3 bg-white/20 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-40 left-20 w-4 h-4 bg-hotel-300/20 rounded-full animate-ping" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-60 right-40 w-2 h-2 bg-white/30 rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
+          <div
+            className="absolute top-40 right-20 w-3 h-3 bg-white/20 rounded-full animate-bounce"
+            style={{ animationDelay: "1s" }}
+          ></div>
+          <div
+            className="absolute bottom-40 left-20 w-4 h-4 bg-hotel-300/20 rounded-full animate-ping"
+            style={{ animationDelay: "2s" }}
+          ></div>
+          <div
+            className="absolute top-60 right-40 w-2 h-2 bg-white/30 rounded-full animate-pulse"
+            style={{ animationDelay: "3s" }}
+          ></div>
         </div>
 
         {/* Content */}
@@ -223,11 +251,19 @@ export default function PublicHome() {
             <Badge className="mb-6 bg-hotel-500/20 text-hotel-300 border-hotel-500/30 animate-slide-up">
               ⭐ Luxury Hotel Experience
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <h1
+              className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white animate-slide-up"
+              style={{ animationDelay: "0.2s" }}
+            >
               Welcome to
-              <span className="block text-hotel-400 animate-glow">Armaflex Hotel</span>
+              <span className="block text-hotel-400 animate-glow">
+                Armaflex Hotel
+              </span>
             </h1>
-            <div className="animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            <div
+              className="animate-slide-up"
+              style={{ animationDelay: "0.4s" }}
+            >
               <h2 className="text-xl md:text-2xl mb-4 text-hotel-300 font-medium">
                 {heroImages[currentSlide].title}
               </h2>
@@ -235,12 +271,22 @@ export default function PublicHome() {
                 {heroImages[currentSlide].subtitle}
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.6s' }}>
-              <Button size="lg" className="bg-hotel-500 hover:bg-hotel-600 text-white transform hover:scale-105 transition-all duration-200">
+            <div
+              className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up"
+              style={{ animationDelay: "0.6s" }}
+            >
+              <Button
+                size="lg"
+                className="bg-hotel-500 hover:bg-hotel-600 text-white transform hover:scale-105 transition-all duration-200"
+              >
                 <Calendar className="h-5 w-5 mr-2" />
                 Book Your Stay
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-luxury-900 transform hover:scale-105 transition-all duration-200">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-luxury-900 transform hover:scale-105 transition-all duration-200"
+              >
                 <Play className="h-5 w-5 mr-2" />
                 Virtual Tour
               </Button>
@@ -253,15 +299,18 @@ export default function PublicHome() {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">World-Class Amenities</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              World-Class Amenities
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover our exceptional facilities and services designed to make your stay unforgettable
+              Discover our exceptional facilities and services designed to make
+              your stay unforgettable
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, index) => (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group animate-scale-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -271,7 +320,9 @@ export default function PublicHome() {
                       <feature.icon className="h-8 w-8 text-hotel-600 group-hover:text-hotel-700 transition-colors duration-300" />
                     </div>
                   </div>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-hotel-600 transition-colors duration-300">{feature.title}</h3>
+                  <h3 className="text-xl font-semibold mb-2 group-hover:text-hotel-600 transition-colors duration-300">
+                    {feature.title}
+                  </h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </CardContent>
               </Card>
@@ -284,21 +335,24 @@ export default function PublicHome() {
       <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Luxurious Accommodations</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Luxurious Accommodations
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose from our carefully designed rooms and suites, each offering comfort and elegance
+              Choose from our carefully designed rooms and suites, each offering
+              comfort and elegance
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {roomTypes.map((room, index) => (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group animate-slide-in-from-bottom"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 <div className="aspect-video bg-muted relative overflow-hidden">
-                  <img 
-                    src={room.image} 
+                  <img
+                    src={room.image}
                     alt={room.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
@@ -311,22 +365,27 @@ export default function PublicHome() {
                   <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="flex">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <Star key={star} className="h-4 w-4 fill-hotel-400 text-hotel-400" />
+                        <Star
+                          key={star}
+                          className="h-4 w-4 fill-hotel-400 text-hotel-400"
+                        />
                       ))}
                     </div>
                   </div>
                 </div>
                 <CardHeader>
-                  <CardTitle className="group-hover:text-hotel-600 transition-colors duration-300">{room.name}</CardTitle>
+                  <CardTitle className="group-hover:text-hotel-600 transition-colors duration-300">
+                    {room.name}
+                  </CardTitle>
                   <CardDescription>{room.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex flex-wrap gap-2">
                       {room.features.map((feature, fIndex) => (
-                        <Badge 
-                          key={fIndex} 
-                          variant="secondary" 
+                        <Badge
+                          key={fIndex}
+                          variant="secondary"
                           className="text-xs group-hover:bg-hotel-100 group-hover:text-hotel-700 transition-colors duration-300"
                         >
                           {feature}
@@ -349,15 +408,18 @@ export default function PublicHome() {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Guests Say</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              What Our Guests Say
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Read reviews from our valued guests who have experienced our hospitality
+              Read reviews from our valued guests who have experienced our
+              hospitality
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((testimonial, index) => (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className="hover:shadow-xl transition-all duration-300 transform hover:rotate-1 group animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -365,25 +427,39 @@ export default function PublicHome() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-hotel-500 text-hotel-500 animate-twinkle" style={{ animationDelay: `${i * 0.1}s` }} />
+                        <Star
+                          key={i}
+                          className="h-4 w-4 fill-hotel-500 text-hotel-500 animate-twinkle"
+                          style={{ animationDelay: `${i * 0.1}s` }}
+                        />
                       ))}
                     </div>
-                    <Badge variant="secondary" className="text-xs group-hover:bg-hotel-100 transition-colors duration-300">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs group-hover:bg-hotel-100 transition-colors duration-300"
+                    >
                       {testimonial.date}
                     </Badge>
                   </div>
                   <div className="mb-4">
                     <Quote className="h-6 w-6 text-hotel-500 mb-2 group-hover:scale-110 transition-transform duration-300" />
-                    <p className="text-muted-foreground italic">"{testimonial.comment}"</p>
+                    <p className="text-muted-foreground italic">
+                      "{testimonial.comment}"
+                    </p>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Avatar className="h-10 w-10 ring-2 ring-hotel-200 group-hover:ring-hotel-400 transition-all duration-300">
                       <AvatarFallback>
-                        {testimonial.name.split(" ").map(n => n[0]).join("")}
+                        {testimonial.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-medium group-hover:text-hotel-600 transition-colors duration-300">{testimonial.name}</p>
+                      <p className="font-medium group-hover:text-hotel-600 transition-colors duration-300">
+                        {testimonial.name}
+                      </p>
                       <p className="text-xs text-muted-foreground flex items-center">
                         <MapPin className="h-3 w-3 mr-1" />
                         {testimonial.location}
@@ -399,19 +475,34 @@ export default function PublicHome() {
 
       {/* Animated CTA Section */}
       <section className="py-16 bg-gradient-to-r from-hotel-500 to-hotel-600 text-white relative overflow-hidden">
-        <div className={"absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Cpath d=\"M20 20c0 11.046-8.954 20-20 20s-20-8.954-20-20 8.954-20 20-20 20 8.954 20 20zM0 0h20v20H0V0zm20 20h20v20H20V20z\"/%3E%3C/g%3E%3C/svg%3E')] animate-pulse"}></div>
+        <div
+          className={
+            'absolute inset-0 bg-[url(\'data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M20 20c0 11.046-8.954 20-20 20s-20-8.954-20-20 8.954-20 20-20 20 8.954 20 20zM0 0h20v20H0V0zm20 20h20v20H20V20z"/%3E%3C/g%3E%3C/svg%3E\')] animate-pulse'
+          }
+        ></div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="animate-bounce-in">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready for Your Perfect Stay?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Ready for Your Perfect Stay?
+            </h2>
             <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-              Book now and experience the epitome of luxury hospitality. Special rates available for early bookings.
+              Book now and experience the epitome of luxury hospitality. Special
+              rates available for early bookings.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="bg-white text-hotel-600 hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 animate-pulse">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="bg-white text-hotel-600 hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 animate-pulse"
+              >
                 <Calendar className="h-5 w-5 mr-2" />
                 Book Your Stay
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-hotel-600 transform hover:scale-105 transition-all duration-200">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-hotel-600 transform hover:scale-105 transition-all duration-200"
+              >
                 <Phone className="h-5 w-5 mr-2" />
                 Call +1 (555) 123-HOTEL
               </Button>
@@ -424,21 +515,30 @@ export default function PublicHome() {
       <section className="py-8 bg-luxury-900 text-white overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="grid gap-6 md:grid-cols-3 text-center">
-            <div className="flex items-center justify-center space-x-3 animate-slide-in-left" style={{ animationDelay: '0.2s' }}>
+            <div
+              className="flex items-center justify-center space-x-3 animate-slide-in-left"
+              style={{ animationDelay: "0.2s" }}
+            >
               <Clock className="h-6 w-6 text-hotel-400 animate-spin-slow" />
               <div>
                 <p className="font-medium">24/7 Reception</p>
                 <p className="text-sm text-gray-300">Always at your service</p>
               </div>
             </div>
-            <div className="flex items-center justify-center space-x-3 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <div
+              className="flex items-center justify-center space-x-3 animate-fade-in"
+              style={{ animationDelay: "0.4s" }}
+            >
               <MapPin className="h-6 w-6 text-hotel-400 animate-bounce" />
               <div>
                 <p className="font-medium">Prime Location</p>
                 <p className="text-sm text-gray-300">Heart of the city</p>
               </div>
             </div>
-            <div className="flex items-center justify-center space-x-3 animate-slide-in-right" style={{ animationDelay: '0.6s' }}>
+            <div
+              className="flex items-center justify-center space-x-3 animate-slide-in-right"
+              style={{ animationDelay: "0.6s" }}
+            >
               <CheckCircle className="h-6 w-6 text-hotel-400 animate-pulse" />
               <div>
                 <p className="font-medium">Best Rate Guarantee</p>

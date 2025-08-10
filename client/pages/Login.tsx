@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { useUser, UserRole } from "@/contexts/UserContext";
@@ -50,7 +56,7 @@ const mockUsers = [
     department: "Management",
   },
   {
-    email: "receptionist@armaflex.com", 
+    email: "receptionist@armaflex.com",
     password: "reception123",
     role: "receptionist" as UserRole,
     name: "Sarah Johnson",
@@ -60,7 +66,7 @@ const mockUsers = [
     email: "housekeeping@armaflex.com",
     password: "cleaning123",
     role: "housekeeping" as UserRole,
-    name: "Maria Garcia", 
+    name: "Maria Garcia",
     department: "Housekeeping",
   },
   {
@@ -106,7 +112,7 @@ const roleIcons = {
 
 const roleColors = {
   admin: "bg-purple-100 text-purple-800 border-purple-200",
-  receptionist: "bg-blue-100 text-blue-800 border-blue-200", 
+  receptionist: "bg-blue-100 text-blue-800 border-blue-200",
   housekeeping: "bg-green-100 text-green-800 border-green-200",
   maintenance: "bg-orange-100 text-orange-800 border-orange-200",
   accountant: "bg-indigo-100 text-indigo-800 border-indigo-200",
@@ -150,33 +156,33 @@ const hotelImages = [
   {
     url: "https://cdn.pixabay.com/photo/2016/11/18/17/20/living-room-1835923_1280.jpg",
     alt: "Luxury Hotel Lobby with modern design",
-    title: "Grand Lobby Experience"
+    title: "Grand Lobby Experience",
   },
   {
     url: "https://cdn.pixabay.com/photo/2016/11/19/13/06/bed-1839183_1280.jpg",
     alt: "Elegant hotel room with city view",
-    title: "Premium Accommodation"
+    title: "Premium Accommodation",
   },
   {
     url: "https://cdn.pixabay.com/photo/2017/03/22/17/39/kitchen-2165756_1280.jpg",
     alt: "Hotel exterior with beautiful architecture",
-    title: "Stunning Architecture"
+    title: "Stunning Architecture",
   },
   {
     url: "https://cdn.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg",
     alt: "Hotel restaurant dining area",
-    title: "Fine Dining Experience"
+    title: "Fine Dining Experience",
   },
   {
     url: "https://cdn.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg",
     alt: "Modern hotel swimming pool area",
-    title: "Relaxation & Recreation"
+    title: "Relaxation & Recreation",
   },
   {
     url: "https://cdn.pixabay.com/photo/2016/11/30/08/46/bedroom-1872196_1280.jpg",
     alt: "Luxurious hotel spa and wellness center",
-    title: "Wellness & Spa Services"
-  }
+    title: "Wellness & Spa Services",
+  },
 ];
 
 export default function Login() {
@@ -248,7 +254,7 @@ export default function Login() {
         await Promise.all(imagePromises);
         setIsImageLoaded(true);
       } catch (error) {
-        console.warn('Some images failed to preload:', error);
+        console.warn("Some images failed to preload:", error);
         setIsImageLoaded(true); // Still show the component
       }
     };
@@ -262,10 +268,12 @@ export default function Login() {
     setError("");
 
     // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const user = mockUsers.find(u => u.email === email && u.password === password);
-    
+    const user = mockUsers.find(
+      (u) => u.email === email && u.password === password,
+    );
+
     if (user) {
       setUser({
         id: Math.random().toString(),
@@ -274,17 +282,17 @@ export default function Login() {
         role: user.role,
         department: user.department,
       });
-      
+
       // Redirect to appropriate dashboard
       navigate("/");
     } else {
       setError("Invalid email or password. Please try again.");
     }
-    
+
     setIsLoading(false);
   };
 
-  const handleDemoLogin = (user: typeof mockUsers[0]) => {
+  const handleDemoLogin = (user: (typeof mockUsers)[0]) => {
     setEmail(user.email);
     setPassword(user.password);
     setShowDemoAccounts(false);
@@ -295,7 +303,9 @@ export default function Login() {
   };
 
   const prevImage = () => {
-    setCurrentImage((prev) => (prev - 1 + hotelImages.length) % hotelImages.length);
+    setCurrentImage(
+      (prev) => (prev - 1 + hotelImages.length) % hotelImages.length,
+    );
   };
 
   const goToImage = (index: number) => {
@@ -338,14 +348,17 @@ export default function Login() {
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentImage ? 'opacity-100' : 'opacity-0'
+              index === currentImage ? "opacity-100" : "opacity-0"
             }`}
           >
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
               style={{
                 backgroundImage: `url(${image.url})`,
-                animation: index === currentImage ? 'ken-burns 6s ease-in-out infinite alternate' : 'none'
+                animation:
+                  index === currentImage
+                    ? "ken-burns 6s ease-in-out infinite alternate"
+                    : "none",
               }}
             />
             {/* Overlay gradient */}
@@ -390,8 +403,8 @@ export default function Login() {
               onClick={() => goToImage(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentImage
-                  ? 'bg-hotel-400 scale-125'
-                  : 'bg-white/40 hover:bg-white/60'
+                  ? "bg-hotel-400 scale-125"
+                  : "bg-white/40 hover:bg-white/60"
               }`}
               aria-label={`Go to image ${index + 1}`}
             />
@@ -411,8 +424,14 @@ export default function Login() {
       {/* Animated background elements */}
       <div className="absolute inset-0 z-10">
         <div className="absolute top-20 left-20 w-64 h-64 bg-hotel-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-hotel-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-bounce" style={{ animationDelay: '1s' }}></div>
+        <div
+          className="absolute bottom-20 right-20 w-96 h-96 bg-hotel-400/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-bounce"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       {/* Floating particles */}
@@ -441,16 +460,25 @@ export default function Login() {
                 <Hotel className="h-7 w-7 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Armaflex Hotel Management</h1>
-                <p className="text-hotel-200">Professional Hotel Operations Platform</p>
+                <h1 className="text-2xl font-bold">
+                  Armaflex Hotel Management
+                </h1>
+                <p className="text-hotel-200">
+                  Professional Hotel Operations Platform
+                </p>
               </div>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-6 pt-8">
               {stats.map((stat, index) => (
-                <div key={index} className="text-center p-4 rounded-lg bg-white/10 backdrop-blur-sm">
-                  <div className="text-2xl font-bold text-hotel-300">{stat.value}</div>
+                <div
+                  key={index}
+                  className="text-center p-4 rounded-lg bg-white/10 backdrop-blur-sm"
+                >
+                  <div className="text-2xl font-bold text-hotel-300">
+                    {stat.value}
+                  </div>
                   <div className="text-sm text-gray-300">{stat.label}</div>
                 </div>
               ))}
@@ -462,13 +490,18 @@ export default function Login() {
             <h2 className="text-xl font-semibold">Why Choose Armaflex?</h2>
             <div className="grid grid-cols-2 gap-4">
               {features.map((feature, index) => (
-                <div key={index} className="flex items-start space-x-3 p-4 rounded-lg bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                <div
+                  key={index}
+                  className="flex items-start space-x-3 p-4 rounded-lg bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors"
+                >
                   <div className="h-10 w-10 rounded-lg bg-hotel-500/20 flex items-center justify-center">
                     <feature.icon className="h-5 w-5 text-hotel-300" />
                   </div>
                   <div>
                     <h3 className="font-medium text-white">{feature.title}</h3>
-                    <p className="text-sm text-gray-300">{feature.description}</p>
+                    <p className="text-sm text-gray-300">
+                      {feature.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -479,7 +512,10 @@ export default function Login() {
           <div className="p-6 rounded-xl bg-white/10 backdrop-blur-sm">
             <div className="flex mb-3">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-hotel-400 text-hotel-400" />
+                <Star
+                  key={i}
+                  className="h-4 w-4 fill-hotel-400 text-hotel-400"
+                />
               ))}
             </div>
             <blockquote className="text-white/90 italic mb-4">
@@ -488,13 +524,19 @@ export default function Login() {
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 rounded-full bg-hotel-500 flex items-center justify-center">
                 <span className="text-sm font-semibold text-white">
-                  {testimonials[currentTestimonial].author.split(" ").map(n => n[0]).join("")}
+                  {testimonials[currentTestimonial].author
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </span>
               </div>
               <div>
-                <div className="font-medium text-white">{testimonials[currentTestimonial].author}</div>
+                <div className="font-medium text-white">
+                  {testimonials[currentTestimonial].author}
+                </div>
                 <div className="text-xs text-gray-300">
-                  {testimonials[currentTestimonial].role}, {testimonials[currentTestimonial].hotel}
+                  {testimonials[currentTestimonial].role},{" "}
+                  {testimonials[currentTestimonial].hotel}
                 </div>
               </div>
             </div>
@@ -511,8 +553,12 @@ export default function Login() {
                   <Hotel className="h-8 w-8 text-white" />
                 </div>
               </div>
-              <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-              <p className="text-gray-300">Sign in to Armaflex Hotel Management System</p>
+              <h1 className="text-3xl font-bold text-white mb-2">
+                Welcome Back
+              </h1>
+              <p className="text-gray-300">
+                Sign in to Armaflex Hotel Management System
+              </p>
             </div>
 
             {/* Login Card */}
@@ -537,7 +583,7 @@ export default function Login() {
                       className="transition-all duration-200 focus:ring-2 focus:ring-hotel-500"
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
@@ -601,7 +647,7 @@ export default function Login() {
                   >
                     {showDemoAccounts ? "Hide" : "Show"} Demo Accounts
                   </Button>
-                  
+
                   {showDemoAccounts && (
                     <div className="space-y-3">
                       <p className="text-sm text-muted-foreground text-center mb-3">
@@ -623,9 +669,14 @@ export default function Login() {
                                 </div>
                                 <div className="flex-1 text-left">
                                   <p className="font-medium">{user.name}</p>
-                                  <p className="text-xs text-muted-foreground">{user.department}</p>
+                                  <p className="text-xs text-muted-foreground">
+                                    {user.department}
+                                  </p>
                                 </div>
-                                <Badge className={roleColors[user.role]} variant="outline">
+                                <Badge
+                                  className={roleColors[user.role]}
+                                  variant="outline"
+                                >
                                   {user.role}
                                 </Badge>
                               </div>
@@ -645,8 +696,8 @@ export default function Login() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Not a staff member?
                   </p>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     className="text-hotel-600 hover:text-hotel-700 hover:bg-hotel-50 w-full"
                     onClick={() => navigate("/public")}
                   >

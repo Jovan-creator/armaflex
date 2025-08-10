@@ -670,6 +670,50 @@ export class DatabaseService {
     );
   }
 
+  // Additional payment methods
+  static async findPaymentByStripeId(stripePaymentIntentId: string) {
+    const database = await getDatabase();
+    return await database.get(
+      `SELECT * FROM payments WHERE stripe_payment_intent_id = ?`,
+      [stripePaymentIntentId]
+    );
+  }
+
+  static async updatePaymentStatus(paymentId: number, status: string) {
+    const database = await getDatabase();
+    return await database.run(
+      `UPDATE payments SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+      [status, paymentId]
+    );
+  }
+
+  static async updateRefundStatus(stripeRefundId: string, status: string) {
+    const database = await getDatabase();
+    return await database.run(
+      `UPDATE payment_refunds SET status = ? WHERE stripe_refund_id = ?`,
+      [status, stripeRefundId]
+    );
+  }
+
+  static async getReservationById(reservationId: number) {
+    const database = await getDatabase();
+    return await database.get(
+      `SELECT r.*, g.first_name, g.last_name, g.email, g.phone
+       FROM reservations r
+       JOIN guests g ON r.guest_id = g.id
+       WHERE r.id = ?`,
+      [reservationId]
+    );
+  }
+
+  static async getGuestById(guestId: number) {
+    const database = await getDatabase();
+    return await database.get(
+      `SELECT * FROM guests WHERE id = ?`,
+      [guestId]
+    );
+  }
+
   // Notification logs methods
   static async logNotification(log: {
     userId?: number;

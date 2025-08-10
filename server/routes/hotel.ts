@@ -211,6 +211,31 @@ router.post("/reservations", async (req, res) => {
   }
 });
 
+router.put("/reservations/:id/status", authenticateToken, async (req, res) => {
+  try {
+    const reservationId = parseInt(req.params.id);
+    const { status } = req.body;
+
+    await db.updateReservationStatus(reservationId, status);
+    res.json({ message: "Reservation status updated successfully" });
+  } catch (error) {
+    console.error("Update reservation status error:", error);
+    res.status(500).json({ error: "Failed to update reservation status" });
+  }
+});
+
+router.put("/reservations/:id/cancel", authenticateToken, async (req, res) => {
+  try {
+    const reservationId = parseInt(req.params.id);
+
+    await db.cancelReservation(reservationId);
+    res.json({ message: "Reservation cancelled successfully" });
+  } catch (error) {
+    console.error("Cancel reservation error:", error);
+    res.status(500).json({ error: "Failed to cancel reservation" });
+  }
+});
+
 // User management routes (admin only)
 router.get("/users", authenticateToken, async (req, res) => {
   try {

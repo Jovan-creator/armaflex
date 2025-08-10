@@ -158,6 +158,51 @@ export class DatabaseService {
     );
   }
 
+  async getAllUsers() {
+    if (!this.db) await this.init();
+    return await this.db!.all(
+      `SELECT id, email, name, role, department, is_active, created_at, updated_at
+       FROM users ORDER BY created_at DESC`
+    );
+  }
+
+  async updateUser(userId: number, userData: any) {
+    if (!this.db) await this.init();
+
+    let query = `
+      UPDATE users
+      SET name = ?, role = ?, department = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `;
+    let params = [userData.name, userData.role, userData.department, userId];
+
+    // If password is provided, include it in the update
+    if (userData.password) {
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      query = `
+        UPDATE users
+        SET name = ?, role = ?, department = ?, password_hash = ?, updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `;
+      params = [userData.name, userData.role, userData.department, hashedPassword, userId];
+    }
+
+    return await this.db!.run(query, params);
+  }
+
+  async updateUserStatus(userId: number, isActive: boolean) {
+    if (!this.db) await this.init();
+    return await this.db!.run(
+      `UPDATE users SET is_active = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+      [isActive, userId]
+    );
+  }
+
+  async deleteUser(userId: number) {
+    if (!this.db) await this.init();
+    return await this.db!.run("DELETE FROM users WHERE id = ?", [userId]);
+  }
+
   // Room operations
   async getAllRooms() {
     if (!this.db) await this.init();

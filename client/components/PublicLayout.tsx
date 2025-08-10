@@ -139,6 +139,14 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                       })}
                     </nav>
 
+                    {/* Language Switcher for Mobile */}
+                    <div className="border-t pt-4">
+                      <div className="px-3 py-2">
+                        <p className="text-sm font-medium text-muted-foreground mb-2">Language</p>
+                        <LanguageSwitcher variant="button" showLabel={true} />
+                      </div>
+                    </div>
+
                     <Button
                       variant="outline"
                       className="w-full border-hotel-500 text-hotel-600 hover:bg-hotel-50"

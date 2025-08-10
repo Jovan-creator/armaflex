@@ -267,26 +267,17 @@ export default function Login() {
     setIsLoading(true);
     setError("");
 
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const success = await login(email, password);
 
-    const user = mockUsers.find(
-      (u) => u.email === email && u.password === password,
-    );
-
-    if (user) {
-      setUser({
-        id: Math.random().toString(),
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        department: user.department,
-      });
-
-      // Redirect to appropriate dashboard
-      navigate("/");
-    } else {
-      setError("Invalid email or password. Please try again.");
+      if (success) {
+        navigate("/");
+      } else {
+        setError("Invalid email or password. Please try again.");
+      }
+    } catch (error) {
+      setError("Login failed. Please try again.");
+      console.error('Login error:', error);
     }
 
     setIsLoading(false);

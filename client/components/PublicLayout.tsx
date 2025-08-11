@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   Hotel,
   Menu,
@@ -51,8 +52,12 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 <Hotel className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Armaflex Hotel</h1>
-                <p className="text-xs text-muted-foreground">Luxury Experience</p>
+                <h1 className="text-xl font-bold text-foreground">
+                  Armaflex Hotel
+                </h1>
+                <p className="text-xs text-muted-foreground">
+                  Luxury Experience
+                </p>
               </div>
             </Link>
 
@@ -66,7 +71,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                     to={item.href}
                     className={cn(
                       "text-sm font-medium transition-colors hover:text-hotel-600",
-                      isActive ? "text-hotel-600" : "text-muted-foreground"
+                      isActive ? "text-hotel-600" : "text-muted-foreground",
                     )}
                   >
                     {item.name}
@@ -77,6 +82,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
 
             {/* CTA and Mobile Menu */}
             <div className="flex items-center space-x-4">
+              {/* Language Switcher */}
+              <div className="hidden sm:block">
+                <LanguageSwitcher variant="minimal" showLabel={false} />
+              </div>
               <Button
                 variant="outline"
                 className="hidden sm:flex border-hotel-500 text-hotel-600 hover:bg-hotel-50"
@@ -108,7 +117,9 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                       </div>
                       <div>
                         <h2 className="text-lg font-bold">Armaflex Hotel</h2>
-                        <p className="text-sm text-muted-foreground">Luxury Experience</p>
+                        <p className="text-sm text-muted-foreground">
+                          Luxury Experience
+                        </p>
                       </div>
                     </div>
 
@@ -124,7 +135,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                               "flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                               isActive
                                 ? "bg-hotel-100 text-hotel-800"
-                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground",
                             )}
                           >
                             <item.icon className="h-5 w-5" />
@@ -133,6 +144,16 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                         );
                       })}
                     </nav>
+
+                    {/* Language Switcher for Mobile */}
+                    <div className="border-t pt-4">
+                      <div className="px-3 py-2">
+                        <p className="text-sm font-medium text-muted-foreground mb-2">
+                          Language
+                        </p>
+                        <LanguageSwitcher variant="button" showLabel={true} />
+                      </div>
+                    </div>
 
                     <Button
                       variant="outline"
@@ -183,14 +204,20 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 </div>
               </div>
               <p className="text-sm text-luxury-300 leading-relaxed">
-                Experience the pinnacle of luxury hospitality with our world-class service, 
-                elegant accommodations, and exceptional amenities.
+                Experience the pinnacle of luxury hospitality with our
+                world-class service, elegant accommodations, and exceptional
+                amenities.
               </p>
               <div className="flex space-x-2">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="h-4 w-4 fill-hotel-500 text-hotel-500" />
+                  <Star
+                    key={star}
+                    className="h-4 w-4 fill-hotel-500 text-hotel-500"
+                  />
                 ))}
-                <span className="text-sm text-luxury-300">5.0 • 1,247 reviews</span>
+                <span className="text-sm text-luxury-300">
+                  5.0 • 1,247 reviews
+                </span>
               </div>
             </div>
 
@@ -238,11 +265,15 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Phone className="h-5 w-5 text-hotel-500" />
-                  <span className="text-sm text-luxury-300">+1 (555) 123-HOTEL</span>
+                  <span className="text-sm text-luxury-300">
+                    +1 (555) 123-HOTEL
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="h-5 w-5 text-hotel-500" />
-                  <span className="text-sm text-luxury-300">info@armaflexhotel.com</span>
+                  <span className="text-sm text-luxury-300">
+                    info@armaflexhotel.com
+                  </span>
                 </div>
               </div>
             </div>

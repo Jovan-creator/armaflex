@@ -14,7 +14,9 @@ export function createServer() {
   app.use(express.urlencoded({ extended: true }));
 
   // Initialize database
-  initializeDatabase().catch(console.error);
+  initializeDatabase().catch((error) => {
+    console.error("❌ Database initialization failed:", error);
+  });
 
   // Health check endpoint
   app.get("/api/health", (_req, res) => {

@@ -14,15 +14,22 @@ export async function initializeDatabase(): Promise<
   }
 
   // Open SQLite database
-  // Use /tmp directory in serverless environments like Netlify
+  // Use in-memory database for serverless environments like Netlify
   const dbPath = process.env.NETLIFY
-    ? "/tmp/hotel_management.db"
+    ? ":memory:"
     : join(process.cwd(), "hotel_management.db");
 
   db = await open({
     filename: dbPath,
     driver: sqlite3.Database,
   });
+
+  // Log database initialization for debugging
+  if (process.env.NETLIFY) {
+    console.log("✅ Using in-memory SQLite database for Netlify Functions");
+  } else {
+    console.log(`✅ Using SQLite database at: ${dbPath}`);
+  }
 
   // Read and execute schema
   const schema = readFileSync(join(__dirname, "schema.sql"), "utf8");

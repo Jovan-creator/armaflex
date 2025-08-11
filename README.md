@@ -77,15 +77,15 @@ A comprehensive, modern hotel management platform built with React, TypeScript, 
 
 ## 🔑 Demo Accounts
 
-| Role             | Email                        | Password      | Access Level             |
-| ---------------- | ---------------------------- | ------------- | ------------------------ |
-| **Admin**        | admin@armaflex.com          | admin123      | Full system access       |
-| **Receptionist** | receptionist@armaflex.com   | reception123  | Front desk operations    |
-| **Housekeeping** | housekeeping@armaflex.com   | cleaning123   | Housekeeping management  |
-| **Maintenance**  | maintenance@armaflex.com    | repair123     | Maintenance & repairs    |
-| **Finance**      | finance@armaflex.com        | finance123    | Billing & accounting     |
-| **Restaurant**   | restaurant@armaflex.com     | food123       | Restaurant operations    |
-| **IT Support**   | support@armaflex.com        | help123       | Technical support        |
+| Role             | Email                     | Password     | Access Level            |
+| ---------------- | ------------------------- | ------------ | ----------------------- |
+| **Admin**        | admin@armaflex.com        | admin123     | Full system access      |
+| **Receptionist** | receptionist@armaflex.com | reception123 | Front desk operations   |
+| **Housekeeping** | housekeeping@armaflex.com | cleaning123  | Housekeeping management |
+| **Maintenance**  | maintenance@armaflex.com  | repair123    | Maintenance & repairs   |
+| **Finance**      | finance@armaflex.com      | finance123   | Billing & accounting    |
+| **Restaurant**   | restaurant@armaflex.com   | food123      | Restaurant operations   |
+| **IT Support**   | support@armaflex.com      | help123      | Technical support       |
 
 > **Note:** On the login page, click "Show Demo Accounts" to auto-fill these credentials.
 

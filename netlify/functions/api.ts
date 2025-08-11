@@ -6,5 +6,5 @@ const app = createServer();
 
 // Export the serverless handler
 export const handler = serverless(app, {
-  binary: ['image/*', 'font/*', 'application/octet-stream'],
+  binary: ["image/*", "font/*", "application/octet-stream"],
 });

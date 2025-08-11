@@ -26,8 +26,8 @@ export async function initializeDatabase(): Promise<
   });
 
   // Log database initialization for debugging
-  if (process.env.NETLIFY) {
-    console.log("✅ Using in-memory SQLite database for Netlify Functions");
+  if (isNetlify) {
+    console.log("✅ Using in-memory SQLite database for serverless environment");
   } else {
     console.log(`✅ Using SQLite database at: ${dbPath}`);
   }

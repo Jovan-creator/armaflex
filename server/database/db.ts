@@ -15,7 +15,10 @@ export async function initializeDatabase(): Promise<
 
   // Open SQLite database
   // Use in-memory database for serverless environments like Netlify
-  const isNetlify = process.env.NETLIFY || process.env.NETLIFY_ENV || process.env.AWS_LAMBDA_FUNCTION_NAME;
+  const isNetlify =
+    process.env.NETLIFY ||
+    process.env.NETLIFY_ENV ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME;
   const dbPath = isNetlify
     ? ":memory:"
     : join(process.cwd(), "hotel_management.db");
@@ -27,7 +30,9 @@ export async function initializeDatabase(): Promise<
 
   // Log database initialization for debugging
   if (isNetlify) {
-    console.log("✅ Using in-memory SQLite database for serverless environment");
+    console.log(
+      "✅ Using in-memory SQLite database for serverless environment",
+    );
   } else {
     console.log(`✅ Using SQLite database at: ${dbPath}`);
   }

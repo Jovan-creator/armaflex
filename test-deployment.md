@@ -5,6 +5,7 @@
 Visit these URLs to test if the backend is working:
 
 1. **Health Check**: https://armaflexhotel.netlify.app/api/health
+
    - Should return: `{"status":"OK","timestamp":"...","environment":"..."}`
 
 2. **Ping Test**: https://armaflexhotel.netlify.app/api/ping
@@ -14,15 +15,16 @@ Visit these URLs to test if the backend is working:
 
 Try logging in with these exact credentials:
 
-| Email | Password |
-|-------|----------|
-| admin@armaflex.com | admin123 |
+| Email                     | Password     |
+| ------------------------- | ------------ |
+| admin@armaflex.com        | admin123     |
 | receptionist@armaflex.com | reception123 |
-| housekeeping@armaflex.com | cleaning123 |
+| housekeeping@armaflex.com | cleaning123  |
 
 ## If Still Not Working
 
 ### Check Netlify Function Logs
+
 1. Go to your Netlify dashboard
 2. Click on your site
 3. Go to "Functions" tab
@@ -36,7 +38,9 @@ Try logging in with these exact credentials:
 3. **Network error** → API routing might not be working
 
 ### Force Redeploy
+
 If needed, trigger a fresh deployment:
+
 1. Go to Netlify dashboard
 2. Go to "Deploys" tab
 3. Click "Trigger deploy" → "Deploy site"
@@ -44,6 +48,7 @@ If needed, trigger a fresh deployment:
 ## Expected Log Messages
 
 In the function logs, you should see:
+
 ```
 🚀 Initializing Netlify Function...
 ✅ Express app created successfully

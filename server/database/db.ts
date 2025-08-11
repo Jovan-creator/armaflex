@@ -14,8 +14,13 @@ export async function initializeDatabase(): Promise<
   }
 
   // Open SQLite database
+  // Use /tmp directory in serverless environments like Netlify
+  const dbPath = process.env.NETLIFY
+    ? "/tmp/hotel_management.db"
+    : join(process.cwd(), "hotel_management.db");
+
   db = await open({
-    filename: join(process.cwd(), "hotel_management.db"),
+    filename: dbPath,
     driver: sqlite3.Database,
   });
 

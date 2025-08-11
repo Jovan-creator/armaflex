@@ -16,6 +16,15 @@ export function createServer() {
   // Initialize database
   initializeDatabase().catch(console.error);
 
+  // Health check endpoint
+  app.get("/api/health", (_req, res) => {
+    res.json({
+      status: "OK",
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || "development"
+    });
+  });
+
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";

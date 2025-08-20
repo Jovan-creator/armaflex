@@ -690,10 +690,10 @@ export default function Login() {
                   <Button
                     variant="ghost"
                     className="text-hotel-600 hover:text-hotel-700 hover:bg-hotel-50 w-full"
-                    onClick={() => navigate("/public")}
+                    onClick={() => navigate("/booking")}
                   >
                     <User className="h-4 w-4 mr-2" />
-                    Continue as Guest to Public Website
+                    Continue as Guest - Book Your Stay
                   </Button>
                 </div>
               </CardContent>

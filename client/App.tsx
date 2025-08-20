@@ -299,6 +299,14 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/booking"
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <PublicBooking />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Guest Portal Routes */}
             <Route path="/guest/login" element={<GuestLogin />} />

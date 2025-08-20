@@ -48,6 +48,7 @@ import GuestReservations from "./pages/GuestReservations";
 import GuestServices from "./pages/GuestServices";
 import GuestBilling from "./pages/GuestBilling";
 import GuestProfile from "./pages/GuestProfile";
+import PublicBooking from "./pages/PublicBooking";
 
 const queryClient = new QueryClient();
 

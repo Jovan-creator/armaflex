@@ -287,7 +287,9 @@ export default function Login() {
       if (success) {
         navigate("/");
       } else {
-        setError("Invalid email or password. Please check your credentials and selected role.");
+        setError(
+          "Invalid email or password. Please check your credentials and selected role.",
+        );
       }
     } catch (error) {
       setError("Login failed. Please try again.");
@@ -620,7 +622,10 @@ export default function Login() {
 
                   <div className="space-y-2">
                     <Label htmlFor="role">Select Your Role</Label>
-                    <Select value={selectedRole} onValueChange={setSelectedRole}>
+                    <Select
+                      value={selectedRole}
+                      onValueChange={setSelectedRole}
+                    >
                       <SelectTrigger className="transition-all duration-200 focus:ring-2 focus:ring-hotel-500">
                         <SelectValue placeholder="Choose your role" />
                       </SelectTrigger>

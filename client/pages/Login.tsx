@@ -570,8 +570,21 @@ export default function Login() {
             {/* Mobile Header */}
             <div className="lg:hidden text-center mb-8">
               <div className="flex justify-center mb-4">
-                <div className="h-16 w-16 rounded-full bg-hotel-500 flex items-center justify-center">
-                  <Hotel className="h-8 w-8 text-white" />
+                <div className="h-16 w-16 rounded-full overflow-hidden shadow-lg bg-white">
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2Ff34557ef576f4689b273621150e9cf4f%2F053306aaaefe4fe288a9e89dc1941919?format=webp&width=800"
+                    alt="Armaflex Hotel Logo"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      (e.currentTarget.parentElement as HTMLElement).classList.remove('bg-white');
+                      (e.currentTarget.parentElement as HTMLElement).classList.add('bg-hotel-500');
+                      ((e.currentTarget.parentElement as HTMLElement).querySelector('.fallback-icon') as HTMLElement).style.display = 'flex';
+                    }}
+                  />
+                  <div className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon" style={{display: 'none'}}>
+                    <Hotel className="h-8 w-8 text-white" />
+                  </div>
                 </div>
               </div>
               <h1 className="text-3xl font-bold text-white mb-2">

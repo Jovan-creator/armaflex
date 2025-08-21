@@ -79,8 +79,21 @@ export default function GuestLogin() {
       <div className="w-full max-w-md space-y-6">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 rounded-full bg-hotel-500 flex items-center justify-center mb-4">
-            <Hotel className="h-8 w-8 text-white" />
+          <div className="mx-auto h-16 w-16 rounded-full overflow-hidden shadow-lg bg-white mb-4">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2Ff34557ef576f4689b273621150e9cf4f%2F053306aaaefe4fe288a9e89dc1941919?format=webp&width=800"
+              alt="Armaflex Hotel Logo"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                (e.currentTarget.parentElement as HTMLElement).classList.remove('bg-white');
+                (e.currentTarget.parentElement as HTMLElement).classList.add('bg-hotel-500');
+                ((e.currentTarget.parentElement as HTMLElement).querySelector('.fallback-icon') as HTMLElement).style.display = 'flex';
+              }}
+            />
+            <div className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon" style={{display: 'none'}}>
+              <Hotel className="h-8 w-8 text-white" />
+            </div>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">
             Welcome to Armaflex Hotel

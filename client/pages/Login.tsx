@@ -300,6 +300,7 @@ export default function Login() {
   const handleDemoLogin = (user: (typeof mockUsers)[0]) => {
     setEmail(user.email);
     setPassword(user.password);
+    setSelectedRole(user.role);
     setShowDemoAccounts(false);
   };
 

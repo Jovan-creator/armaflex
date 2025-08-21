@@ -197,11 +197,12 @@ router.get("/rooms/available", async (req, res) => {
 // Enhanced booking system - handles all service types from the new booking page
 router.post("/bookings", async (req, res) => {
   try {
-    const { serviceType, guestInfo, specialRequests, ...serviceDetails } = req.body;
+    const { serviceType, guestInfo, specialRequests, ...serviceDetails } =
+      req.body;
 
     console.log(`📝 New booking request: ${serviceType}`, {
       guest: `${guestInfo.firstName} ${guestInfo.lastName}`,
-      email: guestInfo.email
+      email: guestInfo.email,
     });
 
     // Create or find guest
@@ -214,7 +215,7 @@ router.post("/bookings", async (req, res) => {
         phone: guestInfo.phone,
         country: guestInfo.country,
         city: guestInfo.city,
-        nationality: guestInfo.nationality
+        nationality: guestInfo.nationality,
       };
       const guestResult = await db.createGuest(guestData);
       guestRecord = { id: guestResult.lastID, ...guestData };
@@ -228,17 +229,17 @@ router.post("/bookings", async (req, res) => {
       booking_reference: bookingReference,
       booking_type: serviceType,
       guest_id: guestRecord.id,
-      status: 'pending',
-      payment_status: 'pending',
-      currency: 'UGX',
+      status: "pending",
+      payment_status: "pending",
+      currency: "UGX",
       special_requests: specialRequests,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
 
     // Add service-specific details
     switch (serviceType) {
-      case 'accommodation':
+      case "accommodation":
         bookingData = {
           ...bookingData,
           room_type: serviceDetails.roomType,
@@ -246,22 +247,22 @@ router.post("/bookings", async (req, res) => {
           check_out_date: serviceDetails.checkOut,
           adults: serviceDetails.adults || 1,
           children: serviceDetails.children || 0,
-          total_amount: serviceDetails.totalAmount
+          total_amount: serviceDetails.totalAmount,
         };
         break;
 
-      case 'dining':
+      case "dining":
         bookingData = {
           ...bookingData,
           dining_venue: serviceDetails.diningVenue,
           dining_date: serviceDetails.diningDate,
           dining_time: serviceDetails.diningTime,
           party_size: serviceDetails.partySize || 1,
-          total_amount: serviceDetails.totalAmount
+          total_amount: serviceDetails.totalAmount,
         };
         break;
 
-      case 'events':
+      case "events":
         bookingData = {
           ...bookingData,
           event_space: serviceDetails.eventSpace,
@@ -270,17 +271,17 @@ router.post("/bookings", async (req, res) => {
           event_end_time: serviceDetails.eventEndTime,
           event_type: serviceDetails.eventType,
           attendees: serviceDetails.attendees,
-          total_amount: serviceDetails.totalAmount
+          total_amount: serviceDetails.totalAmount,
         };
         break;
 
-      case 'facilities':
+      case "facilities":
         bookingData = {
           ...bookingData,
           service_name: serviceDetails.serviceName,
           service_date: serviceDetails.serviceDate,
           service_time: serviceDetails.serviceTime,
-          total_amount: serviceDetails.totalAmount
+          total_amount: serviceDetails.totalAmount,
         };
         break;
 
@@ -294,7 +295,9 @@ router.post("/bookings", async (req, res) => {
 
     // Send booking confirmation notification
     try {
-      const { notificationService } = await import("../services/notificationService");
+      const { notificationService } = await import(
+        "../services/notificationService"
+      );
 
       const notificationData = {
         recipientEmail: guestInfo.email,
@@ -303,14 +306,14 @@ router.post("/bookings", async (req, res) => {
         bookingReference,
         serviceType,
         totalAmount: serviceDetails.totalAmount,
-        currency: 'UGX',
-        bookingId
+        currency: "UGX",
+        bookingId,
       };
 
       // Send email notification
       const emailSent = await notificationService.sendBookingConfirmation(
         notificationData,
-        ["email"]
+        ["email"],
       );
 
       // Log notification
@@ -326,7 +329,6 @@ router.post("/bookings", async (req, res) => {
           metadata: { bookingId, bookingReference, serviceType },
         });
       }
-
     } catch (notificationError) {
       console.error("Failed to send booking confirmation:", notificationError);
       // Don't fail the booking creation if notification fails
@@ -339,7 +341,7 @@ router.post("/bookings", async (req, res) => {
         bookingId,
         bookingReference,
         guest: `${guestInfo.firstName} ${guestInfo.lastName}`,
-        amount: serviceDetails.totalAmount
+        amount: serviceDetails.totalAmount,
       });
     } catch (error) {
       console.error("Failed to send staff notification:", error);
@@ -350,9 +352,8 @@ router.post("/bookings", async (req, res) => {
       booking_reference: bookingReference,
       guest_id: guestRecord.id,
       message: "Booking created successfully",
-      status: "pending"
+      status: "pending",
     });
-
   } catch (error) {
     console.error("Create booking error:", error);
     res.status(500).json({ error: "Failed to create booking" });
@@ -362,15 +363,15 @@ router.post("/bookings", async (req, res) => {
 // Get all bookings with enhanced filtering
 router.get("/bookings", authenticateToken, async (req, res) => {
   try {
-    const { 
-      status, 
-      serviceType, 
-      paymentStatus, 
-      dateFrom, 
-      dateTo, 
+    const {
+      status,
+      serviceType,
+      paymentStatus,
+      dateFrom,
+      dateTo,
       guestName,
       limit = 50,
-      offset = 0 
+      offset = 0,
     } = req.query;
 
     const filters = {
@@ -381,7 +382,7 @@ router.get("/bookings", authenticateToken, async (req, res) => {
       dateTo: dateTo as string,
       guestName: guestName as string,
       limit: parseInt(limit as string),
-      offset: parseInt(offset as string)
+      offset: parseInt(offset as string),
     };
 
     const bookings = await db.getBookingsWithFilters(filters);
@@ -400,33 +401,42 @@ router.put("/bookings/:id/status", authenticateToken, async (req, res) => {
     const { user } = req;
 
     const updateData: any = { updated_at: new Date().toISOString() };
-    
+
     if (status) updateData.status = status;
     if (payment_status) updateData.payment_status = payment_status;
-    if (internal_notes !== undefined) updateData.internal_notes = internal_notes;
+    if (internal_notes !== undefined)
+      updateData.internal_notes = internal_notes;
 
     await db.updateBooking(bookingId, updateData);
 
     // Log the status change
-    console.log(`📝 Booking ${bookingId} updated by ${user.email}:`, updateData);
+    console.log(
+      `📝 Booking ${bookingId} updated by ${user.email}:`,
+      updateData,
+    );
 
     // Send notification to guest if status changed
-    if (status && (status === 'confirmed' || status === 'cancelled')) {
+    if (status && (status === "confirmed" || status === "cancelled")) {
       try {
         const booking = await db.getBookingById(bookingId);
         if (booking && booking.guest) {
-          const { notificationService } = await import("../services/notificationService");
-          
+          const { notificationService } = await import(
+            "../services/notificationService"
+          );
+
           await notificationService.sendBookingStatusUpdate({
             recipientEmail: booking.guest.email,
             guestName: `${booking.guest.first_name} ${booking.guest.last_name}`,
             bookingReference: booking.booking_reference,
             newStatus: status,
-            serviceType: booking.booking_type
+            serviceType: booking.booking_type,
           });
         }
       } catch (notificationError) {
-        console.error("Failed to send status update notification:", notificationError);
+        console.error(
+          "Failed to send status update notification:",
+          notificationError,
+        );
       }
     }
 
@@ -451,7 +461,7 @@ router.post("/reviews", async (req, res) => {
       valueForMoney,
       wouldRecommend,
       review,
-      bookingId
+      bookingId,
     } = req.body;
 
     const reviewData = {
@@ -466,15 +476,17 @@ router.post("/reviews", async (req, res) => {
       would_recommend: wouldRecommend,
       review_text: review,
       booking_id: bookingId,
-      status: 'pending', // Reviews need approval
-      created_at: new Date().toISOString()
+      status: "pending", // Reviews need approval
+      created_at: new Date().toISOString(),
     };
 
     const result = await db.createReview(reviewData);
 
     // Notify staff about new review
     try {
-      console.log(`⭐ New review submitted by ${guestName} (${overall}/5 stars)`);
+      console.log(
+        `⭐ New review submitted by ${guestName} (${overall}/5 stars)`,
+      );
     } catch (error) {
       console.error("Failed to send review notification:", error);
     }
@@ -482,9 +494,8 @@ router.post("/reviews", async (req, res) => {
     res.json({
       review_id: result.lastID,
       message: "Review submitted successfully",
-      status: "pending_approval"
+      status: "pending_approval",
     });
-
   } catch (error) {
     console.error("Create review error:", error);
     res.status(500).json({ error: "Failed to submit review" });
@@ -494,12 +505,12 @@ router.post("/reviews", async (req, res) => {
 // Get reviews (public endpoint for approved reviews)
 router.get("/reviews", async (req, res) => {
   try {
-    const { status = 'approved', limit = 10, offset = 0 } = req.query;
-    
+    const { status = "approved", limit = 10, offset = 0 } = req.query;
+
     const reviews = await db.getReviews({
       status: status as string,
       limit: parseInt(limit as string),
-      offset: parseInt(offset as string)
+      offset: parseInt(offset as string),
     });
 
     res.json(reviews);
@@ -514,7 +525,9 @@ router.put("/reviews/:id/status", authenticateToken, async (req, res) => {
   try {
     const { user } = req;
     if (user.role !== "admin" && user.role !== "receptionist") {
-      return res.status(403).json({ error: "Admin or receptionist access required" });
+      return res
+        .status(403)
+        .json({ error: "Admin or receptionist access required" });
     }
 
     const reviewId = parseInt(req.params.id);
@@ -532,10 +545,10 @@ router.put("/reviews/:id/status", authenticateToken, async (req, res) => {
 // Dashboard statistics
 router.get("/dashboard/stats", authenticateToken, async (req, res) => {
   try {
-    const { period = '30d' } = req.query;
-    
+    const { period = "30d" } = req.query;
+
     const stats = await db.getDashboardStats(period as string);
-    
+
     res.json(stats);
   } catch (error) {
     console.error("Get dashboard stats error:", error);

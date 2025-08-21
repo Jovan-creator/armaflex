@@ -194,7 +194,382 @@ router.get("/rooms/available", async (req, res) => {
   }
 });
 
-// Reservation routes
+// Enhanced booking system - handles all service types from the new booking page
+router.post("/bookings", async (req, res) => {
+  try {
+    const { serviceType, guestInfo, specialRequests, ...serviceDetails } = req.body;
+
+    console.log(`📝 New booking request: ${serviceType}`, {
+      guest: `${guestInfo.firstName} ${guestInfo.lastName}`,
+      email: guestInfo.email
+    });
+
+    // Create or find guest
+    let guestRecord = await db.findGuestByEmail(guestInfo.email);
+    if (!guestRecord) {
+      const guestData = {
+        first_name: guestInfo.firstName,
+        last_name: guestInfo.lastName,
+        email: guestInfo.email,
+        phone: guestInfo.phone,
+        country: guestInfo.country,
+        city: guestInfo.city,
+        nationality: guestInfo.nationality
+      };
+      const guestResult = await db.createGuest(guestData);
+      guestRecord = { id: guestResult.lastID, ...guestData };
+    }
+
+    // Generate booking reference
+    const bookingReference = `ARM-${serviceType.toUpperCase()}-${Date.now().toString().slice(-6)}`;
+
+    // Prepare booking data based on service type
+    let bookingData: any = {
+      booking_reference: bookingReference,
+      booking_type: serviceType,
+      guest_id: guestRecord.id,
+      status: 'pending',
+      payment_status: 'pending',
+      currency: 'UGX',
+      special_requests: specialRequests,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    // Add service-specific details
+    switch (serviceType) {
+      case 'accommodation':
+        bookingData = {
+          ...bookingData,
+          room_type: serviceDetails.roomType,
+          check_in_date: serviceDetails.checkIn,
+          check_out_date: serviceDetails.checkOut,
+          adults: serviceDetails.adults || 1,
+          children: serviceDetails.children || 0,
+          total_amount: serviceDetails.totalAmount
+        };
+        break;
+
+      case 'dining':
+        bookingData = {
+          ...bookingData,
+          dining_venue: serviceDetails.diningVenue,
+          dining_date: serviceDetails.diningDate,
+          dining_time: serviceDetails.diningTime,
+          party_size: serviceDetails.partySize || 1,
+          total_amount: serviceDetails.totalAmount
+        };
+        break;
+
+      case 'events':
+        bookingData = {
+          ...bookingData,
+          event_space: serviceDetails.eventSpace,
+          event_date: serviceDetails.eventDate,
+          event_start_time: serviceDetails.eventStartTime,
+          event_end_time: serviceDetails.eventEndTime,
+          event_type: serviceDetails.eventType,
+          attendees: serviceDetails.attendees,
+          total_amount: serviceDetails.totalAmount
+        };
+        break;
+
+      case 'facilities':
+        bookingData = {
+          ...bookingData,
+          service_name: serviceDetails.serviceName,
+          service_date: serviceDetails.serviceDate,
+          service_time: serviceDetails.serviceTime,
+          total_amount: serviceDetails.totalAmount
+        };
+        break;
+
+      default:
+        return res.status(400).json({ error: "Invalid service type" });
+    }
+
+    // Create the booking
+    const result = await db.createBooking(bookingData);
+    const bookingId = result.lastID;
+
+    // Send booking confirmation notification
+    try {
+      const { notificationService } = await import("../services/notificationService");
+
+      const notificationData = {
+        recipientEmail: guestInfo.email,
+        recipientPhone: guestInfo.phone,
+        guestName: `${guestInfo.firstName} ${guestInfo.lastName}`,
+        bookingReference,
+        serviceType,
+        totalAmount: serviceDetails.totalAmount,
+        currency: 'UGX',
+        bookingId
+      };
+
+      // Send email notification
+      const emailSent = await notificationService.sendBookingConfirmation(
+        notificationData,
+        ["email"]
+      );
+
+      // Log notification
+      if (guestInfo.email) {
+        await db.logNotification({
+          guestId: guestRecord.id,
+          type: "email",
+          templateName: "bookingConfirmation",
+          recipient: guestInfo.email,
+          subject: `Booking Confirmation - ${serviceType} - Armaflex Hotel`,
+          status: emailSent.email ? "sent" : "failed",
+          sentAt: emailSent.email ? new Date() : undefined,
+          metadata: { bookingId, bookingReference, serviceType },
+        });
+      }
+
+    } catch (notificationError) {
+      console.error("Failed to send booking confirmation:", notificationError);
+      // Don't fail the booking creation if notification fails
+    }
+
+    // Send real-time notification to staff
+    try {
+      // This would integrate with WebSocket or similar for real-time updates
+      console.log(`🔔 New ${serviceType} booking notification for staff:`, {
+        bookingId,
+        bookingReference,
+        guest: `${guestInfo.firstName} ${guestInfo.lastName}`,
+        amount: serviceDetails.totalAmount
+      });
+    } catch (error) {
+      console.error("Failed to send staff notification:", error);
+    }
+
+    res.json({
+      booking_id: bookingId,
+      booking_reference: bookingReference,
+      guest_id: guestRecord.id,
+      message: "Booking created successfully",
+      status: "pending"
+    });
+
+  } catch (error) {
+    console.error("Create booking error:", error);
+    res.status(500).json({ error: "Failed to create booking" });
+  }
+});
+
+// Get all bookings with enhanced filtering
+router.get("/bookings", authenticateToken, async (req, res) => {
+  try {
+    const { 
+      status, 
+      serviceType, 
+      paymentStatus, 
+      dateFrom, 
+      dateTo, 
+      guestName,
+      limit = 50,
+      offset = 0 
+    } = req.query;
+
+    const filters = {
+      status: status as string,
+      serviceType: serviceType as string,
+      paymentStatus: paymentStatus as string,
+      dateFrom: dateFrom as string,
+      dateTo: dateTo as string,
+      guestName: guestName as string,
+      limit: parseInt(limit as string),
+      offset: parseInt(offset as string)
+    };
+
+    const bookings = await db.getBookingsWithFilters(filters);
+    res.json(bookings);
+  } catch (error) {
+    console.error("Get bookings error:", error);
+    res.status(500).json({ error: "Failed to fetch bookings" });
+  }
+});
+
+// Update booking status
+router.put("/bookings/:id/status", authenticateToken, async (req, res) => {
+  try {
+    const bookingId = parseInt(req.params.id);
+    const { status, payment_status, internal_notes } = req.body;
+    const { user } = req;
+
+    const updateData: any = { updated_at: new Date().toISOString() };
+    
+    if (status) updateData.status = status;
+    if (payment_status) updateData.payment_status = payment_status;
+    if (internal_notes !== undefined) updateData.internal_notes = internal_notes;
+
+    await db.updateBooking(bookingId, updateData);
+
+    // Log the status change
+    console.log(`📝 Booking ${bookingId} updated by ${user.email}:`, updateData);
+
+    // Send notification to guest if status changed
+    if (status && (status === 'confirmed' || status === 'cancelled')) {
+      try {
+        const booking = await db.getBookingById(bookingId);
+        if (booking && booking.guest) {
+          const { notificationService } = await import("../services/notificationService");
+          
+          await notificationService.sendBookingStatusUpdate({
+            recipientEmail: booking.guest.email,
+            guestName: `${booking.guest.first_name} ${booking.guest.last_name}`,
+            bookingReference: booking.booking_reference,
+            newStatus: status,
+            serviceType: booking.booking_type
+          });
+        }
+      } catch (notificationError) {
+        console.error("Failed to send status update notification:", notificationError);
+      }
+    }
+
+    res.json({ message: "Booking updated successfully" });
+  } catch (error) {
+    console.error("Update booking status error:", error);
+    res.status(500).json({ error: "Failed to update booking status" });
+  }
+});
+
+// Guest rating and review endpoints
+router.post("/reviews", async (req, res) => {
+  try {
+    const {
+      guestName,
+      email,
+      overall,
+      roomQuality,
+      service,
+      cleanliness,
+      location,
+      valueForMoney,
+      wouldRecommend,
+      review,
+      bookingId
+    } = req.body;
+
+    const reviewData = {
+      guest_name: guestName,
+      guest_email: email,
+      overall_rating: overall,
+      room_quality: roomQuality,
+      service_quality: service,
+      cleanliness_rating: cleanliness,
+      location_rating: location,
+      value_rating: valueForMoney,
+      would_recommend: wouldRecommend,
+      review_text: review,
+      booking_id: bookingId,
+      status: 'pending', // Reviews need approval
+      created_at: new Date().toISOString()
+    };
+
+    const result = await db.createReview(reviewData);
+
+    // Notify staff about new review
+    try {
+      console.log(`⭐ New review submitted by ${guestName} (${overall}/5 stars)`);
+    } catch (error) {
+      console.error("Failed to send review notification:", error);
+    }
+
+    res.json({
+      review_id: result.lastID,
+      message: "Review submitted successfully",
+      status: "pending_approval"
+    });
+
+  } catch (error) {
+    console.error("Create review error:", error);
+    res.status(500).json({ error: "Failed to submit review" });
+  }
+});
+
+// Get reviews (public endpoint for approved reviews)
+router.get("/reviews", async (req, res) => {
+  try {
+    const { status = 'approved', limit = 10, offset = 0 } = req.query;
+    
+    const reviews = await db.getReviews({
+      status: status as string,
+      limit: parseInt(limit as string),
+      offset: parseInt(offset as string)
+    });
+
+    res.json(reviews);
+  } catch (error) {
+    console.error("Get reviews error:", error);
+    res.status(500).json({ error: "Failed to fetch reviews" });
+  }
+});
+
+// Manage reviews (admin only)
+router.put("/reviews/:id/status", authenticateToken, async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.role !== "admin" && user.role !== "receptionist") {
+      return res.status(403).json({ error: "Admin or receptionist access required" });
+    }
+
+    const reviewId = parseInt(req.params.id);
+    const { status, admin_notes } = req.body;
+
+    await db.updateReviewStatus(reviewId, status, admin_notes);
+
+    res.json({ message: "Review status updated successfully" });
+  } catch (error) {
+    console.error("Update review status error:", error);
+    res.status(500).json({ error: "Failed to update review status" });
+  }
+});
+
+// Dashboard statistics
+router.get("/dashboard/stats", authenticateToken, async (req, res) => {
+  try {
+    const { period = '30d' } = req.query;
+    
+    const stats = await db.getDashboardStats(period as string);
+    
+    res.json(stats);
+  } catch (error) {
+    console.error("Get dashboard stats error:", error);
+    res.status(500).json({ error: "Failed to fetch dashboard statistics" });
+  }
+});
+
+// Service management endpoints
+router.get("/services", authenticateToken, async (req, res) => {
+  try {
+    const services = await db.getAllServices();
+    res.json(services);
+  } catch (error) {
+    console.error("Get services error:", error);
+    res.status(500).json({ error: "Failed to fetch services" });
+  }
+});
+
+router.post("/services", authenticateToken, async (req, res) => {
+  try {
+    const { user } = req;
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const result = await db.createService(req.body);
+    res.json({ id: result.lastID, message: "Service created successfully" });
+  } catch (error) {
+    console.error("Create service error:", error);
+    res.status(500).json({ error: "Failed to create service" });
+  }
+});
+
+// Reservation routes (legacy compatibility)
 router.get("/reservations", authenticateToken, async (req, res) => {
   try {
     const reservations = await db.getAllReservations();

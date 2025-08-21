@@ -85,13 +85,24 @@ export default function GuestLogin() {
               alt="Armaflex Hotel Logo"
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                (e.currentTarget.parentElement as HTMLElement).classList.remove('bg-white');
-                (e.currentTarget.parentElement as HTMLElement).classList.add('bg-hotel-500');
-                ((e.currentTarget.parentElement as HTMLElement).querySelector('.fallback-icon') as HTMLElement).style.display = 'flex';
+                e.currentTarget.style.display = "none";
+                (e.currentTarget.parentElement as HTMLElement).classList.remove(
+                  "bg-white",
+                );
+                (e.currentTarget.parentElement as HTMLElement).classList.add(
+                  "bg-hotel-500",
+                );
+                (
+                  (e.currentTarget.parentElement as HTMLElement).querySelector(
+                    ".fallback-icon",
+                  ) as HTMLElement
+                ).style.display = "flex";
               }}
             />
-            <div className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon" style={{display: 'none'}}>
+            <div
+              className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon"
+              style={{ display: "none" }}
+            >
               <Hotel className="h-8 w-8 text-white" />
             </div>
           </div>

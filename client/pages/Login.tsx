@@ -470,13 +470,24 @@ export default function Login() {
                   alt="Armaflex Hotel Logo"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    (e.currentTarget.parentElement as HTMLElement).classList.remove('bg-white');
-                    (e.currentTarget.parentElement as HTMLElement).classList.add('bg-hotel-500');
-                    ((e.currentTarget.parentElement as HTMLElement).querySelector('.fallback-icon') as HTMLElement).style.display = 'flex';
+                    e.currentTarget.style.display = "none";
+                    (
+                      e.currentTarget.parentElement as HTMLElement
+                    ).classList.remove("bg-white");
+                    (
+                      e.currentTarget.parentElement as HTMLElement
+                    ).classList.add("bg-hotel-500");
+                    (
+                      (
+                        e.currentTarget.parentElement as HTMLElement
+                      ).querySelector(".fallback-icon") as HTMLElement
+                    ).style.display = "flex";
                   }}
                 />
-                <div className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon" style={{display: 'none'}}>
+                <div
+                  className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon"
+                  style={{ display: "none" }}
+                >
                   <Hotel className="h-7 w-7 text-white" />
                 </div>
               </div>
@@ -576,13 +587,24 @@ export default function Login() {
                     alt="Armaflex Hotel Logo"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      (e.currentTarget.parentElement as HTMLElement).classList.remove('bg-white');
-                      (e.currentTarget.parentElement as HTMLElement).classList.add('bg-hotel-500');
-                      ((e.currentTarget.parentElement as HTMLElement).querySelector('.fallback-icon') as HTMLElement).style.display = 'flex';
+                      e.currentTarget.style.display = "none";
+                      (
+                        e.currentTarget.parentElement as HTMLElement
+                      ).classList.remove("bg-white");
+                      (
+                        e.currentTarget.parentElement as HTMLElement
+                      ).classList.add("bg-hotel-500");
+                      (
+                        (
+                          e.currentTarget.parentElement as HTMLElement
+                        ).querySelector(".fallback-icon") as HTMLElement
+                      ).style.display = "flex";
                     }}
                   />
-                  <div className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon" style={{display: 'none'}}>
+                  <div
+                    className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon"
+                    style={{ display: "none" }}
+                  >
                     <Hotel className="h-8 w-8 text-white" />
                   </div>
                 </div>
@@ -605,7 +627,6 @@ export default function Login() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <form onSubmit={handleLogin} className="space-y-4">
-
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
                     <Input

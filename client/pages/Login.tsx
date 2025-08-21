@@ -592,64 +592,6 @@ export default function Login() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="role">Select Your Role</Label>
-                    <Select value={selectedRole} onValueChange={setSelectedRole}>
-                      <SelectTrigger className="transition-all duration-200 focus:ring-2 focus:ring-hotel-500">
-                        <SelectValue placeholder="Choose your role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="admin">
-                          <div className="flex items-center space-x-2">
-                            <Shield className="h-4 w-4 text-purple-600" />
-                            <span>Administrator</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="receptionist">
-                          <div className="flex items-center space-x-2">
-                            <UserCheck className="h-4 w-4 text-blue-600" />
-                            <span>Receptionist</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="housekeeping">
-                          <div className="flex items-center space-x-2">
-                            <Coffee className="h-4 w-4 text-green-600" />
-                            <span>Housekeeping</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="maintenance">
-                          <div className="flex items-center space-x-2">
-                            <Wrench className="h-4 w-4 text-orange-600" />
-                            <span>Maintenance</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="accountant">
-                          <div className="flex items-center space-x-2">
-                            <Calculator className="h-4 w-4 text-indigo-600" />
-                            <span>Accountant</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="restaurant">
-                          <div className="flex items-center space-x-2">
-                            <ChefHat className="h-4 w-4 text-yellow-600" />
-                            <span>Restaurant Manager</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="support">
-                          <div className="flex items-center space-x-2">
-                            <HeadphonesIcon className="h-4 w-4 text-pink-600" />
-                            <span>IT Support</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="guest">
-                          <div className="flex items-center space-x-2">
-                            <User className="h-4 w-4 text-gray-600" />
-                            <span>Guest</span>
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>

@@ -464,8 +464,21 @@ export default function Login() {
           {/* Header */}
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <div className="h-12 w-12 rounded-xl bg-hotel-500 flex items-center justify-center">
-                <Hotel className="h-7 w-7 text-white" />
+              <div className="h-12 w-12 rounded-xl overflow-hidden shadow-lg bg-white">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2Ff34557ef576f4689b273621150e9cf4f%2F053306aaaefe4fe288a9e89dc1941919?format=webp&width=800"
+                  alt="Armaflex Hotel Logo"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    (e.currentTarget.parentElement as HTMLElement).classList.remove('bg-white');
+                    (e.currentTarget.parentElement as HTMLElement).classList.add('bg-hotel-500');
+                    ((e.currentTarget.parentElement as HTMLElement).querySelector('.fallback-icon') as HTMLElement).style.display = 'flex';
+                  }}
+                />
+                <div className="h-full w-full bg-hotel-500 flex items-center justify-center fallback-icon" style={{display: 'none'}}>
+                  <Hotel className="h-7 w-7 text-white" />
+                </div>
               </div>
               <div>
                 <h1 className="text-2xl font-bold">
